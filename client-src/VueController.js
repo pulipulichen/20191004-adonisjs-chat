@@ -25,15 +25,6 @@ import Chat from './components/Chat/Chat.vue'
 
 let $ = require('jquery')
 $('body').append(`<div id="app">
-
-    <router-link to="/foo">Go to Foo</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
-
-    <router-view v-bind:config="config"
-        v-bind:status="status"
-        v-bind:progress="progress"
-        v-bind:lib="lib"></router-view>
-
 </div>
 `)
 
@@ -44,6 +35,21 @@ $('body').append(`<div id="app">
 let VueController = {
   el: '#app',
   i18n: i18n,
+  template: `
+  <div>
+    <router-link to="/">
+      <button type="button" class="ui button">Go to Login</button>
+    </router-link>
+    <router-link to="/chat">
+      <button type="button" class="ui button">Go to Chat</button>
+    </router-link>
+
+    <router-view v-bind:config="config"
+        v-bind:status="status"
+        v-bind:progress="progress"
+        v-bind:lib="lib"></router-view>
+  </div>
+`,
   data: {
     config: config,
     status: {

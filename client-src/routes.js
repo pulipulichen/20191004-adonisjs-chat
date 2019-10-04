@@ -1,11 +1,12 @@
-const Foo = { template: '<div>foo AAA</div>' }
-const Bar = { props:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
+//const Foo = { template: '<div>foo AAA</div>' }
+//const Bar = { props:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
 
-//import Chat from './components/Chat/Chat.vue'
+const Login = require('./components/Login/Login.vue').default
+const Chat = require('./components/Chat/Chat.vue').default
 
 const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar }
+  { path: '/', component: Login },
+  { path: '/chat', component: Chat }
 ]
 
 module.exports = routes

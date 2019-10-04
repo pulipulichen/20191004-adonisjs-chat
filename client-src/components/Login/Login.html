@@ -1,31 +1,48 @@
-<div>
-  <button type="button"
-          v-on:click="addUser">
-    Add User
-  </button>
-
-  <!--
-  <button type="button" id="loadUsers">
-    Load Users
-  </button>
-  -->
-
-  <table border="1">
-    <thead>
-      <tr>
-        <th>
-          Username
-        </th>
-        <th>
-          Email
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="user in users">
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="ui form container">
+  <div class="ui field">
+    <label for="loginUsername">
+      {{ $t('Username') }}
+    </label>
+    <input type="text" 
+           id="loginUsername"
+           v-model="username" />
+  </div>
+  
+  <div class="ui field">
+    <label for="loginEmail">
+      {{ $t('Email') }}
+    </label>
+    <input type="email" 
+           id="loginEmail"
+           v-model="email" />
+  </div>
+  
+  <div class="ui field">
+    <label for="loginPassword">
+      {{ $t('Password') }}
+    </label>
+    <input type="password" 
+           id="loginPassword"
+           v-model="password" />
+  </div>
+  
+  <div class="ui field">
+    <button type="button" 
+            class="ui button"
+            v-on:click="login">
+      {{ $t('Login') }}
+    </button>
+    
+    <button type="button" 
+            class="ui button"
+            v-on:click="loginWithGoogle">
+      {{ $t('Login with Google') }}
+    </button>
+    
+    <button type="button" 
+            class="ui button"
+            v-on:click="loginWithGitHub">
+      {{ $t('Login with GitHub') }}
+    </button>
+  </div>
 </div>

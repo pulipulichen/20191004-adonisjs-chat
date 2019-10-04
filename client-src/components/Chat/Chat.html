@@ -1,8 +1,14 @@
-<div>
-  <button type="button"
-          v-on:click="addUser">
-    Add User
-  </button>
+<div class="ui form container">
+  <div class="ui field">
+    {{ status.message }}
+  </div>
+  <div class="ui field">
+    <button type="button"
+            class="ui button fluid green"
+            v-on:click="addUser">
+      Add User
+    </button>
+  </div>
 
   <!--
   <button type="button" id="loadUsers">
@@ -10,7 +16,7 @@
   </button>
   -->
 
-  <table border="1">
+  <table class="ui unstackable table">
     <thead>
       <tr>
         <th>
