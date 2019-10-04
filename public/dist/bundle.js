@@ -437,8 +437,10 @@ module.exports = {
       password: ''
       */
       username: 'pudding',
-      email: 'blog@pulipuli.info',
-      password: 'test'
+      email: '',
+      password: 'test',
+      mode: 'login',
+      errorMessage: ''
     }
   },
   computed: {
@@ -449,6 +451,10 @@ module.exports = {
       return this.validateEmail(this.email)
     },
     isLoginEnable() {
+      return (this.username.trim() !== ''
+              && this.password.trim() !== '')
+    },
+    isRegisterEnable() {
       return (this.isEmail === true 
               && this.username.trim() !== ''
               && this.email.trim() !== ''
@@ -462,12 +468,38 @@ module.exports = {
     
   },
   methods: {
-    register() {
+    register: async function() {
+      if (this.mode !== 'register') {
+        this.mode = 'register'
+        return false
+      }
+      
       console.log([this.username, this.email, this.password])
+      
       this.$router.push('chat/' + this.username)
     },
-    login() {
+    login: async function() {
+      this.mode = 'login'
+      
       console.log([this.username, this.email, this.password])
+      
+      let result = await axios.get('http://127.0.0.1:3333/login', {
+        params: {
+          username: this.username,
+          email: this.email,
+        }
+      })
+      
+      let user = result.data
+      if (typeof(user.error) === 'string') {
+        if (user.error === 'no-user') { 
+          this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
+        }
+        else if (user.error === 'password-wrong') { 
+          this.errorMessage = this.$t(`Password is incorrect.`, [this.username])
+        }
+        return false
+      }
     },
     loginWithGoogle() {
       console.log('loginWithGoogle')
@@ -862,7 +894,7 @@ module.exports = function (Component) {
 
 module.exports = function (Component) {
   Component.options.__i18n = Component.options.__i18n || []
-  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題","Register":"註冊"}}')
+  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題","Register":"註冊","User {0} is not existed.":"使用者{0}不存在"}}')
   delete Component.options._Ctor
 }
 
@@ -15497,6 +15529,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "ui form container" }, [
+    _vm.errorMessage !== ""
+      ? _c("div", { staticClass: "ui field" }, [
+          _c("div", { staticClass: "ui negative message" }, [
+            _vm._v("\r\n      " + _vm._s(_vm.errorMessage) + "\r\n    ")
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "ui field" }, [
       _c("label", { attrs: { for: "loginUsername" } }, [
         _vm._v("\r\n      " + _vm._s(_vm.$t("Username")) + "\r\n    ")
@@ -15524,36 +15564,34 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "ui field", class: { error: _vm.isEmail === false } },
-      [
-        _c("label", { attrs: { for: "loginEmail" } }, [
-          _vm._v("\r\n      " + _vm._s(_vm.$t("Email")) + "\r\n    ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.email,
-              expression: "email"
-            }
-          ],
-          attrs: { type: "email", id: "loginEmail" },
-          domProps: { value: _vm.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+    _vm.mode === "register"
+      ? _c("div", { staticClass: "ui field", class: { error: !_vm.isEmail } }, [
+          _c("label", { attrs: { for: "loginEmail" } }, [
+            _vm._v("\r\n      " + _vm._s(_vm.$t("Email")) + "\r\n    ")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
               }
-              _vm.email = $event.target.value
+            ],
+            attrs: { type: "email", id: "loginEmail" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
+              }
             }
-          }
-        })
-      ]
-    ),
+          })
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "ui field" }, [
       _c("label", { attrs: { for: "loginPassword" } }, [
@@ -15587,22 +15625,22 @@ var render = function() {
         "button",
         {
           staticClass: "ui button",
-          class: { disabled: !_vm.isLoginEnable },
+          class: { disabled: _vm.mode === "login" && !_vm.isLoginEnable },
           attrs: { type: "button" },
-          on: { click: _vm.register }
+          on: { click: _vm.login }
         },
-        [_vm._v("\r\n      " + _vm._s(_vm.$t("Register")) + "\r\n    ")]
+        [_vm._v("\r\n      " + _vm._s(_vm.$t("Login")) + "\r\n    ")]
       ),
       _vm._v(" "),
       _c(
         "button",
         {
           staticClass: "ui button",
-          class: { disabled: !_vm.isLoginEnable },
+          class: { disabled: _vm.mode === "register" && !_vm.isRegisterEnable },
           attrs: { type: "button" },
-          on: { click: _vm.login }
+          on: { click: _vm.register }
         },
-        [_vm._v("\r\n      " + _vm._s(_vm.$t("Login")) + "\r\n    ")]
+        [_vm._v("\r\n      " + _vm._s(_vm.$t("Register")) + "\r\n    ")]
       ),
       _vm._v(" "),
       _c(

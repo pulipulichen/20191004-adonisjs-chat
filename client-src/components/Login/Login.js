@@ -11,8 +11,10 @@ module.exports = {
       password: ''
       */
       username: 'pudding',
-      email: 'blog@pulipuli.info',
-      password: 'test'
+      email: '',
+      password: 'test',
+      mode: 'login',
+      errorMessage: ''
     }
   },
   computed: {
@@ -23,6 +25,10 @@ module.exports = {
       return this.validateEmail(this.email)
     },
     isLoginEnable() {
+      return (this.username.trim() !== ''
+              && this.password.trim() !== '')
+    },
+    isRegisterEnable() {
       return (this.isEmail === true 
               && this.username.trim() !== ''
               && this.email.trim() !== ''
@@ -36,12 +42,38 @@ module.exports = {
     
   },
   methods: {
-    register() {
+    register: async function() {
+      if (this.mode !== 'register') {
+        this.mode = 'register'
+        return false
+      }
+      
       console.log([this.username, this.email, this.password])
+      
       this.$router.push('chat/' + this.username)
     },
-    login() {
+    login: async function() {
+      this.mode = 'login'
+      
       console.log([this.username, this.email, this.password])
+      
+      let result = await axios.get('http://127.0.0.1:3333/login', {
+        params: {
+          username: this.username,
+          email: this.email,
+        }
+      })
+      
+      let user = result.data
+      if (typeof(user.error) === 'string') {
+        if (user.error === 'no-user') { 
+          this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
+        }
+        else if (user.error === 'password-wrong') { 
+          this.errorMessage = this.$t(`Password is incorrect.`, [this.username])
+        }
+        return false
+      }
     },
     loginWithGoogle() {
       console.log('loginWithGoogle')

@@ -1,4 +1,12 @@
 <div class="ui form container">
+  
+  <div class="ui field"
+       v-if="errorMessage !== ''">
+    <div class="ui negative message">
+      {{ errorMessage }}
+    </div>
+  </div>
+  
   <div class="ui field">
     <label for="loginUsername">
       {{ $t('Username') }}
@@ -9,7 +17,8 @@
   </div>
   
   <div class="ui field"
-       v-bind:class="{error: isEmail === false}">
+       v-bind:class="{error: !isEmail}"
+       v-if="mode==='register'">
     <label for="loginEmail">
       {{ $t('Email') }}
     </label>
@@ -30,16 +39,16 @@
   <div class="ui field">
     <button type="button" 
             class="ui button"
-            v-on:click="register"
-            v-bind:class="{disabled: !isLoginEnable}">
-      {{ $t('Register') }}
+            v-on:click="login"
+            v-bind:class="{disabled: (mode === 'login' && !isLoginEnable)}">
+      {{ $t('Login') }}
     </button>
     
     <button type="button" 
             class="ui button"
-            v-on:click="login"
-            v-bind:class="{disabled: !isLoginEnable}">
-      {{ $t('Login') }}
+            v-on:click="register"
+            v-bind:class="{disabled: (mode === 'register' && !isRegisterEnable)}">
+      {{ $t('Register') }}
     </button>
     
     <button type="button" 
