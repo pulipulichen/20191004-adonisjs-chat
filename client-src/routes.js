@@ -1,5 +1,7 @@
 const Foo = { template: '<div>foo AAA</div>' }
-const Bar = { template: '<div>bar BBB</div>' }
+const Bar = { prop:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
+
+//import Chat from './components/Chat/Chat.vue'
 
 const routes = [
   { path: '/foo', component: Foo },

@@ -132,12 +132,12 @@ $('body').append(`<div id="app">
 
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
-    <router-view></router-view>
 
-  <chat-room v-bind:config="config"
+    <router-view v-bind:config="config"
         v-bind:status="status"
         v-bind:progress="progress"
-        v-bind:lib="lib"></chat-room>
+        v-bind:lib="lib"></router-view>
+
 </div>
 `)
 
@@ -164,7 +164,7 @@ let VueController = {
     ]
   },
   components: { 
-    "chat-room": _components_Chat_Chat_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    //"chat-room": Chat
   },
   router: new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
     routes: (_routes__WEBPACK_IMPORTED_MODULE_4___default())
@@ -502,7 +502,9 @@ $('#loadUsers').click(async () => {
 /***/ (function(module, exports) {
 
 const Foo = { template: '<div>foo AAA</div>' }
-const Bar = { template: '<div>bar BBB</div>' }
+const Bar = { prop:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
+
+//import Chat from './components/Chat/Chat.vue'
 
 const routes = [
   { path: '/foo', component: Foo },

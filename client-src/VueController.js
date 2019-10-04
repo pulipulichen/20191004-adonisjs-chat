@@ -28,12 +28,12 @@ $('body').append(`<div id="app">
 
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
-    <router-view></router-view>
 
-  <chat-room v-bind:config="config"
+    <router-view v-bind:config="config"
         v-bind:status="status"
         v-bind:progress="progress"
-        v-bind:lib="lib"></chat-room>
+        v-bind:lib="lib"></router-view>
+
 </div>
 `)
 
@@ -60,7 +60,7 @@ let VueController = {
     ]
   },
   components: { 
-    "chat-room": Chat
+    //"chat-room": Chat
   },
   router: new VueRouter({
     routes
