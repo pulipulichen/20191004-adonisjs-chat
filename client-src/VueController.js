@@ -40,7 +40,7 @@ let VueController = {
     <router-link to="/">
       <button type="button" class="ui button">Go to Login</button>
     </router-link>
-    <router-link to="/chat">
+    <router-link to="/chat/p">
       <button type="button" class="ui button">Go to Chat</button>
     </router-link>
 

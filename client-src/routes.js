@@ -6,7 +6,7 @@ const Chat = require('./components/Chat/Chat.vue').default
 
 const routes = [
   { path: '/', component: Login },
-  { path: '/chat', component: Chat }
+  { path: '/chat/:name', component: Chat }
 ]
 
 module.exports = routes

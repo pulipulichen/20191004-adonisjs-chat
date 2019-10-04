@@ -144,7 +144,7 @@ let VueController = {
     <router-link to="/">
       <button type="button" class="ui button">Go to Login</button>
     </router-link>
-    <router-link to="/chat">
+    <router-link to="/chat/p">
       <button type="button" class="ui button">Go to Chat</button>
     </router-link>
 
@@ -431,13 +431,29 @@ module.exports = {
   data() {    
     this.$i18n.locale = this.config.locale
     return {
+      /*
       username: '',
       email: '',
       password: ''
+      */
+      username: 'pudding',
+      email: 'blog@pulipuli.info',
+      password: 'test'
     }
   },
   computed: {
-    
+    isEmail() {
+      if (this.email.trim() === '') {
+        return true
+      }
+      return this.validateEmail(this.email)
+    },
+    isLoginEnable() {
+      return (this.isEmail === true 
+              && this.username.trim() !== ''
+              && this.email.trim() !== ''
+              && this.password.trim() !== '')
+    }
   },
   watch: {
     
@@ -446,6 +462,10 @@ module.exports = {
     
   },
   methods: {
+    register() {
+      console.log([this.username, this.email, this.password])
+      this.$router.push('chat/' + this.username)
+    },
     login() {
       console.log([this.username, this.email, this.password])
     },
@@ -454,6 +474,10 @@ module.exports = {
     },
     loginWithGitHub() {
       console.log('loginWithGitHub')
+    },
+    validateEmail(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     }
   } // methods
 }
@@ -669,7 +693,7 @@ const Chat = __webpack_require__(/*! ./components/Chat/Chat.vue */ "./client-src
 
 const routes = [
   { path: '/', component: Login },
-  { path: '/chat', component: Chat }
+  { path: '/chat/:name', component: Chat }
 ]
 
 module.exports = routes
@@ -838,7 +862,7 @@ module.exports = function (Component) {
 
 module.exports = function (Component) {
   Component.options.__i18n = Component.options.__i18n || []
-  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題"}}')
+  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題","Register":"註冊"}}')
   delete Component.options._Ctor
 }
 
@@ -15399,7 +15423,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "ui form container" }, [
     _c("div", { staticClass: "ui field" }, [
-      _vm._v("\r\n    " + _vm._s(_vm.status.message) + "\r\n  ")
+      _vm._v(
+        "\r\n    " +
+          _vm._s(_vm.status.message) +
+          "\r\n    " +
+          _vm._s(_vm.$route.params.name) +
+          "\r\n  "
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "ui field" }, [
@@ -15494,32 +15524,36 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "ui field" }, [
-      _c("label", { attrs: { for: "loginEmail" } }, [
-        _vm._v("\r\n      " + _vm._s(_vm.$t("Email")) + "\r\n    ")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.email,
-            expression: "email"
-          }
-        ],
-        attrs: { type: "email", id: "loginEmail" },
-        domProps: { value: _vm.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+    _c(
+      "div",
+      { staticClass: "ui field", class: { error: _vm.isEmail === false } },
+      [
+        _c("label", { attrs: { for: "loginEmail" } }, [
+          _vm._v("\r\n      " + _vm._s(_vm.$t("Email")) + "\r\n    ")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.email,
+              expression: "email"
             }
-            _vm.email = $event.target.value
+          ],
+          attrs: { type: "email", id: "loginEmail" },
+          domProps: { value: _vm.email },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.email = $event.target.value
+            }
           }
-        }
-      })
-    ]),
+        })
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "ui field" }, [
       _c("label", { attrs: { for: "loginPassword" } }, [
@@ -15553,6 +15587,18 @@ var render = function() {
         "button",
         {
           staticClass: "ui button",
+          class: { disabled: !_vm.isLoginEnable },
+          attrs: { type: "button" },
+          on: { click: _vm.register }
+        },
+        [_vm._v("\r\n      " + _vm._s(_vm.$t("Register")) + "\r\n    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "ui button",
+          class: { disabled: !_vm.isLoginEnable },
           attrs: { type: "button" },
           on: { click: _vm.login }
         },

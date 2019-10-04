@@ -8,7 +8,8 @@
            v-model="username" />
   </div>
   
-  <div class="ui field">
+  <div class="ui field"
+       v-bind:class="{error: isEmail === false}">
     <label for="loginEmail">
       {{ $t('Email') }}
     </label>
@@ -29,7 +30,15 @@
   <div class="ui field">
     <button type="button" 
             class="ui button"
-            v-on:click="login">
+            v-on:click="register"
+            v-bind:class="{disabled: !isLoginEnable}">
+      {{ $t('Register') }}
+    </button>
+    
+    <button type="button" 
+            class="ui button"
+            v-on:click="login"
+            v-bind:class="{disabled: !isLoginEnable}">
       {{ $t('Login') }}
     </button>
     
