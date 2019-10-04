@@ -14,3 +14,7 @@ database/development.sqlite
 # VSCode & Webstorm history directories
 .history
 .idea
+
+/nbproject/private/
+/database/adonis.sqlite
+/database/adonis.sqlite.journal

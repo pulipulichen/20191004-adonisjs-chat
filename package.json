@@ -5,7 +5,9 @@
   "description": "The fullstack application boilerplate for Adonisjs",
   "main": "index.js",
   "scripts": {
+    "0.startmon": "nodemon server.js",
     "start": "node server.js",
+    "migration": "adonis migration:refresh",
     "test": "node ace test"
   },
   "keywords": [
@@ -25,7 +27,9 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.1.3",
     "@adonisjs/session": "^1.0.27",
-    "@adonisjs/shield": "^1.0.8"
+    "@adonisjs/shield": "^1.0.8",
+    "nodemon": "^1.19.3",
+    "sqlite3": "^4.1.0"
   },
   "devDependencies": {},
   "autoload": {

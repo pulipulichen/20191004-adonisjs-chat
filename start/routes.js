@@ -17,3 +17,9 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+const Database = use('Database')
+Route.get('/user', async () => {
+  return await Database.table('users').select('*')
+  //return {'aaa': 'ok'}
+})
