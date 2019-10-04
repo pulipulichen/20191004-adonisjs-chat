@@ -1,15 +1,14 @@
 let $ = require('jquery')
 window.jQuery = window.$ = $
 
-const axios = require('axios');
-
-$('body').append(`<div id="app">
-  {{ status.message }}
-</div>`)
-
 require('./vendors/semantic-ui/semantic.min.css')
 require('./vendors/semantic-ui/semantic.min.js')
 require('./VueController')
+
+// -------------------------
+// For test
+
+const axios = require('axios')
 
 $('#addUser').click(async () => {
   let unixMS = (new Date()).getTime()

@@ -1,9 +1,26 @@
 import Vue from 'vue'
+Vue.config.devtools = false
+
 const config = require('./config.js')
 require('./styles/global.less')
 import Fragment from 'vue-fragment'
 Vue.use(Fragment.Plugin)
 import i18n from './VueI18n'
+
+// --------------------
+// Components
+
+import Chat from './components/Chat/Chat.js'
+
+// ----------------------
+
+let $ = require('jquery')
+$('body').append(`<div id="app">
+  {{ status.message }}
+</div>
+`)
+
+// -----------------------
 
 let VueController = {
   el: '#app',
@@ -24,6 +41,7 @@ let VueController = {
     ]
   },
   components: { 
+    chat: Chat
   },
   watch: {
     

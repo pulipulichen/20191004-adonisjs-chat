@@ -167,12 +167,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\vue\\dist\\vue.esm.js");
 /* harmony import */ var vue_fragment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-fragment */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\vue-fragment\\dist\\vue-fragment.esm.js");
 /* harmony import */ var _VueI18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./VueI18n */ "./client-src/VueI18n.js");
+/* harmony import */ var _components_Chat_Chat_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Chat/Chat.js */ "./client-src/components/Chat/Chat.js");
+/* harmony import */ var _components_Chat_Chat_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_Chat_Chat_js__WEBPACK_IMPORTED_MODULE_3__);
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].config.devtools = false
 
 const config = __webpack_require__(/*! ./config.js */ "./client-src/config.js")
 __webpack_require__(/*! ./styles/global.less */ "./client-src/styles/global.less")
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_fragment__WEBPACK_IMPORTED_MODULE_1__["default"].Plugin)
 
+
+// --------------------
+// Components
+
+
+
+// ----------------------
+
+let $ = __webpack_require__(/*! jquery */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\jquery\\dist\\jquery.js")
+$('body').append(`<div id="app">
+  {{ status.message }}
+</div>
+`)
+
+// -----------------------
 
 let VueController = {
   el: '#app',
@@ -193,6 +212,7 @@ let VueController = {
     ]
   },
   components: { 
+    chat: _components_Chat_Chat_js__WEBPACK_IMPORTED_MODULE_3___default.a
   },
   watch: {
     
@@ -238,6 +258,37 @@ const i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
 })
 
 /* harmony default export */ __webpack_exports__["default"] = (i18n);
+
+/***/ }),
+
+/***/ "./client-src/components/Chat/Chat.js":
+/*!********************************************!*\
+  !*** ./client-src/components/Chat/Chat.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {
+  props: ['lib', 'status', 'config', 'progress'],
+  data() {    
+    this.$i18n.locale = this.config.locale
+    return {
+      
+    }
+  },
+  computed: {
+    
+  },
+  watch: {
+    
+  },
+  mounted: function () {
+    
+  },
+  methods: {
+    
+  } // methods
+}
 
 /***/ }),
 
@@ -318,15 +369,14 @@ let i18nConfig = {
 let $ = __webpack_require__(/*! jquery */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\jquery\\dist\\jquery.js")
 window.jQuery = window.$ = $
 
-const axios = __webpack_require__(/*! axios */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\axios\\index.js");
-
-$('body').append(`<div id="app">
-  {{ status.message }}
-</div>`)
-
 __webpack_require__(/*! ./vendors/semantic-ui/semantic.min.css */ "./client-src/vendors/semantic-ui/semantic.min.css")
 __webpack_require__(/*! ./vendors/semantic-ui/semantic.min.js */ "./client-src/vendors/semantic-ui/semantic.min.js")
 __webpack_require__(/*! ./VueController */ "./client-src/VueController.js")
+
+// -------------------------
+// For test
+
+const axios = __webpack_require__(/*! axios */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\axios\\index.js")
 
 $('#addUser').click(async () => {
   let unixMS = (new Date()).getTime()
