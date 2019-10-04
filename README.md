@@ -3,8 +3,8 @@
 # Document
 
 - https://adonisjs.com/docs/4.1/lucid
-- Project: 
-- Issues: 
+- Project: https://github.com/pulipulichen/20191004-adonisjs-chat
+- Issues: https://github.com/pulipulichen/20191004-adonisjs-chat/issues
 
 ----
 
