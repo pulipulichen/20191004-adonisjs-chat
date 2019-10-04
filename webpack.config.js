@@ -32,10 +32,10 @@ module.exports = (env, argv) => {
     //devtool: false,
     entry: {
       //'test': './[tmp/test.js',
-      'bundle': './client-src/index.js'
+      'bundle': path.resolve(__dirname, './client-src/index.js'),
     },
     output: {
-      path: path.resolve('./public/'),
+      path: path.resolve(__dirname, './public/dist'),
       filename: '[name].js'
     },
     resolve: {
@@ -101,6 +101,8 @@ module.exports = (env, argv) => {
         */
       ]
     },
+    // 這邊會決定是否要產生vendor.js檔案，我決定不產生它
+    /*
     optimization: {
       splitChunks: {
         cacheGroups: {
@@ -112,6 +114,7 @@ module.exports = (env, argv) => {
         }
       }
     },
+     */
     plugins: [
       new VueLoaderPlugin(),
       {

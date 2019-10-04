@@ -1,2 +1,31 @@
-<div>Hello world.
+<div>
+  <button type="button"
+          v-on:click="addUser">
+    Add User
+  </button>
+
+  <!--
+  <button type="button" id="loadUsers">
+    Load Users
+  </button>
+  -->
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>
+          Username
+        </th>
+        <th>
+          Email
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="user in users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

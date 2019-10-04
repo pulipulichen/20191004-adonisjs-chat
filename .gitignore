@@ -18,3 +18,7 @@ database/development.sqlite
 /nbproject/private/
 /database/adonis.sqlite.journal
 /database/adonis.sqlite
+/client-src/vendors.js.map
+/client-src/vendors.js
+/client-src/bundle.js.map
+/client-src/bundle.js

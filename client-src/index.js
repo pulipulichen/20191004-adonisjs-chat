@@ -7,7 +7,7 @@ require('./VueController')
 
 // -------------------------
 // For test
-
+/*
 const axios = require('axios')
 
 $('#addUser').click(async () => {
@@ -35,3 +35,4 @@ $('#loadUsers').click(async () => {
     list.append(`<div>${user.username}</div>`)
   })
 })
+ */

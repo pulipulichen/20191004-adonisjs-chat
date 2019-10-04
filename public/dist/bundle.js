@@ -243,7 +243,7 @@ window.VueController = VueController
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-i18n */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\vue-i18n\\dist\\vue-i18n.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\vue\\dist\\vue.esm.js");
-/* harmony import */ var _i18n_i18n_global_conf_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./i18n/i18n-global.conf.js */ "./client-src/i18n/i18n-global.conf.js");
+/* harmony import */ var _i18n_i18n_global_conf_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./i18n/i18n-global.conf.js */ "./client-src/i18n/i18n-global.conf.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])
@@ -253,7 +253,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_i18n__WEBPACK_IMPORTED_MODUL
 
 const i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
   locale: 'zh-TW', // set locale
-  messages: _i18n_i18n_global_conf_js__WEBPACK_IMPORTED_MODULE_3__["default"],
+  messages: _i18n_i18n_global_conf_js__WEBPACK_IMPORTED_MODULE_2__["default"],
   silentTranslationWarn: true,
 })
 
@@ -266,14 +266,16 @@ const i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
   !*** ./client-src/components/Chat/Chat.js ***!
   \********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const axios = __webpack_require__(/*! axios */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\axios\\index.js")
 
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {
-      
+      users: []
     }
   },
   computed: {
@@ -283,10 +285,25 @@ module.exports = {
     
   },
   mounted: function () {
-    
+    this.loadUsers()
   },
   methods: {
-    
+    loadUsers: async function () {
+      let users = await axios.get('http://127.0.0.1:3333/user/all')
+      this.users = users.data
+    },
+    addUser: async function () {
+      let unixMS = (new Date()).getTime()
+      await axios.get('http://127.0.0.1:3333/user/create', {
+        params: {
+          username: 'Pudding' + unixMS,
+          email: 'pudding' + unixMS + '@pulipuli.info',
+          password: unixMS + ''
+        }
+      })
+      console.log('addUser')
+      this.loadUsers()
+    }
   } // methods
 }
 
@@ -375,8 +392,8 @@ __webpack_require__(/*! ./VueController */ "./client-src/VueController.js")
 
 // -------------------------
 // For test
-
-const axios = __webpack_require__(/*! axios */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\axios\\index.js")
+/*
+const axios = require('axios')
 
 $('#addUser').click(async () => {
   let unixMS = (new Date()).getTime()
@@ -403,6 +420,7 @@ $('#loadUsers').click(async () => {
     list.append(`<div>${user.username}</div>`)
   })
 })
+ */
 
 /***/ }),
 
