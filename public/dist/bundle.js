@@ -475,7 +475,7 @@ module.exports = {
         return false
       }
       
-      //console.log([this.username, this.email, this.password])
+      console.log([this.username, this.email, this.password])
       
       let result = await axios.get('http://127.0.0.1:3333/register', {
         params: {
@@ -505,7 +505,7 @@ module.exports = {
     login: async function() {
       this.mode = 'login'
       
-      //console.log([this.username, this.email, this.password])
+      console.log([this.username, this.email, this.password])
       
       let result = await axios.get('http://127.0.0.1:3333/login', {
         params: {

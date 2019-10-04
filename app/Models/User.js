@@ -7,6 +7,7 @@ const Hash = use('Hash')
 const Model = use('Model')
 
 class User extends Model {
+  
   static boot () {
     super.boot()
 
@@ -19,6 +20,10 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+  }
+  
+  static get hidden () {
+    return ['password']
   }
 
   /**

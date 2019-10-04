@@ -43,15 +43,22 @@ Route.get('/user/create', async ({ request, response, view }) => {
   //return {'aaa': 'ok'}
 })
 
+const Hash = use('Hash')
+
 Route.get('/login', async ({ request, response, view }) => {
   const query = request.get()
   //console.log(query)
   
+  let password = await Hash.make(query.password)
+  
   let user = await User.findBy({
     username: query.username,
-    password: query.password,
+    password: password,
   })
 
+  console.log(password)
+  console.log(user)
+  
   let output = {}
 
   if (user === null) {
@@ -74,10 +81,14 @@ Route.get('/register', async ({ request, response, view }) => {
   const query = request.get()
   //console.log(query)
   
+  let password = await Hash.make(query.password)
+  
   let user = await User.findBy({
     username: query.username,
-    password: query.password,
+    password: password,
   })
+  
+  console.log(user)
 
   let output = {}
 
