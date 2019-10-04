@@ -10,13 +10,16 @@ import i18n from './VueI18n'
 // --------------------
 // Components
 
-import Chat from './components/Chat/Chat.js'
+import Chat from './components/Chat/Chat.vue'
 
 // ----------------------
 
 let $ = require('jquery')
 $('body').append(`<div id="app">
-  {{ status.message }}
+  <chat-room v-bind:config="config"
+        v-bind:status="status"
+        v-bind:progress="progress"
+        v-bind:lib="lib"></chat-room>
 </div>
 `)
 
@@ -41,7 +44,7 @@ let VueController = {
     ]
   },
   components: { 
-    chat: Chat
+    "chat-room": Chat
   },
   watch: {
     
@@ -54,6 +57,8 @@ let VueController = {
   } // methods: {
 }
 
-new Vue(VueController)
+$(() => {
+  new Vue(VueController)
+})
 
 window.VueController = VueController

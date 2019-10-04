@@ -1,9 +1,11 @@
 let $ = require('jquery')
 window.jQuery = window.$ = $
 
+//console.log('AAA')
 require('./vendors/semantic-ui/semantic.min.css')
 require('./vendors/semantic-ui/semantic.min.js')
 require('./VueController')
+
 
 // -------------------------
 // For test

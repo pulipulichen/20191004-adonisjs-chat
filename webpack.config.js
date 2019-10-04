@@ -101,7 +101,7 @@ module.exports = (env, argv) => {
         */
       ]
     },
-    // 這邊會決定是否要產生vendor.js檔案，我決定不產生它
+    // 這邊會決定是否要產生vendor.js檔案，
     /*
     optimization: {
       splitChunks: {
