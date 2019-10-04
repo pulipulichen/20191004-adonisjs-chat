@@ -502,7 +502,7 @@ $('#loadUsers').click(async () => {
 /***/ (function(module, exports) {
 
 const Foo = { template: '<div>foo AAA</div>' }
-const Bar = { prop:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
+const Bar = { props:['status'],template: '<div>bar BBB {{ status.message }}</div>' }
 
 //import Chat from './components/Chat/Chat.vue'
 
