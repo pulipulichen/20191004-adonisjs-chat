@@ -19,7 +19,26 @@ const Route = use('Route')
 Route.on('/').render('welcome')
 
 const Database = use('Database')
-Route.get('/user', async () => {
-  return await Database.table('users').select('*')
+const User = use('App/Models/User')
+
+Route.get('/user/all', async () => {
+  let users = await User.all()
+  return users
+  //return {'aaa': 'ok'}
+  
+  //return await Database.select('*').from('users')
+})
+
+Route.get('/user/create', async ({ request, response, view }) => {
+  const query = request.get()
+  //console.log(query)
+  
+  const user = new User()
+
+  user.username = query.username
+  user.email = query.email
+  user.password = query.password
+
+  return await user.save()
   //return {'aaa': 'ok'}
 })

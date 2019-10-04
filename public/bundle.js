@@ -163,18 +163,34 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 let $ = __webpack_require__(/*! jquery */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\jquery\\dist\\jquery.js")
+const axios = __webpack_require__(/*! axios */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\axios\\index.js");
 
 //$('body').append('<h1>AAA</h1>')
 
-$('#addUser').click(() => {
+$('#addUser').click(async () => {
+  let unixMS = (new Date()).getTime()
+  await axios.get('http://127.0.0.1:3333/user/create', {
+    params: {
+      username: 'Pudding' + unixMS,
+      email: 'pudding' + unixMS + '@pulipuli.info',
+      password: unixMS + ''
+    }
+  })
   console.log('addUser')
 })
 
+axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
 
 let list = $('#usersList')
 
-$('#loadUsers').click(() => {
-  console.log('loadUser')
+$('#loadUsers').click(async () => {
+  let users = await axios.get('http://127.0.0.1:3333/user/all')
+  users = users.data
+  //console.log(users)
+  list.empty()
+  users.map(user => {
+    list.append(`<div>${user.username}</div>`)
+  })
 })
 
 /***/ })
