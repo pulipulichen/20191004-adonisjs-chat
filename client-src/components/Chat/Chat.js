@@ -15,6 +15,10 @@ module.exports = {
     
   },
   mounted: function () {
+    if (this.status.isLogin === false) {
+      this.$router.push('/')
+      return
+    }
     this.loadUsers()
   },
   methods: {

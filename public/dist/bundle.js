@@ -158,7 +158,8 @@ let VueController = {
     config: config,
     status: {
       message: 'Hello world.',
-      username: ''
+      username: '',
+      isLogin: false
     },
     progress: {
       component: false,
@@ -267,6 +268,10 @@ module.exports = {
     
   },
   mounted: function () {
+    if (this.status.isLogin === false) {
+      this.$router.push('/')
+      return
+    }
     this.loadUsers()
   },
   methods: {
@@ -496,11 +501,11 @@ module.exports = {
         return false
       }
       else {
+        this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.push('chat')
       }
-      this.$router.push('chat/' + this.username)
     },
     login: async function() {
       this.mode = 'login'
@@ -529,6 +534,7 @@ module.exports = {
         return false
       }
       else {
+        this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.push('chat')
@@ -758,7 +764,7 @@ const Chat = __webpack_require__(/*! ./components/Chat/Chat.vue */ "./client-src
 
 const routes = [
   { path: '/', component: Login },
-  { path: '/chat/:name', component: Chat }
+  { path: '/chat', component: Chat }
 ]
 
 module.exports = routes

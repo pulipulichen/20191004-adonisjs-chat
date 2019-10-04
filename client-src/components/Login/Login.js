@@ -69,11 +69,11 @@ module.exports = {
         return false
       }
       else {
+        this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.push('chat')
       }
-      this.$router.push('chat/' + this.username)
     },
     login: async function() {
       this.mode = 'login'
@@ -102,6 +102,7 @@ module.exports = {
         return false
       }
       else {
+        this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.push('chat')

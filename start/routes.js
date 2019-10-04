@@ -49,8 +49,31 @@ Route.get('/login', async ({ request, response, view }) => {
   const query = request.get()
   //console.log(query)
   
-  let password = await Hash.make(query.password)
+  let user = await User.findBy({
+    username: query.username
+  })
   
+  if (user === null) {
+    return {error: 'no-user'}
+  }
+  
+  let userPassword = user.password
+  
+  //let queryPassword = await Hash.make(query.password)
+  let queryPassword = query.password
+  
+  //console.log(queryPassword, userPassword)
+  const isSame = await Hash.verify(queryPassword, userPassword)
+  
+  if (isSame) {
+    return {}
+  }
+  else {
+    return {error: 'password-wrong'}
+  }
+  //console.log(isSame)
+  //return {error: 'testing'}
+  /*
   let user = await User.findBy({
     username: query.username,
     password: password,
@@ -75,12 +98,52 @@ Route.get('/login', async ({ request, response, view }) => {
   }
 
   return output
+   */
 })
 
 Route.get('/register', async ({ request, response, view }) => {
   const query = request.get()
   //console.log(query)
   
+  let user = await User.findBy({
+    username: query.username
+  })
+  
+  if (user === null) {
+    user = new User()
+
+    user.username = query.username
+    user.email = query.email
+    user.password = query.password
+
+    let result = await user.save()
+    //console.log(result)
+    if (result === true) {
+      return {}
+    }
+    else {
+      return {error: 'add-user-failed'}
+    }
+  }
+  
+  // --------------
+  
+  let userPassword = user.password
+  
+  //let queryPassword = await Hash.make(query.password)
+  let queryPassword = query.password
+  
+  //console.log(queryPassword, userPassword)
+  const isSame = await Hash.verify(queryPassword, userPassword)
+  
+  if (isSame) {
+    return {}
+  }
+  else {
+    return {error: 'user-is-existed'}
+  }
+  
+  /*
   let password = await Hash.make(query.password)
   
   let user = await User.findBy({
@@ -123,4 +186,5 @@ Route.get('/register', async ({ request, response, view }) => {
       }
     }
   }
+   */
 })

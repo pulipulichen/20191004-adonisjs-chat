@@ -54,7 +54,8 @@ let VueController = {
     config: config,
     status: {
       message: 'Hello world.',
-      username: ''
+      username: '',
+      isLogin: false
     },
     progress: {
       component: false,
