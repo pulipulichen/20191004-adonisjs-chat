@@ -5,6 +5,7 @@
   "zh-TW": {
     "Title": "範例標題",
     "Register": "註冊",
-    "User {0} is not existed.": "使用者{0}不存在"
+    "User {0} is not existed.": "使用者{0}不存在。",
+    "User {0} is registed.": "使用者{0}已經註冊。"
   }
 }

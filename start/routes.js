@@ -42,3 +42,74 @@ Route.get('/user/create', async ({ request, response, view }) => {
   return await user.save()
   //return {'aaa': 'ok'}
 })
+
+Route.get('/login', async ({ request, response, view }) => {
+  const query = request.get()
+  //console.log(query)
+  
+  let user = await User.findBy({
+    username: query.username,
+    password: query.password,
+  })
+
+  let output = {}
+
+  if (user === null) {
+    user = await User.findBy({
+      username: query.username
+    })
+    
+    if (user === null) {
+      output.error = 'no-user'
+    }
+    else {
+      output.error = 'password-wrong'
+    }
+  }
+
+  return output
+})
+
+Route.get('/register', async ({ request, response, view }) => {
+  const query = request.get()
+  //console.log(query)
+  
+  let user = await User.findBy({
+    username: query.username,
+    password: query.password,
+  })
+
+  let output = {}
+
+  if (user !== null) {
+    // 表示使用者存在，且密碼正確，不用註冊
+    return output
+  }
+  else {
+    user = await User.findBy({
+      username: query.username
+    })
+    
+    if (user !== null) {
+      output.error = 'user-is-existed'
+      return output
+    }
+    else {
+      user = new User()
+
+      user.username = query.username
+      user.email = query.email
+      user.password = query.password
+
+      let result = await user.save()
+      console.log(result)
+      if (result === true) {
+        return output
+      }
+      else {
+        output.error = 'add-user-failed'
+        return output
+      }
+    }
+  }
+})

@@ -157,7 +157,8 @@ let VueController = {
   data: {
     config: config,
     status: {
-      message: 'Hello world.'
+      message: 'Hello world.',
+      username: ''
     },
     progress: {
       component: false,
@@ -437,7 +438,7 @@ module.exports = {
       password: ''
       */
       username: 'pudding',
-      email: '',
+      email: 'pudding@nccu.edu.tw',
       password: 'test',
       mode: 'login',
       errorMessage: ''
@@ -474,23 +475,47 @@ module.exports = {
         return false
       }
       
-      console.log([this.username, this.email, this.password])
+      //console.log([this.username, this.email, this.password])
       
+      let result = await axios.get('http://127.0.0.1:3333/register', {
+        params: {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        }
+      })
+      
+      let user = result.data
+      if (typeof(user.error) === 'string') {
+        if (user.error === 'user-is-existed') { 
+          this.errorMessage = this.$t(`User {0} is registed.`, [this.username])
+        }
+        else {
+          this.errorMessage = user.error
+        }
+        return false
+      }
+      else {
+        this.status.username = this.username
+        this.errorMessage = ''
+        this.$router.push('chat')
+      }
       this.$router.push('chat/' + this.username)
     },
     login: async function() {
       this.mode = 'login'
       
-      console.log([this.username, this.email, this.password])
+      //console.log([this.username, this.email, this.password])
       
       let result = await axios.get('http://127.0.0.1:3333/login', {
         params: {
           username: this.username,
-          email: this.email,
+          password: this.password,
         }
       })
       
       let user = result.data
+      
       if (typeof(user.error) === 'string') {
         if (user.error === 'no-user') { 
           this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
@@ -498,7 +523,15 @@ module.exports = {
         else if (user.error === 'password-wrong') { 
           this.errorMessage = this.$t(`Password is incorrect.`, [this.username])
         }
+        else {
+          this.errorMessage = user.error
+        }
         return false
+      }
+      else {
+        this.status.username = this.username
+        this.errorMessage = ''
+        this.$router.push('chat')
       }
     },
     loginWithGoogle() {
@@ -894,7 +927,7 @@ module.exports = function (Component) {
 
 module.exports = function (Component) {
   Component.options.__i18n = Component.options.__i18n || []
-  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題","Register":"註冊","User {0} is not existed.":"使用者{0}不存在"}}')
+  Component.options.__i18n.push('{"en":{"Title":"Example Title"},"zh-TW":{"Title":"範例標題","Register":"註冊","User {0} is not existed.":"使用者{0}不存在。","User {0} is registed.":"使用者{0}已經註冊。"}}')
   delete Component.options._Ctor
 }
 
