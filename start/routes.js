@@ -49,4 +49,4 @@ Route.get('/user/logout', 'UserController.logout')
 Route.get('/user/check-login', 'UserController.checkLogin')
 
 Route.get('/message/list', 'MessageController.list')
-Route.get('/message/insert', 'MessageController.insert')
+Route.post('/message/insert', 'MessageController.insert')

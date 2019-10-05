@@ -7,7 +7,7 @@ module.exports = {
     this.$i18n.locale = this.config.locale
     return {
       displayMessages: [],
-      writingMessage: '',
+      writingMessage: 'aaa',
       
       users: [] // for test
     }
@@ -47,12 +47,11 @@ module.exports = {
     },
      */
     insert: async function () {
-      let result = await this.lib.axios.get(`${this.config.baseURL}/message/insert`, {
-        params: {
-          message: this.message
-        }
+      let result = await this.lib.axios.post(`${this.config.baseURL}/message/insert`, {
+        message: this.writingMessage
       })
-      console.log(this.message)
+      //console.log(this.writingMessage)
+      console.log(result.data)
     },
     logout: async function () {
       await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
