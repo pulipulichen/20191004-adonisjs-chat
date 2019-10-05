@@ -15,6 +15,7 @@ Vue.use(VueRouter)
 
 import axios from 'axios'
 axios.defaults.withCredentials = true
+axios.defaults.credentials = 'include'
 
 // --------------------
 import routes from './routes'
@@ -117,11 +118,11 @@ let VueController = {
       let aURL = `${this.config.baseURL}/c`
       let bURL = `${this.config.baseURL}/b`
       
+      let b1r = await axios.get(bURL)
+      console.log(b1r.data)
+      
       //await axios.get(`${this.config.baseURL}/c`, {
-      await axios.get(aURL, {
-        credentials: 'include',
-        withCredentials: true
-      })
+      await axios.get(aURL)
       /*
       await axios.create({
         baseURL: `${this.config.baseURL}/c`,
@@ -136,10 +137,7 @@ let VueController = {
       })
       */
       //let r = await axios.get(`${this.config.baseURL}/b`, {
-      let r = await axios.get(bURL, {
-        credentials: 'include',
-        withCredentials: true
-      })
+      let r = await axios.get(bURL)
       console.log(r.data)
       return false
       
