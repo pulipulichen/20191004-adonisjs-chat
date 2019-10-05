@@ -35,7 +35,7 @@
     <div class="three wide field">
       <button type="button"
               class="ui fluid button"
-              v-on:click="send"
+              v-on:click="insert"
               v-bind:class="{disabled: (writingMessage.trim() === ''), green: (writingMessage.trim() !== '')}">
         {{ $t('Send') }}
       </button>

@@ -8,7 +8,8 @@ module.exports = {
     return {
       displayMessages: [],
       writingMessage: '',
-      users: []
+      
+      users: [] // for test
     }
   },
   computed: {
@@ -25,6 +26,12 @@ module.exports = {
       let users = await this.lib.axios.get('http://127.0.0.1:3333/user/all')
       this.users = users.data
     },
+    initDisplayMessages: async function () {
+      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
+      console.log(messages.data)
+      this.messages = messages.data
+      //console.log(this.messages)
+    },
     /*
     addUser: async function () {
       let unixMS = (new Date()).getTime()
@@ -39,11 +46,16 @@ module.exports = {
       this.loadUsers()
     },
      */
-    send: async function () {
+    insert: async function () {
+      let result = await this.lib.axios.get(`${this.config.baseURL}/message/insert`, {
+        params: {
+          message: this.message
+        }
+      })
       console.log(this.message)
     },
     logout: async function () {
-      await this.lib.axios.get(`${this.config.baseURL}/logout`)
+      await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
       this.status.username = ''
       this.$router.replace('/')
     }

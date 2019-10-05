@@ -91,7 +91,7 @@ let VueController = {
   },  // mounted: function () {
   methods: {
     checkLogin: async function () {
-      let result = await axios.get(`${this.config.baseURL}/check-login`)
+      let result = await axios.get(`${this.config.baseURL}/user/check-login`)
       //console.log(result.data)
       let path = this.$router.currentRoute.fullPath
       if (result.data === false) {

@@ -43,7 +43,10 @@ Route.get('/user/create', async ({ request, response, view }) => {
   //return {'aaa': 'ok'}
 })
 
-Route.get('/login', 'UserController.login')
-Route.get('/register', 'UserController.register')
-Route.get('/logout', 'UserController.logout')
-Route.get('/check-login', 'UserController.checkLogin')
+Route.get('/user/login', 'UserController.login')
+Route.get('/user/register', 'UserController.register')
+Route.get('/user/logout', 'UserController.logout')
+Route.get('/user/check-login', 'UserController.checkLogin')
+
+Route.get('/message/list', 'MessageController.list')
+Route.get('/message/insert', 'MessageController.insert')

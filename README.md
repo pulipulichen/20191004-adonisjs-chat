@@ -23,6 +23,14 @@ adonis migration:run
 adonis migration:refresh
 ````
 
+# Model
+
+https://adonisjs.com/docs/4.1/lucid
+
+````
+adonis make:model User
+````
+
 # Route Controller
 
 https://adonisjs.com/docs/4.1/controllers
