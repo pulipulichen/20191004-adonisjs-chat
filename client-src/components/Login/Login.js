@@ -50,7 +50,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await axios.get('http://127.0.0.1:3333/register', {
+      let result = await axios.get(`${this.config.baseURL}/register`, {
         params: {
           username: this.username,
           email: this.email,
@@ -69,10 +69,10 @@ module.exports = {
         return false
       }
       else {
-        this.status.isLogin = true
+        //this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.push('chat')
+        this.$router.replace('chat')
       }
     },
     login: async function() {
@@ -80,7 +80,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await axios.get('http://127.0.0.1:3333/login', {
+      let result = await axios.get(`${this.config.baseURL}/login`, {
         params: {
           username: this.username,
           password: this.password,
@@ -102,10 +102,10 @@ module.exports = {
         return false
       }
       else {
-        this.status.isLogin = true
+        //this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.push('chat')
+        this.$router.replace('chat')
       }
     },
     loginWithGoogle() {

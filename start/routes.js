@@ -44,5 +44,6 @@ Route.get('/user/create', async ({ request, response, view }) => {
 })
 
 Route.get('/login', 'UserController.login')
-
 Route.get('/register', 'UserController.register')
+Route.get('/logout', 'UserController.logout')
+Route.get('/check-login', 'UserController.checkLogin')

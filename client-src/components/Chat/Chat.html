@@ -1,4 +1,4 @@
-<div class="ui form container">
+<div class="ui form segment">
   
   <div class="ui large feed">
     <div class="event"
@@ -22,17 +22,15 @@
   
   <!-- ==================================== -->
   
-  <div class="unstackable fields">
+  <div class="unstackable inline fields">
     <div class="ten wide field">
-      <label for="WritingMessage">
-        {{ status.username }}
-      </label>
-      <div class="ui input fluid">
+        <label for="WritingMessage">
+          {{ status.username }}
+        </label>
         <input type="text"
                id="WritingMessage"
                v-on:keyup.enter="send"
                v-model="writingMessage" />
-      </div>
     </div>
     <div class="three wide field">
       <button type="button"

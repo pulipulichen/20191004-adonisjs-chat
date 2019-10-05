@@ -13,6 +13,8 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 //import router from 'router.js'
 
+import axios from 'axios'
+
 // --------------------
 import routes from './routes'
 
@@ -25,9 +27,20 @@ import Chat from './components/Chat/Chat.vue'
 
 let $ = require('jquery')
 
+// -----------------------
+// 確認 baseURL
+
+let baseURL
+let baseScript = $('script#ChatAPP:first')
+if (baseScript.length === 1) {
+  baseURL = baseScript.attr('src').split('/').slice(0, 3).join('/')
+  //console.log(baseURL)
+  config.baseURL = baseURL
+}
+
+// -----------------------
+
 $('body').append(`<div id="app"></div>`)
-
-
 
 // -----------------------
 
@@ -36,13 +49,6 @@ let VueController = {
   i18n: i18n,
   template: `
   <div class="non-invasive-web-style-framework">
-    <router-link to="/">
-      <button type="button" class="ui button">Go to Login</button>
-    </router-link>
-    <router-link to="/chat/p">
-      <button type="button" class="ui button">Go to Chat</button>
-    </router-link>
-
     <router-view v-bind:config="config"
         v-bind:status="status"
         v-bind:progress="progress"
@@ -54,7 +60,7 @@ let VueController = {
     status: {
       message: 'Hello world.',
       username: '',
-      isLogin: false
+      //isLogin: false
     },
     progress: {
       component: false,
@@ -70,16 +76,25 @@ let VueController = {
     //"chat-room": Chat
   },
   router: new VueRouter({
-    routes
+    routes: routes
   }),
   watch: {
     
   },
   mounted: function () {
-    
+    this.checkLogin()
   },  // mounted: function () {
   methods: {
-    
+    checkLogin: async function () {
+      let result = await axios.get(`${this.config.baseURL}/check-login`)
+      if (result.data === false) {
+        this.$router.replace('/')
+      }
+      else {
+        this.status.username = result.data
+        this.$router.replace('/chat')
+      }
+    }
   } // methods: {
 }
 

@@ -17,10 +17,6 @@ module.exports = {
     
   },
   mounted: function () {
-    if (this.status.isLogin === false) {
-      this.$router.replace('/')
-      return false
-    }
     this.loadUsers()
   },
   methods: {
@@ -28,6 +24,7 @@ module.exports = {
       let users = await axios.get('http://127.0.0.1:3333/user/all')
       this.users = users.data
     },
+    /*
     addUser: async function () {
       let unixMS = (new Date()).getTime()
       await axios.get('http://127.0.0.1:3333/user/create', {
@@ -40,12 +37,13 @@ module.exports = {
       console.log('addUser')
       this.loadUsers()
     },
+     */
     send: async function () {
       console.log(this.message)
     },
     logout: async function () {
       await axios.get(`${this.config.baseURL}/logout`)
-      this.status.isLogin = false
+      this.status.username = ''
       this.$router.replace('/')
     }
   } // methods
