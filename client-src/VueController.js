@@ -58,6 +58,7 @@ let VueController = {
 `,
   data: {
     config: config,
+    loginChecked: false,
     status: {
       message: 'Hello world.',
       username: '',
@@ -82,14 +83,59 @@ let VueController = {
   watch: {
     
   },
-  mounted: function () {
-    this.checkLogin()
+  mounted: async function () {
+    if (this.loginChecked === true) {
+      return false
+    }
+    else {
+      console.log('go?')
+      this.loginChecked = true
+      await this.checkLogin()
+    }
+    
   },  // mounted: function () {
   methods: {
     checkLogin: async function () {
-      await axios.post(`${this.config.baseURL}/c`)
-      let r = await axios.post(`${this.config.baseURL}/b`)
+      /*
+      var xhr = new XMLHttpRequest();
+      //xhr.open('GET', `${this.config.baseURL}/c`, true);
+      xhr.open('GET', `http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/a`, true);
+      xhr.withCredentials = true;
+      xhr.send(null);
+      
+      var xhr = new XMLHttpRequest();
+      //xhr.open('GET', `${this.config.baseURL}/b`, true);
+      xhr.open('GET', `http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/b`, true);
+      xhr.withCredentials = true;
+      xhr.send(null);
+      return
+      */
+      
+      //await axios.get(`${this.config.baseURL}/c`, {
+      await axios.get(`http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/a`, {
+        credentials: 'include',
+        withCredentials: true
+      })
+      /*
+      await axios.create({
+        baseURL: `${this.config.baseURL}/c`,
+        timeout: 10000,
+        
+        credentials: 'include',
+        withCredentials: true,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      */
+      //let r = await axios.get(`${this.config.baseURL}/b`, {
+      let r = await axios.get(`http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/b`, {
+        credentials: 'include',
+        withCredentials: true
+      })
       console.log(r.data)
+      return false
       
       let result = await axios.get(`${this.config.baseURL}/check-login`)
       console.log(result.data)
