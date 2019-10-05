@@ -1,8 +1,10 @@
 {
   "elements": {},
   "attributes": {
+    "v-bind:class": {},
     "v-if": {},
     "v-on:click": {},
+    "v-for": {},
     "v-model": {}
   }
 }

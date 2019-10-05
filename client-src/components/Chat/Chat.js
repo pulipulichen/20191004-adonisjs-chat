@@ -5,6 +5,8 @@ module.exports = {
   data() {    
     this.$i18n.locale = this.config.locale
     return {
+      displayMessages: [],
+      writingMessage: '',
       users: []
     }
   },
@@ -16,7 +18,7 @@ module.exports = {
   },
   mounted: function () {
     if (this.status.isLogin === false) {
-      this.$router.push('/')
+      this.$router.replace('/')
       return false
     }
     this.loadUsers()
@@ -37,6 +39,14 @@ module.exports = {
       })
       console.log('addUser')
       this.loadUsers()
+    },
+    send: async function () {
+      console.log(this.message)
+    },
+    logout: async function () {
+      await axios.get(`${this.config.baseURL}/logout`)
+      this.status.isLogin = false
+      this.$router.replace('/')
     }
   } // methods
 }

@@ -1,4 +1,61 @@
 <div class="ui form container">
+  
+  <div class="ui large feed">
+    <div class="event"
+         v-for="message in displayMessages">
+      <div class="label">
+        <i class="pencil icon"></i>
+      </div>
+      <div class="content">
+        <div class="summary">
+          {{ message.user.username }}
+          <div class="date">
+            {{ displayAge(message.createAt) }}
+          </div>
+        </div>
+        <div class="extra text">
+          {{ message.message }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ==================================== -->
+  
+  <div class="unstackable fields">
+    <div class="ten wide field">
+      <label for="WritingMessage">
+        {{ status.username }}
+      </label>
+      <div class="ui input fluid">
+        <input type="text"
+               id="WritingMessage"
+               v-on:keyup.enter="send"
+               v-model="writingMessage" />
+      </div>
+    </div>
+    <div class="three wide field">
+      <button type="button"
+              class="ui fluid button"
+              v-on:click="send"
+              v-bind:class="{disabled: (writingMessage.trim() === ''), green: (writingMessage.trim() !== '')}">
+        {{ $t('Send') }}
+      </button>
+    </div>
+    <div class="three wide field">
+      <button type="button"
+              v-on:click="logout"
+              class="ui fluid button">
+        {{ $t('Logout') }}
+      </button>
+    </div>
+  </div>
+  
+  <!-- ===================================== -->
+  <!-- For test -->
+  <hr />
+  
+  <!--
   <div class="ui field">
     {{ status.message }}
     {{ $route.params.name }}
@@ -10,11 +67,6 @@
       Add User
     </button>
   </div>
-
-  <!--
-  <button type="button" id="loadUsers">
-    Load Users
-  </button>
   -->
 
   <table class="ui unstackable table">
