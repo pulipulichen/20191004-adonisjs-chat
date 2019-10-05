@@ -110,9 +110,15 @@ let VueController = {
       xhr.send(null);
       return
       */
+     
+      //let aURL = `http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/a`
+      //let bURL = `http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/b`
+      
+      let aURL = `${this.config.baseURL}/c`
+      let bURL = `${this.config.baseURL}/b`
       
       //await axios.get(`${this.config.baseURL}/c`, {
-      await axios.get(`http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/a`, {
+      await axios.get(aURL, {
         credentials: 'include',
         withCredentials: true
       })
@@ -130,7 +136,7 @@ let VueController = {
       })
       */
       //let r = await axios.get(`${this.config.baseURL}/b`, {
-      let r = await axios.get(`http://localhost/projects-nodejs/20191004-adonisjs-chat/php-server/b`, {
+      let r = await axios.get(bURL, {
         credentials: 'include',
         withCredentials: true
       })
