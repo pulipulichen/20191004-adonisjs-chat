@@ -32,7 +32,7 @@ class UserController {
 
     if (isSame) {
       console.log(user.id)
-      session.put('user_id', user.id)
+      session.put('user_id', user.id + '')
       return {}
     } else {
       session.forget('user_id')

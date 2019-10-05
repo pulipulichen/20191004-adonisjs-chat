@@ -88,12 +88,17 @@ let VueController = {
     checkLogin: async function () {
       let result = await axios.get(`${this.config.baseURL}/check-login`)
       console.log(result.data)
+      let path = this.$router.currentRoute.fullPath
       if (result.data === false) {
-        this.$router.replace('/')
+        if (path !== '/') {
+          this.$router.replace('/')
+        }
       }
       else {
         this.status.username = result.data
-        this.$router.replace('/chat')
+        if (path !== '/chat') {
+          this.$router.replace('/chat')
+        }
       }
     }
   } // methods: {
