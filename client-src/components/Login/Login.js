@@ -1,5 +1,5 @@
-const axios = require('axios')
-axios.defaults.withCredentials=true
+//const axios = require('axios')
+//axios.defaults.withCredentials=true
 
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
@@ -51,7 +51,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await axios.get(`${this.config.baseURL}/register`, {
+      let result = await this.lib.axios.get(`${this.config.baseURL}/register`, {
         params: {
           username: this.username,
           email: this.email,
@@ -81,7 +81,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await axios.get(`${this.config.baseURL}/login`, {
+      let result = await this.lib.axios.get(`${this.config.baseURL}/login`, {
         params: {
           username: this.username,
           password: this.password,

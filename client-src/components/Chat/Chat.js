@@ -1,5 +1,5 @@
-const axios = require('axios')
-axios.defaults.withCredentials=true
+//const axios = require('axios')
+//axios.defaults.withCredentials=true
 
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
@@ -22,7 +22,7 @@ module.exports = {
   },
   methods: {
     loadUsers: async function () {
-      let users = await axios.get('http://127.0.0.1:3333/user/all')
+      let users = await this.lib.axios.get('http://127.0.0.1:3333/user/all')
       this.users = users.data
     },
     /*
@@ -43,7 +43,7 @@ module.exports = {
       console.log(this.message)
     },
     logout: async function () {
-      await axios.get(`${this.config.baseURL}/logout`)
+      await this.lib.axios.get(`${this.config.baseURL}/logout`)
       this.status.username = ''
       this.$router.replace('/')
     }

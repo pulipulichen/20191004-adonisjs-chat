@@ -31,7 +31,7 @@ class UserController {
     const isSame = await Hash.verify(queryPassword, userPassword)
 
     if (isSame) {
-      console.log(user.id)
+      //console.log(user.id)
       session.put('user_id', user.id)
       return {}
     } else {
@@ -97,7 +97,7 @@ class UserController {
   }
   async checkLogin ({session}) {
     let userId = session.get('user_id', false)
-    console.log(session.get('user_id'))
+    //console.log(session.get('user_id'))
     if (userId === false) {
       return false
     }
@@ -109,9 +109,6 @@ class UserController {
     else {
       return user.username
     }
-  }
-  ok () {
-    return {}
   }
 }
 
