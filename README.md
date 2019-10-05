@@ -23,6 +23,14 @@ adonis migration:run
 adonis migration:refresh
 ````
 
+# Route Controller
+
+https://adonisjs.com/docs/4.1/controllers
+
+````
+adonis make:controller User --type http
+````
+
 ----
 
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
