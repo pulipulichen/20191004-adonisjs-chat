@@ -87,6 +87,7 @@ let VueController = {
   methods: {
     checkLogin: async function () {
       let result = await axios.get(`${this.config.baseURL}/check-login`)
+      console.log(result.data)
       if (result.data === false) {
         this.$router.replace('/')
       }
