@@ -24,9 +24,8 @@ import Chat from './components/Chat/Chat.vue'
 // ----------------------
 
 let $ = require('jquery')
-$('body').append(`<div id="app">
-</div>
-`)
+
+$('body').append(`<div id="app"></div>`)
 
 
 
@@ -36,7 +35,7 @@ let VueController = {
   el: '#app',
   i18n: i18n,
   template: `
-  <div>
+  <div class="non-invasive-web-style-framework">
     <router-link to="/">
       <button type="button" class="ui button">Go to Login</button>
     </router-link>

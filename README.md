@@ -6,6 +6,8 @@
 - Project: https://github.com/pulipulichen/20191004-adonisjs-chat
 - Issues: https://github.com/pulipulichen/20191004-adonisjs-chat/issues
 
+- For test: https://pulipulichen.github.io/20191004-adonisjs-chat/index.html
+
 ----
 
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
