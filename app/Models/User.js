@@ -23,6 +23,12 @@ class User extends Model {
     })
   }
   
+  async validatePassword (queryPassword) {
+    let userPassword = this.password
+    const isSame = await Hash.verify(queryPassword, userPassword)
+    return isSame
+  }
+  
   
 
   /**

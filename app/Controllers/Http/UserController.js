@@ -22,14 +22,9 @@ class UserController {
       return {error: 'no-user'}
     }
 
-    let userPassword = user.password
-
-    //let queryPassword = await Hash.make(query.password)
     let queryPassword = query.password
-
-    //console.log(queryPassword, userPassword)
-    const isSame = await Hash.verify(queryPassword, userPassword)
-
+    const isSame = await user.validatePassword(queryPassword)
+    
     if (isSame) {
       //console.log(user.id)
       session.put('userId', user.id)
@@ -73,13 +68,9 @@ class UserController {
     // --------------
     // 走登入
 
-    let userPassword = user.password
-
     //let queryPassword = await Hash.make(query.password)
     let queryPassword = query.password
-
-    //console.log(queryPassword, userPassword)
-    const isSame = await Hash.verify(queryPassword, userPassword)
+    const isSame = await user.validatePassword(queryPassword)
 
     if (isSame) {
       session.put('userId', user.id)
