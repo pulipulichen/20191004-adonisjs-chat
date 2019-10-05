@@ -14,6 +14,7 @@ Vue.use(VueRouter)
 //import router from 'router.js'
 
 import axios from 'axios'
+axios.defaults.withCredentials = true
 
 // --------------------
 import routes from './routes'
@@ -86,6 +87,10 @@ let VueController = {
   },  // mounted: function () {
   methods: {
     checkLogin: async function () {
+      await axios.post(`${this.config.baseURL}/c`)
+      let r = await axios.post(`${this.config.baseURL}/b`)
+      console.log(r.data)
+      
       let result = await axios.get(`${this.config.baseURL}/check-login`)
       console.log(result.data)
       let path = this.$router.currentRoute.fullPath

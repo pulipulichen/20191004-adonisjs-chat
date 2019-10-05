@@ -47,3 +47,17 @@ Route.get('/login', 'UserController.login')
 Route.get('/register', 'UserController.register')
 Route.get('/logout', 'UserController.logout')
 Route.get('/check-login', 'UserController.checkLogin')
+Route.get('/ok', 'UserController.ok')
+
+Route.get('/a', ({ session, response }) => {
+  session.put('a', 'aaa')
+  response.redirect('/b')
+})
+
+Route.post('/c', ({ session, response }) => {
+  session.put('a', 'aaa')
+})
+
+Route.post('/b', ({ session }) => {
+  return session.get('a') // 'virk'
+})
