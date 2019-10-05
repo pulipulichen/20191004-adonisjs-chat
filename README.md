@@ -10,6 +10,21 @@
 
 ----
 
+# AdonisJS Commands
+
+
+# Database Migration
+
+https://adonisjs.com/docs/4.1/migrations#_creating_migrations
+
+````
+adonis make:migration users
+adonis migration:run
+adonis migration:refresh
+````
+
+----
+
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
 
 1. Bodyparser
