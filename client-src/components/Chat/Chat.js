@@ -31,6 +31,11 @@ module.exports = {
     */
   },
   mounted: function () {
+    if (this.status.username === '') {
+      this.$router.replace('/')
+      return false
+    }
+    
     this.initDisplayMessages()
     this.loadUsers()
     //this.testSession()

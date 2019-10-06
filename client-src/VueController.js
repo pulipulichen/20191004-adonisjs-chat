@@ -99,19 +99,21 @@ let VueController = {
       let dURL = `${this.config.baseURL}/d/d`
       
       let r
-      r = await window.axios.get(bURL)
+      r = await this.lib.axios.get(bURL)
       console.log('應該要沒有資料', r.data)
-      return
       
       //await axios.get(`${this.config.baseURL}/c`, {
       await this.lib.axios.get(aURL)
-      r = await window.axios.get(bURL)
+      r = await this.lib.axios.get(bURL)
       console.log('應該要有資料', r.data)
       
-      
-      //await this.lib.axios.get(dURL)
-      r = await window.axios.get(bURL)
-      console.log('應該要沒有資料', r.data)
+      let _this = this
+      //setTimeout(async function () {
+        await _this.lib.axios.get(dURL)
+        r = await _this.lib.axios.get(bURL)
+        console.log('應該要沒有資料', r.data)
+      //}, 3000)
+        
       
       /*
       setTimeout(async () => {
@@ -123,7 +125,7 @@ let VueController = {
       return false
     },
     checkLogin: async function () {
-      var result = await window.axios.get(`${this.config.baseURL}/user/check-login`)
+      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
       console.log(result.data)
       /*
       var result = await this.lib.axios.get(`${this.config.baseURL}/user/logout`)

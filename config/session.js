@@ -69,7 +69,7 @@ module.exports = {
     httpOnly: true,
     //maxAge: 3600,
     sameSite: false,
-    path: '/'
+    //path: '/'
   },
 
   /*
