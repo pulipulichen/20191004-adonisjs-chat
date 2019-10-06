@@ -13,10 +13,23 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 //import router from 'router.js'
 
+// ----------------------------------
+
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.credentials = 'include'
-window.axios = axios
+//window.axios = axios
+
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-tw' // load on demand
+dayjs.extend(relativeTime)
+try {
+  dayjs.locale(config.locale.toLowerCase())
+}
+catch (e) {
+  console.error('dayjs locale is error: ' + config.locale.toLowerCase())
+}
 
 // --------------------
 import routes from './routes'
@@ -72,7 +85,8 @@ let VueController = {
       display: false
     },
     lib: {
-      axios: axios
+      axios: axios,
+      dayjs: dayjs
     },
     persistAttrs: [
       

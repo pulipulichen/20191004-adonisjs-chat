@@ -144,7 +144,7 @@ module.exports = {
       this.$router.replace('/login')
     },
     displayAge: function (timestamp) {
-      return timestamp
+      return this.lib.dayjs(timestamp).fromNow()
     }
   } // methods
 }

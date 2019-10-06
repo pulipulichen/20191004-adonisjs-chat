@@ -6,7 +6,7 @@ const Message = use('App/Models/Message')
 class MessageController {
   async list ({ request, response, view, session }) {
     // 列出最近10則訊息
-    const messages = await Message.list(3)
+    const messages = await Message.list(10)
     //await messages.user().fetch()
     return messages.toJSON().reverse()
   }

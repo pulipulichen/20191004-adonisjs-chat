@@ -1,8 +1,8 @@
 {
   "en": {
-    "Title": "Example Title"
   },
   "zh-TW": {
-    "Title": "範例標題"
+    "Send": "送出",
+    "Logout": "登出"
   }
 }
