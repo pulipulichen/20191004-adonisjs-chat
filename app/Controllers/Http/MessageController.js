@@ -20,8 +20,8 @@ class MessageController {
     console.log(session.get('userId'))
     console.log(userId)
     if (userId === false) {
-      userId = 1
-      //return false
+      //userId = 1
+      return false
     }
     
     let user = await User.find(userId)

@@ -43,10 +43,33 @@ Route.get('/user/create', async ({ request, response, view }) => {
   //return {'aaa': 'ok'}
 })
 
-Route.get('/user/login', 'UserController.login')
-Route.get('/user/register', 'UserController.register')
-Route.get('/user/logout', 'UserController.logout')
-Route.get('/user/check-login', 'UserController.checkLogin')
+Route.get('/user.login', 'UserController.login')
+Route.get('/user.register', 'UserController.register')
+Route.get('/user.logout', 'UserController.logout')
+Route.get('/user.check-login', 'UserController.checkLogin')
 
-Route.get('/message/list', 'MessageController.list')
-Route.post('/message/insert', 'MessageController.insert')
+Route.get('/message.list', 'MessageController.list')
+Route.post('/message.insert', 'MessageController.insert')
+
+Route.get('/a', ({ session, request, response }) => {
+  //console.log(session._driverInstance.Store._sessionID)
+  console.log(request.header('cookie'))
+  session.put('a', 'aaa')
+  response.redirect('/b')
+})
+
+Route.get('/c', ({ session, request, response }) => {
+  //console.log(session._driverInstance.Store._sessionID)
+  //console.log(request.header('cookie'))
+  session.put('a', 'aaa')
+  //session.commit()
+  let result = session.get('a') // 'virk'
+  console.log('c', result)
+})
+
+Route.get('/b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('a') // 'virk'
+  console.log('b', result)
+  return result // 'virk'
+})

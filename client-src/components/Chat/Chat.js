@@ -1,6 +1,10 @@
 //const axios = require('axios')
 //axios.defaults.withCredentials=true
 
+let axios = require('axios').default
+axios.defaults.withCredentials = true
+axios.defaults.credentials = 'include'
+
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
@@ -19,7 +23,9 @@ module.exports = {
     
   },
   mounted: function () {
-    this.loadUsers()
+    //this.loadUsers()
+    
+    //this.testSession()
   },
   methods: {
     loadUsers: async function () {
@@ -27,11 +33,26 @@ module.exports = {
       this.users = users.data
     },
     initDisplayMessages: async function () {
-      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
+      let messages = await this.lib.axios.get(`${this.config.baseURL}/message.list`)
       console.log(messages.data)
       this.messages = messages.data
       //console.log(this.messages)
     },
+    
+    testSession: async function () {
+      let aURL = `${this.config.baseURL}/c`
+      let bURL = `${this.config.baseURL}/b`
+      
+      let b1r = await window.axios.get(bURL)
+      console.log(b1r.data)
+      
+      //await axios.get(`${this.config.baseURL}/c`, {
+      await window.axios.get(aURL)
+      let r = await this.lib.axios.get(bURL)
+      console.log(r.data)
+      return false
+    },
+    
     /*
     addUser: async function () {
       let unixMS = (new Date()).getTime()
@@ -47,7 +68,11 @@ module.exports = {
     },
      */
     insert: async function () {
-      let result = await this.lib.axios.post(`${this.config.baseURL}/message/insert`, {
+      let bURL = `${this.config.baseURL}/b`
+      let b1r = await window.axios.get(bURL)
+      console.log(b1r.data)
+      //return
+      let result = await window.axios.post(`${this.config.baseURL}/message.insert`, {
         message: this.writingMessage
       })
       //console.log(this.writingMessage)

@@ -65,10 +65,11 @@ module.exports = {
   */
   secret: 'whatever',
   cookie: {
+    //domain: 'localhost',
     secure: false,
-    httpOnly: false,
-    maxAge: 36000000
-    //sameSite: true,
+    httpOnly: true,
+    //maxAge: 3600,
+    //sameSite: false,
     //path: '/'
   },
 

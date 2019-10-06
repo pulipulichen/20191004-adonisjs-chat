@@ -16,6 +16,7 @@ Vue.use(VueRouter)
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.credentials = 'include'
+window.axios = axios
 
 // --------------------
 import routes from './routes'
@@ -88,10 +89,32 @@ let VueController = {
   },
   mounted: async function () {
     await this.checkLogin()
+    await this.testSession()
+    
   },  // mounted: function () {
   methods: {
+    testSession: async function () {
+      let aURL = `${this.config.baseURL}/c`
+      let bURL = `${this.config.baseURL}/b`
+      
+      let b1r = await window.axios.get(bURL)
+      console.log(b1r.data)
+      
+      //await axios.get(`${this.config.baseURL}/c`, {
+      await this.lib.axios.get(aURL)
+      let r = await window.axios.get(bURL)
+      console.log(r.data)
+      
+      setTimeout(async () => {
+        let r2 = await window.axios.get(bURL)
+        console.log(r2.data)
+      }, 10000)
+      
+      
+      return false
+    },
     checkLogin: async function () {
-      let result = await axios.get(`${this.config.baseURL}/user/check-login`)
+      let result = await this.lib.axios.get(`${this.config.baseURL}/user.check-login`)
       //console.log(result.data)
       let path = this.$router.currentRoute.fullPath
       if (result.data === false) {

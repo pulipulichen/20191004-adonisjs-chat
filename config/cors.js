@@ -47,7 +47,7 @@ module.exports = {
   | Function - Receives the current header and should return one of the above values.
   |
   */
-  headers: '*',
+  headers: true,
 
   /*
   |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ module.exports = {
   | Array - An array of allowed headers
   |
   */
-  exposeHeaders: ['Cookie', 'X-XSRF-TOKEN'],
+  exposeHeaders: ['Cookie', 'X-XSRF-TOKEN', 'cookie'],
 
   /*
   |--------------------------------------------------------------------------
@@ -83,5 +83,5 @@ module.exports = {
   | Define Access-Control-Allow-Max-Age
   |
   */
-  maxAge: 900000
+  maxAge: 90
 }
