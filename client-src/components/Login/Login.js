@@ -15,7 +15,7 @@ module.exports = {
       email: 'pudding@nccu.edu.tw',
       password: 'test',
       mode: 'login',
-      errorMessage: ''
+      errorMessage: '',
     }
   },
   computed: {
@@ -110,8 +110,9 @@ module.exports = {
       }
     },
     loginFromOAuth(driver) {
-      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank')
+      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', 'location=0,status=0,width=800,height=400')
       this.loginOAuthCallback(win)
+      //this.oauthURL = `${this.config.baseURL}/oauth/request/${driver}`
     },
     loginOAuthCallback: function (win) {
       let callback = async (e) => {
@@ -120,6 +121,7 @@ module.exports = {
           return false
         }
         win.close()
+        //this.oauthURL = false
         //let target = e.target;
         let data = e.data
         //console.log(data)
