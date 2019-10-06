@@ -61,12 +61,12 @@ Route.post('/message/insert', 'MessageController.insert')
 // ------------------------------------
 
 Route.get('/oauth/github', async ({ ally }) => {
-  await ally.driver('github').redirect()
+  await ally.driver('github').stateless().redirect()
 })
 
 Route.get('/authenticated/github', async ({ ally }) => {
   const user = await ally.driver('github').getUser()
-  console.log(user.toJSON())
+  console.log(user)
   return user
 })
 
