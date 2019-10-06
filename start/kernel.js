@@ -52,9 +52,12 @@ const namedMiddleware = {
 | control over request lifecycle.
 |
 */
-const serverMiddleware = [
-  'Adonis/Middleware/Static',
-  'Adonis/Middleware/Cors'
+
+// 解決public cors問題
+// https://forum.adonisjs.com/t/how-to-force-adonis-send-cors-headers-on-static-file-requests/3989/8
+const serverMiddleware = [,
+  'Adonis/Middleware/Cors',
+  'Adonis/Middleware/Static'
 ]
 
 Server
