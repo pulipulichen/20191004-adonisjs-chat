@@ -25,8 +25,10 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 //import 'dayjs/locale/zh-tw' // load on demand
 dayjs.extend(relativeTime)
 let dayjsLocale = config.locale.toLowerCase()
+
+require(`dayjs/locale/zh-tw`).default
 try {
-  require(`dayjs/locale/${dayjsLocale}`).default // load on demand
+  //require(`dayjs/locale/${dayjsLocale}`).default // load on demand
   dayjs.locale(dayjsLocale)
 }
 catch (e) {
@@ -109,6 +111,7 @@ let VueController = {
   }),
   watch: {
     'status.username': function () {
+      //console.log(this.status.username)
       let path = '/login'
       if (typeof(this.status.username) === 'string') {
         path = '/chat'

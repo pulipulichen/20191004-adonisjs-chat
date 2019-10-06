@@ -57,8 +57,10 @@ class UserController {
     if (user === null) {
       return {error: 'no-user'}
     }
+    //console.log(query.password)
     
-    let match = await user.validatePassword(query.passowrd)
+    const match = await Hash.verify(query.password, user.password)
+    //let match = await user.validatePassword(query.passoword)
     if (match === false) {
       return {error: 'password-wrong'}
     }
@@ -70,12 +72,14 @@ class UserController {
   async register({ request, response, view, session, auth }) {
     let origin = this.filterOrigin(request)
     const query = request.get()
-    //console.log(query)
+    //console.log(query, origin)
 
     let user = await User.findBy({
       username: query.username,
       origin: origin
     })
+    
+    //console.log(user)
 
     if (user === null) {
       // 走註冊，建立使用者
@@ -84,7 +88,7 @@ class UserController {
       user.username = query.username
       user.email = query.email
       user.password = query.password
-      user.origin = query.origin
+      user.origin = origin
 
       let result = await user.save()
       //console.log(result)

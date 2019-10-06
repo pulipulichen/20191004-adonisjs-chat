@@ -141,25 +141,5 @@ module.exports = {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());
     },
-    loadUsernameFromURL: async function () {
-      let result = await this.lib.axios.get(this.config.usernameQueryURL)
-      if (typeof(result.data) === 'string') {
-        return result.data
-      }
-    },
-    attemptLoginViaUsername: async function (username) {
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/attempt-login-via-username`, {
-        params: {
-          username: username
-        }
-      })
-      if (typeof(result.data) === 'string') {
-        this.status.username = result.data
-        return true
-      }
-      else {
-        return false
-      }
-    },
   } // methods
 }

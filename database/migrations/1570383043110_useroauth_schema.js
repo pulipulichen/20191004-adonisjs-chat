@@ -15,7 +15,7 @@ class UseroauthSchema extends Schema {
   }
 
   down () {
-    this.drop('useroauths')
+    this.drop('user_oauths')
   }
 }
 

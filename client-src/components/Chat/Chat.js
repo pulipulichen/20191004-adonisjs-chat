@@ -125,7 +125,7 @@ module.exports = {
         message: this.writingMessage
       })
       //console.log(this.writingMessage)
-      console.log(result.data)
+      //console.log(result.data)
       
       this.displayMessages.push({
         user: {
@@ -140,7 +140,7 @@ module.exports = {
     },
     logout: async function () {
       await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
-      this.status.username = ''
+      this.status.username = false
       this.$router.replace('/login')
     },
     displayAge: function (timestamp) {

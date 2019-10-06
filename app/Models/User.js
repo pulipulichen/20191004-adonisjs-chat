@@ -23,11 +23,20 @@ class User extends Model {
     })
   }
   
+  /*
   async validatePassword (queryPassword) {
+    console.log(queryPassword)
+    if (typeof(queryPassword) !== 'string') {
+      return false
+    } 
     let userPassword = this.password
+    console.log(queryPassword)
+    console.log(userPassword)
     const isSame = await Hash.verify(queryPassword, userPassword)
+    console.log(isSame)
     return isSame
   }
+  */
   
   
 

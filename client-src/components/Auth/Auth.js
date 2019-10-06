@@ -3,11 +3,23 @@
 
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
-  data() {    
-    this.$i18n.locale = this.config.locale
+  data() {
+    return {}
   },
   mounted: async function () {
-    await this.checkLogin()
+    if (typeof(this.config.username) !== 'string' 
+            && typeof(this.config.usernameQueryURL) === 'string') {
+      this.config.username = await loginComponent.methods.loadUsernameFromURL()
+    }
+    
+    let result = false
+    if (typeof(this.config.username) === 'string') {
+      result = await loginComponent.methods.attemptLoginViaUsername(this.config.username)
+    }
+    
+    if (result === false) {
+      await this.checkLogin()
+    }
   },
   methods: {
     loadUsernameFromURL: async function () {
@@ -31,32 +43,10 @@ module.exports = {
       }
     },
     checkLogin: async function () {
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      //console.log(result.data)
-      /*
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
-      console.log(result.data)
       
-      // 這時候不應該有登入記錄了！！！
+      
       var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      console.log(result.data)
-      */
       this.status.username = result.data
-      /*
-      let path = this.$router.currentRoute.fullPath
-      
-      if (result.data === false) {
-        if (path !== '/login') {
-          this.$router.replace('/login')
-        }
-      }
-      else {
-        this.status.username = result.data
-        if (path !== '/chat') {
-          this.$router.replace('/chat')
-        }
-      }
-       */
     }
   } // methods
 }
