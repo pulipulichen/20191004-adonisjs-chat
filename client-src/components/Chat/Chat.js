@@ -49,10 +49,6 @@ module.exports = {
     //console.log('destroyed')
   },
   methods: {
-    loadUsers: async function () {
-      let users = await this.lib.axios.get('http://127.0.0.1:3333/user/all')
-      this.users = users.data
-    },
     initDisplayMessages: async function () {
       let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
       //console.log(messages.data)
@@ -61,7 +57,7 @@ module.exports = {
       this.lastUpdateTimestamp = this.getTime()
       
       setTimeout(() => {
-        //this.syncDisplayMessages()
+        this.syncDisplayMessages()
       }, 5000)
     },
     syncDisplayMessages: async function () {
