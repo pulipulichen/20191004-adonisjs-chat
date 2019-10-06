@@ -125,23 +125,10 @@ let VueController = {
     if (this.$router.currentRoute.fullPath !== '/') {
       this.$router.replace('/')
     }
-  },
-  mounted: async function () {
     this.loadLocalConfig()
-    /*
-    if (typeof(this.config.username) !== 'string' 
-            && typeof(this.config.usernameQueryURL) === 'string') {
-      this.config.username = await loginComponent.methods.loadUsernameFromURL()
-    }
-    if (typeof(this.config.username) === 'string') {
-      await loginComponent.methods.attemptLoginViaUsername(this.config.username)
-    }
-    */
-    //await this.checkLogin()
-    
-    //await this.testSession()
-    //await this.test20191006SubSession()
-  },  // mounted: function () {
+  },
+  mounted: function () {
+  },
   methods: {
     loadLocalConfig: function () {
       let localConfig = window[`${this.config.appName}_CONFIG`]
@@ -152,7 +139,7 @@ let VueController = {
         }
       }
       
-      console.log(this.config)
+      //console.log(this.config)
     },
     test20191006SubSession: async function () {
       let urlList = [

@@ -169,6 +169,7 @@ class UserController {
       return {error: 'no-user'}
     }
     
+    await auth.logout()
     await auth.remember(true).login(user)
     return user.username
   }

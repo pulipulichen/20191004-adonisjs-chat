@@ -6,27 +6,8 @@ module.exports = {
   data() {
     return {}
   },
-  watch: {
-    'config.usernameQueryURL': async function () {
-      console.log(this.config.usernameQueryURL)
-      if (typeof(this.config.username) !== 'string' 
-            && typeof(this.config.usernameQueryURL) === 'string') {
-        this.config.username = await this.loadUsernameFromURL()
-      }
-    },
-    'config.username': async function () {
-      console.log(this.config.username)
-      if (typeof(this.config.username) === 'string') {
-        result = await this.attemptLoginViaUsername(this.config.username)
-      }
-      if (result === false) {
-        await this.checkLogin()
-      }
-    },
-    
-  },
   mounted: async function () {
-    /*
+    //console.log(this.config)
     if (typeof(this.config.username) !== 'string' 
             && typeof(this.config.usernameQueryURL) === 'string') {
       this.config.username = await this.loadUsernameFromURL()
@@ -40,11 +21,12 @@ module.exports = {
     if (result === false) {
       await this.checkLogin()
     }
-    */
   },
   methods: {
     loadUsernameFromURL: async function () {
+      //console.log(this.config.usernameQueryURL)
       let result = await this.lib.axios.get(this.config.usernameQueryURL)
+      //console.log(result.data)
       if (typeof(result.data) === 'string') {
         return result.data
       }
