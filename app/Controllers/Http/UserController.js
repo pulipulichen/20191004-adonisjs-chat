@@ -1,6 +1,8 @@
 'use strict'
 
 const User = use('App/Models/User')
+const UserOAuth = use('App/Models/UserOAuth')
+
 const Hash = use('Hash')
 
 class UserController {
@@ -135,6 +137,7 @@ class UserController {
      */
   }
   
+  /*
   async oauthGitHub({ally}) {
     await ally.driver('github').stateless().redirect()
   }
@@ -174,8 +177,15 @@ class UserController {
     let returnScript = await this.oauthCallback(ally, 'linkedin', 'oauth_linkedin_id')
     return returnScript
   }
+   */
   
-  async oauthCallback(ally, driver, field) {
+  async oauthRequest({ally, params}) {
+    await ally.driver(params.driver).stateless().redirect()
+  }
+  
+  async oauthAuthenticated({ally, params}) {
+    let driver = params.driver
+    //console.log(driver)
     let oauthUser = await ally.driver(driver).getUser()
     
     // -------------------------
@@ -187,20 +197,21 @@ class UserController {
     let returnScript = `
     <script>
       window.opener.postMessage({
-        field: '${field}',
+        driver: '${driver}',
         oauthID: ${oauthID}
       }, '*')
     </script>`
     //console.log(oauthID)
     
-    let user
-    let query = {}
-    query[field] = oauthID
-    user = await User.findBy(query)
+    let user, userOauth
+    userOauth = await UserOAuth.findBy({
+      driver: driver,
+      oauth_id: oauthID
+    })
     
     //console.log(user)
     
-    if (user !== null) {
+    if (userOauth !== null) {
       return returnScript
     }
     
@@ -214,8 +225,12 @@ class UserController {
       })
 
       if (user !== null) {
-        user[field] = oauthID
-        user.save()
+        userOauth = new UserOAuth()
+        
+        userOauth.driver = driver
+        userOauth.oauth_id = oauthID
+        
+        await user.oauths().save(userOauth)
         return returnScript
       }
     }
@@ -231,33 +246,46 @@ class UserController {
     if (typeof(oauthUser.nickname) === 'string') {
       user.username = oauthUser.nickname
     }
-    user.email = email
-    user[field] = oauthID
+    user.username = user.username + '@' + driver
+    user.email = email 
+    //user[field] = oauthID
     //user.password = oauthUser.password
 
     await user.save()
+    
+    userOauth = new UserOAuth()
+        
+    userOauth.driver = driver
+    userOauth.oauth_id = oauthID
+
+    await user.oauths().save(userOauth)
+    
     return returnScript
   }
   
   async oauthLogin({request, auth}) {
-    let {field, oauthID} = request.get()
+    let {driver, oauthID} = request.get()
     //console.log([field, oauthID])
     //console.log(typeof(oauth_github_id))
-    if (typeof(oauthID) === 'undefined' || typeof(field) === 'undefined') {
+    if (typeof(oauthID) === 'undefined' || typeof(driver) === 'undefined') {
       return false
     }
     if (typeof(oauthID) === 'string') {
       oauthID = parseInt(oauthID, 10)
     }
     
-    let query = {}
-    query[field] = oauthID
+    let userOauth = await UserOAuth.findBy({
+      driver: driver,
+      oauth_id: oauthID
+    })
     
-    let user
-    user = await User.findBy(query)
     //console.log(user.id)
-    if (user !== null) {
-      await auth.login(user)
+    if (userOauth !== null) {
+      let user = await userOauth.user().fetch()
+      try {
+        await auth.login(user)
+      }
+      catch (error) {}
       return user.username
     }
     else {

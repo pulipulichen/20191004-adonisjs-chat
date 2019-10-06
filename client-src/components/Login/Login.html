@@ -53,32 +53,20 @@
     
     <button type="button" 
             class="ui button"
-            v-on:click="loginFromGoogle">
+            v-on:click="loginFromOAuth('google')">
       {{ $t('Login from Google') }}
     </button>
     
     <button type="button" 
             class="ui button"
-            v-on:click="loginFromGitHub">
+            v-on:click="loginFromOAuth('github')">
       {{ $t('Login from GitHub') }}
     </button>
     
     <button type="button" 
             class="ui button"
-            v-on:click="loginFromLinkedIn">
-      {{ $t('Login from LinkedIn') }}
-    </button>
-    
-    <button type="button" 
-            class="ui button"
-            v-on:click="loginFromInstagram">
+            v-on:click="loginFromOAuth('instagram')">
       {{ $t('Login from Instagram') }}
-    </button>
-    
-    <button type="button" 
-            class="ui button"
-            v-on:click="loginFromFoursquare">
-      {{ $t('Login from Foursquare') }}
     </button>
   </div>
 </div>

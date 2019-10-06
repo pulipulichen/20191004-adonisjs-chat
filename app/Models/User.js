@@ -49,6 +49,10 @@ class User extends Model {
     return this.hasMany('App/Models/Message')
   }
   
+  oauths () {
+    return this.hasMany('App/Models/UserOAuth')
+  }
+  
   static get hidden () {
     return ['password']
   }

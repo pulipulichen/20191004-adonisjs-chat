@@ -109,25 +109,8 @@ module.exports = {
         this.$router.replace('chat')
       }
     },
-    loginFromGoogle() {
-      //console.log('loginWithGoogle')
-      let win = window.open(`${this.config.baseURL}/oauth/google`, '_blank')
-      this.loginOAuthCallback(win)
-    },
-    loginFromGitHub() {
-      let win = window.open(`${this.config.baseURL}/oauth/github`, '_blank')
-      this.loginOAuthCallback(win)
-    },
-    loginFromInstagram() {
-      let win = window.open(`${this.config.baseURL}/oauth/instagram`, '_blank')
-      this.loginOAuthCallback(win)
-    },
-    loginFromFoursquare() {
-      let win = window.open(`${this.config.baseURL}/oauth/foursquare`, '_blank')
-      this.loginOAuthCallback(win)
-    },
-    loginFromLinkedIn() {
-      let win = window.open(`${this.config.baseURL}/oauth/linkedin`, '_blank')
+    loginFromOAuth(driver) {
+      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank')
       this.loginOAuthCallback(win)
     },
     loginOAuthCallback: function (win) {

@@ -11,12 +11,6 @@ class UserSchema extends Schema {
       //table.string('email', 254).notNullable().unique()
       table.string('email', 254).notNullable()
       table.string('password', 60)
-      table.integer('oauth_google_id').unique()
-      table.integer('oauth_github_id').unique()
-      table.integer('oauth_twitter_id').unique()
-      table.integer('oauth_linkedin_id').unique()
-      table.integer('oauth_instagram_id').unique()
-      table.integer('oauth_foursquare_id').unique()
       table.timestamps()
     })
   }

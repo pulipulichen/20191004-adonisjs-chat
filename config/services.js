@@ -46,7 +46,7 @@ module.exports = {
     google: {
       clientId: Env.get('GOOGLE_CLIENT_ID'),
       clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/google/authenticated`
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/google`
     },
 
     /*
@@ -61,7 +61,7 @@ module.exports = {
     github: {
       clientId: Env.get('GITHUB_CLIENT_ID'),
       clientSecret: Env.get('GITHUB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/github/authenticated`
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/github`
     },
 
     /*
@@ -77,7 +77,7 @@ module.exports = {
     instagram: {
       clientId: Env.get('INSTAGRAM_CLIENT_ID'),
       clientSecret: Env.get('INSTAGRAM_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/instagram/authenticated`
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/instagram`
     },
 
     /*
@@ -92,7 +92,7 @@ module.exports = {
     foursquare: {
       clientId: Env.get('FOURSQUARE_ID'),
       clientSecret: Env.get('FOURSQUARE_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/foursquare/authenticated`
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/foursquare`
     },
     
     /*
@@ -108,7 +108,41 @@ module.exports = {
     linkedin: {
       clientId: Env.get('LINKEDIN_ID'),
       clientSecret: Env.get('LINKEDIN_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/linkedin/authenticated`
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/linkedin`
     },
+    
+    /*
+     |--------------------------------------------------------------------------
+     | Twitter Configuration
+     |--------------------------------------------------------------------------
+     |
+     | You can access your application credentials from the Twitter developers
+     | console. https://developer.twitter.com/
+     | 1. APP
+     | 2. Create an app
+     | 3. ....還要review，放棄吧
+     */
+    twitter: {
+      clientId: Env.get('TWITTER_ID'),
+      clientSecret: Env.get('TWITTER_SECRET'),
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/twitter`
+    },
+    
+    /*
+     |--------------------------------------------------------------------------
+     | Plurk Configuration
+     |--------------------------------------------------------------------------
+     |
+     | You can access your application credentials from the Plurk developers
+     | console. https://www.plurk.com/PlurkApp/register
+     | 看來Ally沒有支援
+     */
+    /*
+    plurk: {
+      clientId: Env.get('PLURK_ID'),
+      clientSecret: Env.get('PLURK_SECRET'),
+      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/plurk`
+    },
+     */
   }
 }
