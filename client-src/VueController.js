@@ -56,11 +56,10 @@ if (baseScript.length === 1) {
   baseURL = baseScript.attr('src').split('/').slice(0, 3).join('/')
   //console.log(baseURL)
   config.baseURL = baseURL
+  baseScript.before(`<div id="app"></div>`)
 }
 
 // -----------------------
-
-$('body').append(`<div id="app"></div>`)
 
 // -----------------------
 
@@ -149,9 +148,11 @@ let VueController = {
       
       if (typeof(localConfig) === 'object') {
         for (let key in localConfig) {
-          this.config[key] = localConfig
+          this.config[key] = localConfig[key]
         }
       }
+      
+      console.log(this.config)
     },
     test20191006SubSession: async function () {
       let urlList = [
@@ -214,8 +215,10 @@ let VueController = {
   } // methods: {
 }
 
-$(() => {
-  new Vue(VueController)
-})
+if (baseURL !== undefined) {
+  $(() => {
+    new Vue(VueController)
+  })
+}
 
 window.VueController = VueController
