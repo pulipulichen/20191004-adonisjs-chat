@@ -22,14 +22,15 @@ axios.defaults.credentials = 'include'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-//require('dayjs/locale/zh-tw').default // load on demand
-import 'dayjs/locale/zh-tw' // load on demand
+//import 'dayjs/locale/zh-tw' // load on demand
 dayjs.extend(relativeTime)
+let dayjsLocale = config.locale.toLowerCase()
 try {
-  dayjs.locale(config.locale.toLowerCase())
+  require(`dayjs/locale/${dayjsLocale}`).default // load on demand
+  dayjs.locale(dayjsLocale)
 }
 catch (e) {
-  console.error('dayjs locale is error: ' + config.locale.toLowerCase())
+  console.error(`dayjs locale is error: ${dayjsLocale}`)
 }
 
 // --------------------
