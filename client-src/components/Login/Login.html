@@ -53,14 +53,16 @@
     
     <button type="button" 
             class="ui button"
-            v-on:click="loginWithGoogle">
+            v-on:click="loginFromGoogle">
       {{ $t('Login from Google') }}
     </button>
     
-    <button type="button" 
-            class="ui button"
-            v-on:click="loginWithGitHub">
-      {{ $t('Login from GitHub') }}
-    </button>
+    <a v-bind:href="config.baseURL + '/oauth/github'"
+       target="LoginFromGitHub">
+      <button type="button" 
+              class="ui button">
+        {{ $t('Login from GitHub') }}
+      </button>
+    </a>
   </div>
 </div>

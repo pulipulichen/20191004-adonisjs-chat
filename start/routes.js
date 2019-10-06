@@ -18,6 +18,8 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
+// ------------------------------------------
+
 const Database = use('Database')
 const User = use('App/Models/User')
 
@@ -43,6 +45,8 @@ Route.get('/user/create', async ({ request, response, view }) => {
   //return {'aaa': 'ok'}
 })
 
+// -----------------------------------------
+
 Route.get('/user/login', 'UserController.login')
 Route.get('/user/register', 'UserController.register')
 Route.get('/user/logout', 'UserController.logout')
@@ -53,6 +57,18 @@ Route.get('/message/sync-list', 'MessageController.syncList')
 Route.post('/message/insert', 'MessageController.insert')
 
 //Route.get('/message/test', 'MessageController.test')
+
+// ------------------------------------
+
+Route.get('/oauth/github', async ({ ally }) => {
+  await ally.driver('github').redirect()
+})
+
+Route.get('/authenticated/github', async ({ ally }) => {
+  const user = await ally.driver('github').getUser()
+  console.log(user.toJSON())
+  return user
+})
 
 // ----------------
 // For session test

@@ -7,6 +7,7 @@
     "v-bind:class": {},
     "v-if": {},
     "v-on:click": {},
+    "v-bind:href": {},
     "v-for": {},
     "v-model": {}
   }
