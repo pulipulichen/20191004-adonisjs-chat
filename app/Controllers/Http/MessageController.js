@@ -4,13 +4,13 @@ const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
 class MessageController {
-  async list ({ request, response, view, session }) {
+  async list ({ request, response, view }) {
     // 列出最近10則訊息
     const messages = await Message.list(10)
     //await messages.user().fetch()
     return messages.toJSON().reverse()
   }
-  async syncList ({ request, response, view, session }) {
+  async syncList ({ request, response, view, auth }) {
     const query = request.get()
     let lastUpdateTimestamp = query.lastUpdateTimestamp
     //console.log(lastUpdateTimestamp)
@@ -19,7 +19,8 @@ class MessageController {
     }
     lastUpdateTimestamp = parseInt(lastUpdateTimestamp, 10)
     
-    let userId = session.get('userId', false)
+    let user = await auth.getUser()
+    let userId = user.id
     
     let messages = await Message
             .query()
@@ -30,23 +31,20 @@ class MessageController {
     
     return messages.toJSON()
   }
-  async insert ({ request, response, view, session }) {
+  async insert ({ request, response, view, auth }) {
     const query = request.post()
     //console.log(query)
     if (typeof(query.message) !== 'string') {
       return false
     }
     
-    let userId = session.get('userId', false)
+    let user = await auth.getUser()
+    let userId = user.id
+    //let userId = session.get('userId', false)
     //console.log(session.get('userId'))
     //console.log(userId)
     if (userId === false) {
       //userId = 1
-      return false
-    }
-    
-    let user = await User.find(userId)
-    if (user === null) {
       return false
     }
     

@@ -90,11 +90,11 @@ module.exports = {
       let aURL = `${this.config.baseURL}/c`
       let bURL = `${this.config.baseURL}/b`
       
-      let b1r = await window.axios.get(bURL)
+      let b1r = await this.lib.axios.get(bURL)
       console.log(b1r.data)
       
       //await axios.get(`${this.config.baseURL}/c`, {
-      await window.axios.get(aURL)
+      await this.lib.axios.get(aURL)
       let r = await this.lib.axios.get(bURL)
       console.log(r.data)
       return false
@@ -121,7 +121,7 @@ module.exports = {
       console.log(b1r.data)
        */
       //return
-      let result = await window.axios.post(`${this.config.baseURL}/message/insert`, {
+      let result = await this.lib.axios.post(`${this.config.baseURL}/message/insert`, {
         message: this.writingMessage
       })
       //console.log(this.writingMessage)
