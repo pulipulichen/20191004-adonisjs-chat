@@ -39,7 +39,7 @@ import routes from './routes'
 // --------------------
 // Components
 
-import Chat from './components/Chat/Chat.vue'
+import Auth from './components/Auth/Auth.vue'
 
 // ----------------------
 
@@ -49,7 +49,7 @@ let $ = require('jquery')
 // 確認 baseURL
 
 let baseURL
-let baseScript = $('script#ChatAPP:first')
+let baseScript = $(`script#${config.appName}:first`)
 if (baseScript.length === 1) {
   baseURL = baseScript.attr('src').split('/').slice(0, 3).join('/')
   //console.log(baseURL)
@@ -71,6 +71,12 @@ let VueController = {
         v-bind:status="status"
         v-bind:progress="progress"
         v-bind:lib="lib"></router-view>
+  
+    <auth v-bind:config="config"
+        v-bind:status="status"
+        v-bind:progress="progress"
+        v-bind:lib="lib"
+        ref="auth"></auth>
   </div>
 `,
   data: {
@@ -96,23 +102,54 @@ let VueController = {
   },
   components: { 
     //"chat-room": Chat
+    auth: Auth
   },
   router: new VueRouter({
     routes: routes
   }),
   watch: {
-    
+    'status.username': function () {
+      let path = '/login'
+      if (typeof(this.status.username) === 'string') {
+        path = '/chat'
+      }
+      
+      if (this.$router.currentRoute.fullPath !== path) {
+        this.$router.replace(path)
+      }
+    }
   },
-  mounted: async function () {
+  created: function () {
     if (this.$router.currentRoute.fullPath !== '/') {
       this.$router.replace('/')
     }
-    await this.checkLogin()
+  },
+  mounted: async function () {
+    this.loadLocalConfig()
+    /*
+    if (typeof(this.config.username) !== 'string' 
+            && typeof(this.config.usernameQueryURL) === 'string') {
+      this.config.username = await loginComponent.methods.loadUsernameFromURL()
+    }
+    if (typeof(this.config.username) === 'string') {
+      await loginComponent.methods.attemptLoginViaUsername(this.config.username)
+    }
+    */
+    //await this.checkLogin()
     
     //await this.testSession()
     //await this.test20191006SubSession()
   },  // mounted: function () {
   methods: {
+    loadLocalConfig: function () {
+      let localConfig = window[`${this.config.appName}_CONFIG`]
+      
+      if (typeof(localConfig) === 'object') {
+        for (let key in localConfig) {
+          this.config[key] = localConfig
+        }
+      }
+    },
     test20191006SubSession: async function () {
       let urlList = [
         //`${this.config.baseURL}/sub1/a`,
@@ -171,30 +208,6 @@ let VueController = {
       
       return false
     },
-    checkLogin: async function () {
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      //console.log(result.data)
-      /*
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
-      console.log(result.data)
-      
-      // 這時候不應該有登入記錄了！！！
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      console.log(result.data)
-      */
-      let path = this.$router.currentRoute.fullPath
-      if (result.data === false) {
-        if (path !== '/login') {
-          this.$router.replace('/login')
-        }
-      }
-      else {
-        this.status.username = result.data
-        if (path !== '/chat') {
-          this.$router.replace('/chat')
-        }
-      }
-    }
   } // methods: {
 }
 

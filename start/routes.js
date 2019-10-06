@@ -51,6 +51,7 @@ Route.get('/user/login', 'UserController.login')
 Route.get('/user/register', 'UserController.register')
 Route.get('/user/logout', 'UserController.logout')
 Route.get('/user/check-login', 'UserController.checkLogin')
+Route.get('/user/attempt-login-via-username', 'UserController.attemptLoginViaUsername')
 
 Route.get('/message/list', 'MessageController.list')
 Route.get('/message/sync-list', 'MessageController.syncList')

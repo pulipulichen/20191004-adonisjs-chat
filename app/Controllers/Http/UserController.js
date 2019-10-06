@@ -7,7 +7,12 @@ const Hash = use('Hash')
 
 class UserController {
   async login ({ request, auth }) {
+    let origin = this.filterOrigin(request)
     const query = request.get()
+    
+    return await this.attempLogin(auth, query, origin)
+    
+    /*
     try {
       await auth.remember(true).attempt(query.username, query.password)
       return {}
@@ -15,6 +20,7 @@ class UserController {
     catch (error) {
       return {error: 'Login error'}
     }
+    */
 
     /*
     let user = await User.findBy({
@@ -41,12 +47,34 @@ class UserController {
     }
     */
   }
+  
+  async attempLogin(auth, query, origin) {
+    let user = await User.findBy({
+      username: query.username,
+      origin: origin
+    })
+    
+    if (user === null) {
+      return {error: 'no-user'}
+    }
+    
+    let match = await user.validatePassword(query.passowrd)
+    if (match === false) {
+      return {error: 'password-wrong'}
+    }
+    
+    await auth.remember(true).login(user)
+    return {}
+  }
+  
   async register({ request, response, view, session, auth }) {
+    let origin = this.filterOrigin(request)
     const query = request.get()
     //console.log(query)
 
     let user = await User.findBy({
-      username: query.username
+      username: query.username,
+      origin: origin
     })
 
     if (user === null) {
@@ -56,6 +84,7 @@ class UserController {
       user.username = query.username
       user.email = query.email
       user.password = query.password
+      user.origin = query.origin
 
       let result = await user.save()
       //console.log(result)
@@ -73,31 +102,10 @@ class UserController {
 
     // --------------
     // 走登入
-    
-    try {
-      await auth.remember(true).attempt(query.username, query.password)
-      return {}
-    }
-    catch (error) {
-      return {error}
-    }
-    /*
-    //let queryPassword = await Hash.make(query.password)
-    let queryPassword = query.password
-    const isSame = await user.validatePassword(queryPassword)
-
-    if (isSame) {
-      session.put('userId', user.id)
-      return {}
-    } else {
-      session.forget('userId')
-      return {
-        error: 'user-is-existed'
-      }
-    }
-    */
+    return await this.attempLogin(auth, query, origin)
   }
-  async logout ({ session, auth }) {
+  
+  async logout ({ auth }) {
     //session.forget('userId')
     //console.log(session.get('userId'))
     //return {userId: session.get('useuser_idrId')}
@@ -110,7 +118,14 @@ class UserController {
       return {error}
     }
   }
-  async checkLogin ({auth, session}) {
+  
+  filterOrigin (request) {
+    let origin = request.headers().origin
+    return origin
+  }
+  
+  async checkLogin ({auth}) {
+    //let origin = this.filterOrigin(request)
     /*
     let userId = session.get('userId', false)
     console.log('check-login',session.get('userId'))
@@ -137,53 +152,30 @@ class UserController {
      */
   }
   
-  /*
-  async oauthGitHub({ally}) {
-    await ally.driver('github').stateless().redirect()
+  async attemptLoginViaUsername ({auth, request}) {
+    let origin = this.filterOrigin(request)
+    const query = request.get()
+    
+    let user = await User.findBy({
+      username: query.username,
+      origin: origin
+    })
+    
+    if (user === null) {
+      return {error: 'no-user'}
+    }
+    
+    await auth.remember(true).login(user)
+    return user.username
   }
-  async oauthGitHubCallback({ally}) {
-    let returnScript = await this.oauthCallback(ally, 'github', 'oauth_github_id')
-    return returnScript
-  }
-  
-  async oauthGoogle({ally}) {
-    await ally.driver('google').stateless().redirect()
-  }
-  async oauthGoogleCallback({ally}) {
-    let returnScript = await this.oauthCallback(ally, 'google', 'oauth_google_id')
-    return returnScript
-  }
-  
-  async oauthInstagram({ally}) {
-    await ally.driver('instagram').stateless().redirect()
-  }
-  async oauthInstagramCallback({ally}) {
-    let returnScript = await this.oauthCallback(ally, 'instagram', 'oauth_instagram_id')
-    return returnScript
-  }
-  
-  async oauthFoursquare({ally}) {
-    await ally.driver('foursquare').stateless().redirect()
-  }
-  async oauthFoursquareCallback({ally}) {
-    let returnScript = await this.oauthCallback(ally, 'foursquare', 'oauth_foursquare_id')
-    return returnScript
-  }
-  
-  async oauthLinkedIn({ally}) {
-    await ally.driver('linkedin').stateless().redirect()
-  }
-  async oauthLinkedInCallback({ally}) {
-    let returnScript = await this.oauthCallback(ally, 'linkedin', 'oauth_linkedin_id')
-    return returnScript
-  }
-   */
   
   async oauthRequest({ally, params}) {
     await ally.driver(params.driver).stateless().redirect()
   }
   
-  async oauthAuthenticated({ally, params}) {
+  async oauthAuthenticated({ally, params, request}) {
+    let origin = this.filterOrigin(request)
+    
     let driver = params.driver
     //console.log(driver)
     let oauthUser = await ally.driver(driver).getUser()
@@ -206,6 +198,7 @@ class UserController {
     let user, userOauth
     userOauth = await UserOAuth.findBy({
       driver: driver,
+      origin: origin,
       oauth_id: oauthID
     })
     
@@ -221,7 +214,8 @@ class UserController {
     let email = oauthUser.email
     if (typeof(email) === 'string') {
       user = await User.findBy({
-        email: email
+        email: email,
+        origin: origin
       })
 
       if (user !== null) {
@@ -248,6 +242,7 @@ class UserController {
     }
     user.username = user.username + '@' + driver
     user.email = email 
+    user.origin = origin
     //user[field] = oauthID
     //user.password = oauthUser.password
 
