@@ -10,11 +10,41 @@ class Message extends Model {
     this.addHook('beforeCreate', async (instance) => {
       instance.timestamp = (new Date()).getTime()
     })
+    
   }
   
   user () {
     return this.belongsTo('App/Models/User')
   }
+  
+  static async list (limit = 10) {
+    let transaction = Message
+            .query()
+            .with('user')
+    
+    let messages
+    if (typeof(limit) !== 'number') {
+      messages = await transaction.fetch()
+    }
+    else {
+      messages = await transaction.pickInverse(10)
+    }
+    return messages
+  }
+  
+  /*
+  static get computed() {
+    return ['username']
+  }
+  
+  async getUsername() {
+    let user = await this.belongsTo('App/Models/User').fetch()
+    console.log(user.username)
+    //console.log(user.toJSON())
+    //return user.username
+    return user.username
+  }
+   */
 }
 
 module.exports = Message

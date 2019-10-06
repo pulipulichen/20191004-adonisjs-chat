@@ -35,7 +35,7 @@ module.exports = {
     },
     initDisplayMessages: async function () {
       let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
-      console.log(messages.data)
+      //console.log(messages.data)
       this.displayMessages = messages.data
       //console.log(this.messages)
       this.lastUpdateTimestamp = this.getTime()
@@ -50,7 +50,7 @@ module.exports = {
           lastUpdateTimestamp: this.lastUpdateTimestamp
         }
       })
-      console.log(messages.data)
+      //console.log(messages.data)
       this.displayMessages = this.displayMessages.concat(messages.data)
       
       this.lastUpdateTimestamp = this.getTime()
@@ -104,7 +104,9 @@ module.exports = {
       console.log(result.data)
       
       this.displayMessages.push({
-        username: this.status.username,
+        user: {
+          username: this.status.username,
+        },
         message: this.writingMessage,
         timestamp: result.data
       })
