@@ -110,7 +110,34 @@ module.exports = {
       }
     },
     loginFromOAuth(driver) {
-      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', 'location=0,status=0,width=800,height=400')
+      //screen.availHeight
+      let width = 400
+      if (width > screen.availWidth) {
+        width = screen.availWidth
+      }
+      
+      let height = 600
+      if (height > screen.availHeight) {
+        height = screen.availHeight
+      }
+      
+      var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+      var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+      //var screenWidth = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+      //var screenHeight = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+      var screenWidth = screen.availWidth
+      var screenHeight = screen.availHeight
+
+      //var systemZoom = width / window.screen.availWidth;
+      var systemZoom = 1
+      var left = ((screenWidth - width) / 2) + dualScreenLeft
+      var top = ((screenHeight - height) / 2) + dualScreenTop
+      
+      //width = width / systemZoom
+      //height = height / systemZoom
+      
+      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', `location=0,menubar=no,copyhistory=no,directories=0,status=0,width=${width},height=${height},top=${top},left=${left}`)
       this.loginOAuthCallback(win)
       //this.oauthURL = `${this.config.baseURL}/oauth/request/${driver}`
     },
