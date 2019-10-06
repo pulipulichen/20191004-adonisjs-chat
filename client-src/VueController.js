@@ -173,7 +173,7 @@ let VueController = {
     },
     checkLogin: async function () {
       var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      console.log(result.data)
+      //console.log(result.data)
       /*
       var result = await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
       console.log(result.data)

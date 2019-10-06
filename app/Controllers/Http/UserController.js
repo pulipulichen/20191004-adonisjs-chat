@@ -136,10 +136,14 @@ class UserController {
   }
   
   async oauthGitHub({ally, request, session}) {
+    console.log(session.get('oauthReferer'))
+    return session.get('oauthReferer')
     // 這邊有辦法取得referer嗎？
     let referer = request.headers().referer
     //console.log(request.headers().referer)
     //console.log(referer)
+    //response.cookie('cartValue', 210)
+    //console.log('cookie', response.cookie('cartValue'))
     if (typeof(referer) !== 'string') {
       return false
     }
@@ -149,11 +153,15 @@ class UserController {
     await ally.driver('github').stateless().redirect()
   }
   async oauthGitHubCallback({ally, auth, response, session}) {
+    console.log(session.get('oauthReferer'))
+    return session.get('oauthReferer')
+    
     await auth.logout()
     
     let oauthUser = await ally.driver('github').getUser()
     console.log(session._sessionId)
     console.log(session.get('oauthReferer'))
+    //console.log('cookie', response.cookie('cartValue'))
     if (session.get('oauthReferer') === null) {
       return false
     }
