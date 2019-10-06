@@ -109,7 +109,7 @@ let VueController = {
       
       let _this = this
       //setTimeout(async function () {
-        await _this.lib.axios.get(dURL)
+        //await _this.lib.axios.get(dURL)
         r = await _this.lib.axios.get(bURL)
         console.log('應該要沒有資料', r.data)
       //}, 3000)

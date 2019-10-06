@@ -60,7 +60,7 @@ Route.post('/message/insert', 'MessageController.insert')
 Route.get('/a/a', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   console.log(request.header('cookie'))
-  session.put('user_id', 'a')
+  session.put('a', 'a')
   //response.redirect('/b/b')
   return `<a href="/b/b">/b/b</a> <br />
   <a href="/a/b">/a/b</a>`
@@ -69,26 +69,32 @@ Route.get('/a/a', ({ session, request, response }) => {
 Route.get('/d/d', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   //console.log(request.header('cookie'))
-  session.forget('userId')
+  session.forget('a', {
+    path: '/'
+  })
   //session.forget('user_id')
   //session.commit()
   let result = session.get('a') // 'virk'
   console.log('d', result)
+  return result
 })
 
 
 Route.get('/c/c', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   //console.log(request.header('cookie'))
-  session.put('userId', 'aaa')
+  session.put('a', 'aaa', {
+    path: '/'
+  })
   //session.commit()
   let result = session.get('a') // 'virk'
   console.log('c', result)
+  return result
 })
 
 Route.get('/b/b', ({ session, request }) => {
   //console.log(request.header('cookie'))
-  let result = session.get('userId') // 'virk'
+  let result = session.get('a') // 'virk'
   console.log('b', result)
   if (result !== null) {
     return result // 'virk'
@@ -100,7 +106,7 @@ Route.get('/b/b', ({ session, request }) => {
 
 Route.get('/a/b', ({ session, request }) => {
   //console.log(request.header('cookie'))
-  let result = session.get('userId') // 'virk'
+  let result = session.get('a') // 'virk'
   console.log('b', result)
   if (result !== null) {
     return 'same path: ' + result // 'virk'
