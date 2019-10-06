@@ -112,6 +112,24 @@ module.exports = {
     loginFromGoogle() {
       console.log('loginWithGoogle')
     },
+    loginFromGitHub() {
+      let win = window.open(`${this.config.baseURL}/oauth/github`, '_blank')
+      let timer = setInterval(async () => { 
+        if (win.closed) {
+          clearInterval(timer);
+          
+          let result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`, {
+            withCredentials: false
+          })
+          
+          console.log(result.data)
+          if (result.data !== false) {
+            this.status.username = result.data
+            this.$router.replace('/chat')
+          }
+        }
+      }, 1000);
+    },
     validateEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(String(email).toLowerCase());

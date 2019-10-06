@@ -135,36 +135,13 @@ class UserController {
      */
   }
   
-  async oauthGitHub({ally, request, session}) {
-    console.log(session.get('oauthReferer'))
-    return session.get('oauthReferer')
-    // 這邊有辦法取得referer嗎？
-    let referer = request.headers().referer
-    //console.log(request.headers().referer)
-    //console.log(referer)
-    //response.cookie('cartValue', 210)
-    //console.log('cookie', response.cookie('cartValue'))
-    if (typeof(referer) !== 'string') {
-      return false
-    }
-    console.log(session._sessionId)
-    session.put('oauthReferer', referer)
-    
+  async oauthGitHub({ally}) {
     await ally.driver('github').stateless().redirect()
   }
-  async oauthGitHubCallback({ally, auth, response, session}) {
-    console.log(session.get('oauthReferer'))
-    return session.get('oauthReferer')
-    
+  async oauthGitHubCallback({ally, auth}) {
     await auth.logout()
     
     let oauthUser = await ally.driver('github').getUser()
-    console.log(session._sessionId)
-    console.log(session.get('oauthReferer'))
-    //console.log('cookie', response.cookie('cartValue'))
-    if (session.get('oauthReferer') === null) {
-      return false
-    }
     
     // -------------------------
     // 先找找看有沒有這個id
@@ -183,8 +160,8 @@ class UserController {
     if (user !== null) {
       await auth.login(user)
       //return user.id
-      response.redirect(session.pull('oauthReferer'))
-      return
+      //response.redirect(session.pull('oauthReferer'))
+      return `<script>window.close()</script>`
     }
     
     // -------------------------
@@ -200,8 +177,8 @@ class UserController {
       user.save()
       await auth.login(user)
       //return user.id
-      response.redirect(session.pull('oauthReferer'))
-      return
+      //response.redirect(session.pull('oauthReferer'))
+      return `<script>window.close()</script>`
     }
     
     // -------------------------
@@ -219,8 +196,8 @@ class UserController {
     await user.save()
     await auth.login(user)
     //return user.id
-    response.redirect(session.pull('oauthReferer'))
-    return
+    //response.redirect(session.pull('oauthReferer'))
+    return `<script>window.close()</script>`
   }
 }
 

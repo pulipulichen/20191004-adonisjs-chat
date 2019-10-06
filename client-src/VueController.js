@@ -17,7 +17,7 @@ Vue.use(VueRouter)
 
 import axios from 'axios'
 axios.defaults.withCredentials = true
-axios.defaults.credentials = 'include'
+//axios.defaults.credentials = 'include'
 //window.axios = axios
 
 import dayjs from 'dayjs'
