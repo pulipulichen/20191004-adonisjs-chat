@@ -13,6 +13,7 @@ module.exports = {
       displayMessages: [],
       writingMessage: 'test message',
       lastUpdateTimestamp: null,
+      stopSync: false,
       users: [] // for test
     }
   },
@@ -20,17 +21,23 @@ module.exports = {
     
   },
   watch: {
-    'status.username': async function () {
-      if (this.username !== '') {
-        await this.initDisplayMessages()
+    /*
+    'status.username': function () {
+      console.log(this.status.username)
+      if (this.status.username !== '') {
+        this.initDisplayMessages()
       }
     }
+    */
   },
-  mounted: async function () {
-    //await this.initDisplayMessages()
-    //this.loadUsers()
-    
+  mounted: function () {
+    this.initDisplayMessages()
+    this.loadUsers()
     //this.testSession()
+  },
+  destroyed: function () {
+    this.stopSync = true
+    //console.log('destroyed')
   },
   methods: {
     loadUsers: async function () {
@@ -49,7 +56,7 @@ module.exports = {
       }, 5000)
     },
     syncDisplayMessages: async function () {
-      if (this.status.username === '') {
+      if (this.stopSync === true) {
         return false
       }
       

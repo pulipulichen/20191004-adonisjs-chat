@@ -63,7 +63,7 @@ module.exports = {
   | cookie
   |
   */
-  secret: 'whatever',
+  //secret: 'whatever',
   cookie: {
     secure: false,
     httpOnly: true,

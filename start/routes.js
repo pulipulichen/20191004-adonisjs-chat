@@ -66,6 +66,16 @@ Route.get('/a/a', ({ session, request, response }) => {
   <a href="/a/b">/a/b</a>`
 })
 
+Route.get('/d/d', ({ session, request, response }) => {
+  //console.log(session._driverInstance.Store._sessionID)
+  //console.log(request.header('cookie'))
+  session.forget('a')
+  session.forget('user_id')
+  //session.commit()
+  let result = session.get('a') // 'virk'
+  console.log('d', result)
+})
+
 
 Route.get('/c/c', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)

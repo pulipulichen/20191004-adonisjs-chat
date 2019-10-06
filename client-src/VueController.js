@@ -89,27 +89,34 @@ let VueController = {
   },
   mounted: async function () {
     await this.checkLogin()
-    //await this.testSession()
     
+    await this.testSession()
   },  // mounted: function () {
   methods: {
     testSession: async function () {
       let aURL = `${this.config.baseURL}/c/c`
       let bURL = `${this.config.baseURL}/b/b`
+      let dURL = `${this.config.baseURL}/d/d`
       
-      let b1r = await window.axios.get(bURL)
-      console.log(b1r.data)
+      let r
+      r = await window.axios.get(bURL)
+      console.log(r.data)
       
       //await axios.get(`${this.config.baseURL}/c`, {
       await this.lib.axios.get(aURL)
-      let r = await window.axios.get(bURL)
+      r = await window.axios.get(bURL)
       console.log(r.data)
       
+      await this.lib.axios.get(dURL)
+      r = await window.axios.get(bURL)
+      console.log(r.data)
+      
+      /*
       setTimeout(async () => {
         let r2 = await window.axios.get(bURL)
         console.log(r2.data)
-      }, 10000)
-      
+      }, 1000)
+      */
       
       return false
     },
