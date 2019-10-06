@@ -10,7 +10,7 @@ class UserSchema extends Schema {
       table.string('username', 80).notNullable().unique()
       //table.string('email', 254).notNullable().unique()
       table.string('email', 254).notNullable()
-      table.string('password', 60).notNullable()
+      table.string('password', 60)
       table.integer('oauth_google_id').unique()
       table.integer('oauth_github_id').unique()
       table.timestamps()

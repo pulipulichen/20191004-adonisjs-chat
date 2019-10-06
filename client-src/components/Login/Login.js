@@ -89,7 +89,7 @@ module.exports = {
       })
       
       let user = result.data
-      
+      //console.log(user)
       if (typeof(user.error) === 'string') {
         if (user.error === 'no-user') { 
           this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])

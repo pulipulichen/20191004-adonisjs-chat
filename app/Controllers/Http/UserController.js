@@ -4,14 +4,14 @@ const User = use('App/Models/User')
 const Hash = use('Hash')
 
 class UserController {
-  async login ({ request, response, view, session, auth }) {
-    const query = request.all()
+  async login ({ request, auth }) {
+    const query = request.get()
     try {
       await auth.remember(true).attempt(query.username, query.password)
       return {}
     }
     catch (error) {
-      return {error}
+      return {error: 'Login error'}
     }
 
     /*
@@ -133,6 +133,86 @@ class UserController {
       return user.username
     }
      */
+  }
+  
+  async oauthGitHub({ally, request, session}) {
+    // 這邊有辦法取得referer嗎？
+    let referer = request.headers().referer
+    //console.log(request.headers().referer)
+    //console.log(referer)
+    if (typeof(referer) !== 'string') {
+      return false
+    }
+    console.log(session._sessionId)
+    session.put('oauthReferer', referer)
+    
+    await ally.driver('github').stateless().redirect()
+  }
+  async oauthGitHubCallback({ally, auth, response, session}) {
+    await auth.logout()
+    
+    let oauthUser = await ally.driver('github').getUser()
+    console.log(session._sessionId)
+    console.log(session.get('oauthReferer'))
+    if (session.get('oauthReferer') === null) {
+      return false
+    }
+    
+    // -------------------------
+    // 先找找看有沒有這個id
+    oauthUser = oauthUser.toJSON()
+    //console.log(oauthUser)
+    
+    let oauthID = oauthUser.id
+    
+    let user
+    user = await User.findBy({
+      oauth_github_id: oauthID
+    })
+    
+    //console.log(user)
+    
+    if (user !== null) {
+      await auth.login(user)
+      //return user.id
+      response.redirect(session.pull('oauthReferer'))
+      return
+    }
+    
+    // -------------------------
+    // 嘗試用email合併既有的帳號
+    
+    let email = oauthUser.email
+    user = await User.findBy({
+      email: email
+    })
+    
+    if (user !== null) {
+      user.oauth_github_id = oauthID
+      user.save()
+      await auth.login(user)
+      //return user.id
+      response.redirect(session.pull('oauthReferer'))
+      return
+    }
+    
+    // -------------------------
+    // 在這裡建立user並且嘗試登入
+    user = new User()
+
+    user.username = oauthUser.name
+    if (typeof(oauthUser.nickname) === 'string') {
+      user.username = oauthUser.nickname
+    }
+    user.email = oauthUser.email
+    user.oauth_github_id = oauthUser.id
+    //user.password = oauthUser.password
+
+    await user.save()
+    await auth.login(user)
+    //return user.id
+    response.redirect(session.pull('oauthReferer'))
+    return
   }
 }
 

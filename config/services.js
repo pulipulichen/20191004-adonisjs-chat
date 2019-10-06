@@ -59,7 +59,7 @@ module.exports = {
     github: {
       clientId: Env.get('GITHUB_CLIENT_ID'),
       clientSecret: Env.get('GITHUB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/github`
+      redirectUri: `${Env.get('APP_URL')}/oauth/github/authenticated`
     },
 
     /*
