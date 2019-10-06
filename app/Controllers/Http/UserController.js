@@ -95,13 +95,13 @@ class UserController {
     }
     */
   }
-  logout ({ session, auth }) {
+  async logout ({ session, auth }) {
     //session.forget('userId')
     //console.log(session.get('userId'))
     //return {userId: session.get('useuser_idrId')}
     
     try {
-      auth.logout()
+      await auth.logout()
       return true
     }
     catch (error) {
