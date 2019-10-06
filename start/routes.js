@@ -144,6 +144,19 @@ Route.get('/sub2/b', ({ session, request }) => {
   }
 })
 
+Route.get('/sub2/c', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  session.forget('sub1-a')
+  let result = session.get('sub1-a') // 'virk'
+  console.log('sub2 b', result)
+  if (result !== null) {
+    return 'diff path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
 
 
 Route.get('/sub1.a', ({ session, request }) => {

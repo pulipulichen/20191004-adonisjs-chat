@@ -26,7 +26,7 @@ class UserController {
     const isSame = await user.validatePassword(queryPassword)
     
     if (isSame) {
-      console.log(user.id)
+      console.log('login', user.id)
       session.put('userId', user.id)
       return {}
     } else {
@@ -55,10 +55,10 @@ class UserController {
       let result = await user.save()
       //console.log(result)
       if (result === true) {
-        session.put('user_id', user.id)
+        session.put('userId', user.id)
         return {}
       } else {
-        session.forget('user_id')
+        session.forget('userId')
         return {
           error: 'add-user-failed'
         }
@@ -73,23 +73,23 @@ class UserController {
     const isSame = await user.validatePassword(queryPassword)
 
     if (isSame) {
-      session.put('user_id', user.id)
+      session.put('userId', user.id)
       return {}
     } else {
-      session.forget('user_id')
+      session.forget('userId')
       return {
         error: 'user-is-existed'
       }
     }
   }
   logout ({ session }) {
-    session.forget('user_id')
-    console.log(session.get('user_id'))
+    session.forget('userId')
+    console.log(session.get('userId'))
     return {userId: session.get('useuser_idrId')}
   }
   async checkLogin ({session}) {
-    let userId = session.get('user_id', false)
-    console.log(session.get('user_id'))
+    let userId = session.get('userId', false)
+    console.log('check-login',session.get('userId'))
     if (userId === false) {
       return false
     }

@@ -88,10 +88,13 @@ let VueController = {
     
   },
   mounted: async function () {
+    if (this.$router.currentRoute.path !== '/') {
+      this.$router.replace('/')
+    }
     //await this.checkLogin()
     
     //await this.testSession()
-    await this.test20191006SubSession()
+    //await this.test20191006SubSession()
   },  // mounted: function () {
   methods: {
     test20191006SubSession: async function () {
@@ -99,6 +102,9 @@ let VueController = {
         //`${this.config.baseURL}/sub1/a`,
         //`${this.config.baseURL}/sub1/b`,
         //`${this.config.baseURL}/sub2/b`,
+        `${this.config.baseURL}/sub2/b`,
+        `${this.config.baseURL}/sub1/b`,
+        `${this.config.baseURL}/sub2/c`,
         `${this.config.baseURL}/sub1/a`,
         `${this.config.baseURL}/sub1/b`,
         `${this.config.baseURL}/sub2/b`,

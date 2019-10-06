@@ -1,5 +1,8 @@
 {
-  "elements": {},
+  "elements": {
+    "style": {},
+    "i18n": {}
+  },
   "attributes": {
     "v-bind:class": {},
     "v-if": {},
