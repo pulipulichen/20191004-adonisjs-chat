@@ -62,10 +62,21 @@ Route.post('/message/insert', 'MessageController.insert')
 
 Route.get('/oauth/github', 'UserController.oauthGitHub')
 Route.get('/oauth/github/authenticated', 'UserController.oauthGitHubCallback')
-Route.get('/oauth/login', 'UserController.oauthLogin')
 
 Route.get('/oauth/google', 'UserController.oauthGoogle')
 Route.get('/oauth/google/authenticated', 'UserController.oauthGoogleCallback')
+
+Route.get('/oauth/instagram', 'UserController.oauthInstagram')
+Route.get('/oauth/instagram/authenticated', 'UserController.oauthInstagramCallback')
+
+Route.get('/oauth/foursquare', 'UserController.oauthFoursquare')
+Route.get('/oauth/foursquare/authenticated', 'UserController.oauthFoursquareCallback')
+
+Route.get('/oauth/linkedin', 'UserController.oauthLinkedIn')
+Route.get('/oauth/linkedin/authenticated', 'UserController.oauthLinkedInCallback')
+
+
+Route.get('/oauth/login', 'UserController.oauthLogin')
 
 // ----------------
 // For session test

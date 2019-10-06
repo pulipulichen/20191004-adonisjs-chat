@@ -118,6 +118,18 @@ module.exports = {
       let win = window.open(`${this.config.baseURL}/oauth/github`, '_blank')
       this.loginOAuthCallback(win)
     },
+    loginFromInstagram() {
+      let win = window.open(`${this.config.baseURL}/oauth/instagram`, '_blank')
+      this.loginOAuthCallback(win)
+    },
+    loginFromFoursquare() {
+      let win = window.open(`${this.config.baseURL}/oauth/foursquare`, '_blank')
+      this.loginOAuthCallback(win)
+    },
+    loginFromLinkedIn() {
+      let win = window.open(`${this.config.baseURL}/oauth/linkedin`, '_blank')
+      this.loginOAuthCallback(win)
+    },
     loginOAuthCallback: function (win) {
       let callback = async (e) => {
         win.close()

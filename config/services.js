@@ -71,12 +71,13 @@ module.exports = {
      |
      | You can access your application credentials from the instagram developers
      | console. https://www.instagram.com/developer/
-     |
+     | 1. Register Your Application
+     | 2. 
      */
     instagram: {
       clientId: Env.get('INSTAGRAM_CLIENT_ID'),
       clientSecret: Env.get('INSTAGRAM_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/instagram`
+      redirectUri: `${Env.get('APP_URL')}/oauth/instagram/authenticated`
     },
 
     /*
@@ -91,7 +92,23 @@ module.exports = {
     foursquare: {
       clientId: Env.get('FOURSQUARE_ID'),
       clientSecret: Env.get('FOURSQUARE_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/foursquare`
-    }
+      redirectUri: `${Env.get('APP_URL')}/oauth/foursquare/authenticated`
+    },
+    
+    /*
+     |--------------------------------------------------------------------------
+     | LinkedIn Configuration
+     |--------------------------------------------------------------------------
+     |
+     | You can access your application credentials from the LinkedIn developers
+     | console. https://developer.linkedin.com/
+     | 1. Create APP
+     | 2. 
+     */
+    linkedin: {
+      clientId: Env.get('LINKEDIN_ID'),
+      clientSecret: Env.get('LINKEDIN_SECRET'),
+      redirectUri: `${Env.get('APP_URL')}/oauth/linkedin/authenticated`
+    },
   }
 }

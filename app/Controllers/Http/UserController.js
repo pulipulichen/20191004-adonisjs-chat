@@ -138,7 +138,7 @@ class UserController {
   async oauthGitHub({ally}) {
     await ally.driver('github').stateless().redirect()
   }
-  async oauthGitHubCallback({ally, auth}) {
+  async oauthGitHubCallback({ally}) {
     let returnScript = await this.oauthCallback(ally, 'github', 'oauth_github_id')
     return returnScript
   }
@@ -146,8 +146,32 @@ class UserController {
   async oauthGoogle({ally}) {
     await ally.driver('google').stateless().redirect()
   }
-  async oauthGoogleCallback({ally, auth}) {
+  async oauthGoogleCallback({ally}) {
     let returnScript = await this.oauthCallback(ally, 'google', 'oauth_google_id')
+    return returnScript
+  }
+  
+  async oauthInstagram({ally}) {
+    await ally.driver('instagram').stateless().redirect()
+  }
+  async oauthInstagramCallback({ally}) {
+    let returnScript = await this.oauthCallback(ally, 'instagram', 'oauth_instagram_id')
+    return returnScript
+  }
+  
+  async oauthFoursquare({ally}) {
+    await ally.driver('foursquare').stateless().redirect()
+  }
+  async oauthFoursquareCallback({ally}) {
+    let returnScript = await this.oauthCallback(ally, 'foursquare', 'oauth_foursquare_id')
+    return returnScript
+  }
+  
+  async oauthLinkedIn({ally}) {
+    await ally.driver('linkedin').stateless().redirect()
+  }
+  async oauthLinkedInCallback({ally}) {
+    let returnScript = await this.oauthCallback(ally, 'linkedin', 'oauth_linkedin_id')
     return returnScript
   }
   
@@ -184,14 +208,19 @@ class UserController {
     // 嘗試用email合併既有的帳號
     
     let email = oauthUser.email
-    user = await User.findBy({
-      email: email
-    })
-    
-    if (user !== null) {
-      user[field] = oauthID
-      user.save()
-      return returnScript
+    if (typeof(email) === 'string') {
+      user = await User.findBy({
+        email: email
+      })
+
+      if (user !== null) {
+        user[field] = oauthID
+        user.save()
+        return returnScript
+      }
+    }
+    else {
+      email = oauthID + '@' + driver + '.oauth'
     }
     
     // -------------------------
@@ -202,7 +231,7 @@ class UserController {
     if (typeof(oauthUser.nickname) === 'string') {
       user.username = oauthUser.nickname
     }
-    user.email = oauthUser.email
+    user.email = email
     user[field] = oauthID
     //user.password = oauthUser.password
 
@@ -212,7 +241,7 @@ class UserController {
   
   async oauthLogin({request, auth}) {
     let {field, oauthID} = request.get()
-    console.log([field, oauthID])
+    //console.log([field, oauthID])
     //console.log(typeof(oauth_github_id))
     if (typeof(oauthID) === 'undefined' || typeof(field) === 'undefined') {
       return false
@@ -226,7 +255,7 @@ class UserController {
     
     let user
     user = await User.findBy(query)
-    console.log(user.id)
+    //console.log(user.id)
     if (user !== null) {
       await auth.login(user)
       return user.username
