@@ -10,7 +10,7 @@ class UserController {
 
     if (typeof (query.username) !== 'string') {
       //throw 'Parameters are wrong.'
-      return false
+      return {error: 'no-user'}
     }
 
     let user = await User.findBy({
@@ -26,7 +26,7 @@ class UserController {
     const isSame = await user.validatePassword(queryPassword)
     
     if (isSame) {
-      //console.log(user.id)
+      console.log(user.id)
       session.put('userId', user.id)
       return {}
     } else {

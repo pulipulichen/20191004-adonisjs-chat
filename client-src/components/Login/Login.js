@@ -51,7 +51,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user/register`, {
+      let result = await window.axios.get(`${this.config.baseURL}/user/register`, {
         params: {
           username: this.username,
           email: this.email,
@@ -81,7 +81,7 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user/login`, {
+      let result = await window.axios.get(`${this.config.baseURL}/user/login`, {
         params: {
           username: this.username,
           password: this.password,
