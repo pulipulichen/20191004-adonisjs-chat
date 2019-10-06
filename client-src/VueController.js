@@ -90,17 +90,34 @@ let VueController = {
   mounted: async function () {
     //await this.checkLogin()
     
-    await this.testSession()
+    //await this.testSession()
+    await this.test20191006SubSession()
   },  // mounted: function () {
   methods: {
+    test20191006SubSession: async function () {
+      let urlList = [
+        //`${this.config.baseURL}/sub1/a`,
+        //`${this.config.baseURL}/sub1/b`,
+        //`${this.config.baseURL}/sub2/b`,
+        `${this.config.baseURL}/sub1.a`,
+        `${this.config.baseURL}/sub1.b`,
+        `${this.config.baseURL}/sub2.b`,
+      ]
+      let _this = this
+      urlList.map(async function(url) {
+        let r
+        r = await _this.lib.axios.get(url)
+        console.log(url, r.data)
+      })
+    },
     testSession: async function () {
-      let aURL = `${this.config.baseURL}/c/c`
-      let bURL = `${this.config.baseURL}/b/b`
-      let dURL = `${this.config.baseURL}/d/d`
+      let aURL = `${this.config.baseURL}/c.c`
+      let bURL = `${this.config.baseURL}/b.b`
+      let dURL = `${this.config.baseURL}/d.d`
       
       let r
-      r = await this.lib.axios.get(bURL)
-      console.log('應該要沒有資料', r.data)
+      //r = await this.lib.axios.get(bURL)
+      //console.log('應該要沒有資料', r.data)
       
       //await axios.get(`${this.config.baseURL}/c`, {
       await this.lib.axios.get(aURL)
@@ -109,7 +126,7 @@ let VueController = {
       
       let _this = this
       //setTimeout(async function () {
-        //await _this.lib.axios.get(dURL)
+        await _this.lib.axios.get(dURL)
         r = await _this.lib.axios.get(bURL)
         console.log('應該要沒有資料', r.data)
       //}, 3000)

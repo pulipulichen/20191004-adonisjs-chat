@@ -66,7 +66,7 @@ Route.get('/a/a', ({ session, request, response }) => {
   <a href="/a/b">/a/b</a>`
 })
 
-Route.get('/d/d', ({ session, request, response }) => {
+Route.get('/d.d', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   //console.log(request.header('cookie'))
   session.forget('a', {
@@ -80,19 +80,27 @@ Route.get('/d/d', ({ session, request, response }) => {
 })
 
 
-Route.get('/c/c', ({ session, request, response }) => {
+Route.get('/c.c', async ({ auth, session, request, response }) => {
+  await auth.logout()
+  await auth.remember(true).attempt('pudding', 'test')
+  var user = await auth.getUser()
+  console.log('c.c user.id', user.id)
+  
   //console.log(session._driverInstance.Store._sessionID)
   //console.log(request.header('cookie'))
-  session.put('a', 'aaa', {
-    path: '/'
-  })
+  session.put('a', 'aaa')
+  await session.commit()
   //session.commit()
   let result = session.get('a') // 'virk'
   console.log('c', result)
   return result
+  
 })
 
-Route.get('/b/b', ({ session, request }) => {
+Route.get('/b.b', async ({ session, request, auth }) => {
+  var user = await auth.getUser()
+  console.log('b user.id', user.id)
+  
   //console.log(request.header('cookie'))
   let result = session.get('a') // 'virk'
   console.log('b', result)
@@ -104,12 +112,66 @@ Route.get('/b/b', ({ session, request }) => {
   }
 })
 
-Route.get('/a/b', ({ session, request }) => {
+Route.get('/sub1/a', ({ session, request }) => {
   //console.log(request.header('cookie'))
-  let result = session.get('a') // 'virk'
-  console.log('b', result)
+  session.put('sub1-a', 'ok') // 'virk'
+  let result = session.get('sub1-a') // 'virk'
+  console.log('sub a', result)
+  return result
+})
+
+Route.get('/sub1/b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('sub1-a') // 'virk'
+  console.log('sub1 b', result)
   if (result !== null) {
     return 'same path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
+Route.get('/sub2/b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('sub1-a') // 'virk'
+  console.log('sub2 b', result)
+  if (result !== null) {
+    return 'diff path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
+
+
+Route.get('/sub1.a', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  session.put('sub2-a', 'ok') // 'virk'
+  let result = session.get('sub2-a') // 'virk'
+  console.log('sub a', result)
+  return result
+})
+
+Route.get('/sub1.b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('sub2-a') // 'virk'
+  console.log('sub1 b', result)
+  if (result !== null) {
+    return 'same path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
+Route.get('/sub2.b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('sub2-a') // 'virk'
+  console.log('sub2 b', result)
+  if (result !== null) {
+    return 'diff path: ' + result // 'virk'
   }
   else {
     return 'no result'
