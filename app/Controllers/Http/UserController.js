@@ -88,7 +88,7 @@ class UserController {
   }
   async checkLogin ({session}) {
     let userId = session.get('userId', false)
-    console.log(session.get('userId'))
+    //console.log(session.get('userId'))
     if (userId === false) {
       return false
     }

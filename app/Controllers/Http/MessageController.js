@@ -6,22 +6,26 @@ const Message = use('App/Models/Message')
 class MessageController {
   async list ({ request, response, view, session }) {
     // 列出最近10則訊息
-    const messages = await Message.list(10)
+    const messages = await Message.list(3)
     //await messages.user().fetch()
     return messages.toJSON().reverse()
   }
   async syncList ({ request, response, view, session }) {
     const query = request.get()
     let lastUpdateTimestamp = query.lastUpdateTimestamp
-    
-    if (typeof(lastUpdateTimestamp) !== 'number') {
+    //console.log(lastUpdateTimestamp)
+    if (isNaN(lastUpdateTimestamp) === true) {
       return []
     }
+    lastUpdateTimestamp = parseInt(lastUpdateTimestamp, 10)
+    
+    let userId = session.get('userId', false)
     
     let messages = await Message
             .query()
-            .with('user')
+            .where('user_id', '<>', userId)
             .where('timestamp', '>', lastUpdateTimestamp)
+            .with('user')
             .fetch()
     
     return messages.toJSON()

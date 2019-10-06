@@ -27,7 +27,7 @@ class Message extends Model {
       messages = await transaction.fetch()
     }
     else {
-      messages = await transaction.pickInverse(10)
+      messages = await transaction.pickInverse(limit)
     }
     return messages
   }
