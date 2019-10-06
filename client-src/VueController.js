@@ -88,14 +88,14 @@ let VueController = {
     
   },
   mounted: async function () {
-    await this.checkLogin()
+    //await this.checkLogin()
     await this.testSession()
     
   },  // mounted: function () {
   methods: {
     testSession: async function () {
-      let aURL = `${this.config.baseURL}/c`
-      let bURL = `${this.config.baseURL}/b`
+      let aURL = `${this.config.baseURL}/c/c`
+      let bURL = `${this.config.baseURL}/b/b`
       
       let b1r = await window.axios.get(bURL)
       console.log(b1r.data)
