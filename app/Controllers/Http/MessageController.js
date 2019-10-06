@@ -56,7 +56,7 @@ class MessageController {
     
     //await message.reload()
     //console.log(message.toJSON().created)
-    return message.created_at
+    return message.timestamp
     //return true
   }
 }

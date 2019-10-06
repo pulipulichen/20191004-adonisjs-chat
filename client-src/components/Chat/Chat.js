@@ -21,6 +21,14 @@ module.exports = {
     
   },
   watch: {
+    'displayMessages': function () {
+      
+      let list = this.$refs.ChatList
+      //console.log(list)
+      setTimeout(() => {
+        list.scrollTop = list.scrollHeight
+      }, 0)
+    }
     /*
     'status.username': function () {
       console.log(this.status.username)
@@ -29,6 +37,7 @@ module.exports = {
       }
     }
     */
+    
   },
   mounted: function () {
     this.initDisplayMessages()
@@ -127,6 +136,7 @@ module.exports = {
       })
       
       this.writingMessage = ''
+      
     },
     logout: async function () {
       await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
