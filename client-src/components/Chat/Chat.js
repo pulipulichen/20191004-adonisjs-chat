@@ -41,7 +41,7 @@ module.exports = {
   },
   mounted: function () {
     this.initDisplayMessages()
-    this.loadUsers()
+    //this.loadUsers()
     //this.testSession()
   },
   destroyed: function () {
@@ -61,7 +61,7 @@ module.exports = {
       this.lastUpdateTimestamp = this.getTime()
       
       setTimeout(() => {
-        this.syncDisplayMessages()
+        //this.syncDisplayMessages()
       }, 5000)
     },
     syncDisplayMessages: async function () {

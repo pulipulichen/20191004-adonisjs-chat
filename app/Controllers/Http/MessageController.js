@@ -29,7 +29,7 @@ class MessageController {
             .with('user')
             .fetch()
     
-    return messages.toJSON()
+    return messages.toJSON()    
   }
   async insert ({ request, response, view, auth }) {
     const query = request.post()
