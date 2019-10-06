@@ -131,7 +131,7 @@ module.exports = {
     logout: async function () {
       await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
       this.status.username = ''
-      this.$router.replace('/')
+      this.$router.replace('/login')
     },
     displayAge: function (timestamp) {
       return timestamp

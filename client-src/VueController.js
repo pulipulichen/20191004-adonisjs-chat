@@ -88,10 +88,10 @@ let VueController = {
     
   },
   mounted: async function () {
-    if (this.$router.currentRoute.path !== '/') {
+    if (this.$router.currentRoute.fullPath !== '/') {
       this.$router.replace('/')
     }
-    //await this.checkLogin()
+    await this.checkLogin()
     
     //await this.testSession()
     //await this.test20191006SubSession()
@@ -168,8 +168,8 @@ let VueController = {
       */
       let path = this.$router.currentRoute.fullPath
       if (result.data === false) {
-        if (path !== '/') {
-          this.$router.replace('/')
+        if (path !== '/login') {
+          this.$router.replace('/login')
         }
       }
       else {
