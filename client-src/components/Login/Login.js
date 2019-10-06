@@ -110,20 +110,23 @@ module.exports = {
       }
     },
     loginFromGoogle() {
-      console.log('loginWithGoogle')
+      //console.log('loginWithGoogle')
+      let win = window.open(`${this.config.baseURL}/oauth/google`, '_blank')
+      this.loginOAuthCallback(win)
     },
     loginFromGitHub() {
       let win = window.open(`${this.config.baseURL}/oauth/github`, '_blank')
+      this.loginOAuthCallback(win)
+    },
+    loginOAuthCallback: function (win) {
       let callback = async (e) => {
         win.close()
         //let target = e.target;
         let data = e.data
         //console.log(data)
-        if (typeof(data) === 'number') {
-          let result = await this.lib.axios.get(`${this.config.baseURL}/oauth/github/login`, {
-            params: {
-              oauth_github_id: data
-            }
+        if (typeof(data) === 'object') {
+          let result = await this.lib.axios.get(`${this.config.baseURL}/oauth/login`, {
+            params: data
           })
           //console.log(result.data)
           if (result.data !== false) {

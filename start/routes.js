@@ -62,7 +62,10 @@ Route.post('/message/insert', 'MessageController.insert')
 
 Route.get('/oauth/github', 'UserController.oauthGitHub')
 Route.get('/oauth/github/authenticated', 'UserController.oauthGitHubCallback')
-Route.get('/oauth/github/login', 'UserController.oauthGitHubLogin')
+Route.get('/oauth/login', 'UserController.oauthLogin')
+
+Route.get('/oauth/google', 'UserController.oauthGoogle')
+Route.get('/oauth/google/authenticated', 'UserController.oauthGoogleCallback')
 
 // ----------------
 // For session test

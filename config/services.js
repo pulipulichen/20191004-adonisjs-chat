@@ -39,12 +39,14 @@ module.exports = {
     |
     | You can access your application credentials from the google developers
     | console. https://console.developers.google.com
-    |
+    | > Credentials
+    | > Create credentials > OAuth Client ID
+    | > Web application
     */
     google: {
       clientId: Env.get('GOOGLE_CLIENT_ID'),
       clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/google`
+      redirectUri: `${Env.get('APP_URL')}/oauth/google/authenticated`
     },
 
     /*

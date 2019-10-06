@@ -139,9 +139,20 @@ class UserController {
     await ally.driver('github').stateless().redirect()
   }
   async oauthGitHubCallback({ally, auth}) {
-    await auth.logout()
-    
-    let oauthUser = await ally.driver('github').getUser()
+    let returnScript = await this.oauthCallback(ally, 'github', 'oauth_github_id')
+    return returnScript
+  }
+  
+  async oauthGoogle({ally}) {
+    await ally.driver('google').stateless().redirect()
+  }
+  async oauthGoogleCallback({ally, auth}) {
+    let returnScript = await this.oauthCallback(ally, 'google', 'oauth_google_id')
+    return returnScript
+  }
+  
+  async oauthCallback(ally, driver, field) {
+    let oauthUser = await ally.driver(driver).getUser()
     
     // -------------------------
     // 先找找看有沒有這個id
@@ -149,20 +160,24 @@ class UserController {
     //console.log(oauthUser)
     
     let oauthID = oauthUser.id
+    let returnScript = `
+    <script>
+      window.opener.postMessage({
+        field: '${field}',
+        oauthID: ${oauthID}
+      }, '*')
+    </script>`
     //console.log(oauthID)
     
     let user
-    user = await User.findBy({
-      oauth_github_id: oauthID
-    })
+    let query = {}
+    query[field] = oauthID
+    user = await User.findBy(query)
     
     //console.log(user)
     
     if (user !== null) {
-      await auth.login(user)
-      //return user.id
-      //response.redirect(session.pull('oauthReferer'))
-      return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
+      return returnScript
     }
     
     // -------------------------
@@ -174,12 +189,9 @@ class UserController {
     })
     
     if (user !== null) {
-      user.oauth_github_id = oauthID
+      user[field] = oauthID
       user.save()
-      await auth.login(user)
-      //return user.id
-      //response.redirect(session.pull('oauthReferer'))
-      return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
+      return returnScript
     }
     
     // -------------------------
@@ -191,31 +203,30 @@ class UserController {
       user.username = oauthUser.nickname
     }
     user.email = oauthUser.email
-    user.oauth_github_id = oauthID
+    user[field] = oauthID
     //user.password = oauthUser.password
 
     await user.save()
-    await auth.login(user)
-    //return user.id
-    //response.redirect(session.pull('oauthReferer'))
-    return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
+    return returnScript
   }
   
-  async oauthGitHubLogin({request, auth}) {
-    let {oauth_github_id} = request.get()
+  async oauthLogin({request, auth}) {
+    let {field, oauthID} = request.get()
+    console.log([field, oauthID])
     //console.log(typeof(oauth_github_id))
-    if (typeof(oauth_github_id) === 'undefined') {
+    if (typeof(oauthID) === 'undefined' || typeof(field) === 'undefined') {
       return false
     }
-    if (typeof(oauth_github_id) === 'string') {
-      oauth_github_id = parseInt(oauth_github_id, 10)
+    if (typeof(oauthID) === 'string') {
+      oauthID = parseInt(oauthID, 10)
     }
     
+    let query = {}
+    query[field] = oauthID
+    
     let user
-    user = await User.findBy({
-      oauth_github_id: oauth_github_id
-    })
-    //console.log(user.id)
+    user = await User.findBy(query)
+    console.log(user.id)
     if (user !== null) {
       await auth.login(user)
       return user.username
