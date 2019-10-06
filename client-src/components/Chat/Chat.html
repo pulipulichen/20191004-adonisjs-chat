@@ -1,5 +1,5 @@
 <div class="ui form segment">
-  
+  {{ displayMessages.length }}
   <div class="ui large feed">
     <div class="event"
          v-for="message in displayMessages">
@@ -8,9 +8,9 @@
       </div>
       <div class="content">
         <div class="summary">
-          {{ message.user.username }}
+          
           <div class="date">
-            {{ displayAge(message.createAt) }}
+            {{ displayAge(message.timestamp) }}
           </div>
         </div>
         <div class="extra text">

@@ -1,4 +1,6 @@
 'use strict';
+const baseURL = 'http://127.0.0.1:3333/'
+
 const path = require('path')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 //const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -76,7 +78,7 @@ module.exports = (env, argv) => {
               options: {
                 name: '[name].[ext]',
                 outputPath: 'asset',
-                publicPath: 'asset'
+                publicPath: baseURL + '/dist/asset'
               }
             }
           ]

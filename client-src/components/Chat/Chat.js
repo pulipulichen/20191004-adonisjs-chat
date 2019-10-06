@@ -11,8 +11,8 @@ module.exports = {
     this.$i18n.locale = this.config.locale
     return {
       displayMessages: [],
-      writingMessage: 'aaa',
-      
+      writingMessage: 'test message',
+      lastUpdateTimestamp: null,
       users: [] // for test
     }
   },
@@ -22,7 +22,8 @@ module.exports = {
   watch: {
     
   },
-  mounted: function () {
+  mounted: async function () {
+    await this.initDisplayMessages()
     //this.loadUsers()
     
     //this.testSession()
@@ -33,12 +34,34 @@ module.exports = {
       this.users = users.data
     },
     initDisplayMessages: async function () {
-      let messages = await this.lib.axios.get(`${this.config.baseURL}/message.list`)
+      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
       console.log(messages.data)
-      this.messages = messages.data
+      this.displayMessages = messages.data
       //console.log(this.messages)
+      this.lastUpdateTimestamp = this.getTime()
+      
+      setTimeout(() => {
+        //this.syncDisplayMessages()
+      }, 5000)
     },
-    
+    syncDisplayMessages: async function () {
+      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/sync-list`, {
+        params: {
+          lastUpdateTimestamp: this.lastUpdateTimestamp
+        }
+      })
+      console.log(messages.data)
+      this.displayMessages = this.displayMessages.concat(messages.data)
+      
+      this.lastUpdateTimestamp = this.getTime()
+      
+      setTimeout(() => {
+        this.syncDisplayMessages()
+      }, 5000)
+    },
+    getTime () {
+      return (new Date()).getTime()
+    },
     testSession: async function () {
       let aURL = `${this.config.baseURL}/c`
       let bURL = `${this.config.baseURL}/b`
@@ -68,20 +91,33 @@ module.exports = {
     },
      */
     insert: async function () {
-      let bURL = `${this.config.baseURL}/b`
+      /*
+      let bURL = `${this.config.baseURL}/b/b`
       let b1r = await window.axios.get(bURL)
       console.log(b1r.data)
+       */
       //return
-      let result = await window.axios.post(`${this.config.baseURL}/message.insert`, {
+      let result = await window.axios.post(`${this.config.baseURL}/message/insert`, {
         message: this.writingMessage
       })
       //console.log(this.writingMessage)
       console.log(result.data)
+      
+      this.displayMessages.push({
+        username: this.status.username,
+        message: this.writingMessage,
+        timestamp: result.data
+      })
+      
+      this.writingMessage = ''
     },
     logout: async function () {
       await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
       this.status.username = ''
       this.$router.replace('/')
+    },
+    displayAge: function (timestamp) {
+      return timestamp
     }
   } // methods
 }

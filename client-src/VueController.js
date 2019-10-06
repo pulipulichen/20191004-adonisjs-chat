@@ -88,8 +88,8 @@ let VueController = {
     
   },
   mounted: async function () {
-    //await this.checkLogin()
-    await this.testSession()
+    await this.checkLogin()
+    //await this.testSession()
     
   },  // mounted: function () {
   methods: {
@@ -114,7 +114,7 @@ let VueController = {
       return false
     },
     checkLogin: async function () {
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user.check-login`)
+      let result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
       //console.log(result.data)
       let path = this.$router.currentRoute.fullPath
       if (result.data === false) {

@@ -8,6 +8,7 @@ class MessagesSchema extends Schema {
     this.create('messages', (table) => {
       table.increments()
       table.text('message').notNullable()
+      table.integer('timestamp').notNullable()
       table.integer('user_id').notNullable().unsigned().references('id').inTable('users')
       table.timestamps()
     })

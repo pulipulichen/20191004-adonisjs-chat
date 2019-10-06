@@ -43,13 +43,19 @@ Route.get('/user/create', async ({ request, response, view }) => {
   //return {'aaa': 'ok'}
 })
 
-Route.get('/user.login', 'UserController.login')
-Route.get('/user.register', 'UserController.register')
-Route.get('/user.logout', 'UserController.logout')
-Route.get('/user.check-login', 'UserController.checkLogin')
+Route.get('/user/login', 'UserController.login')
+Route.get('/user/register', 'UserController.register')
+Route.get('/user/logout', 'UserController.logout')
+Route.get('/user/check-login', 'UserController.checkLogin')
 
-Route.get('/message.list', 'MessageController.list')
-Route.post('/message.insert', 'MessageController.insert')
+Route.get('/message/list', 'MessageController.list')
+Route.get('/message/sync-list', 'MessageController.syncList')
+Route.post('/message/insert', 'MessageController.insert')
+
+//Route.get('/message/test', 'MessageController.test')
+
+// ----------------
+// For session test
 
 Route.get('/a/a', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
