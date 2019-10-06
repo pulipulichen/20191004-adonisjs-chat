@@ -51,14 +51,17 @@ Route.get('/user.check-login', 'UserController.checkLogin')
 Route.get('/message.list', 'MessageController.list')
 Route.post('/message.insert', 'MessageController.insert')
 
-Route.get('/a', ({ session, request, response }) => {
+Route.get('/a/a', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   console.log(request.header('cookie'))
-  session.put('a', 'aaa')
-  response.redirect('/b')
+  session.put('a', 'a')
+  //response.redirect('/b/b')
+  return `<a href="/b/b">/b/b</a> <br />
+  <a href="/a/b">/a/b</a>`
 })
 
-Route.get('/c', ({ session, request, response }) => {
+
+Route.get('/c/c', ({ session, request, response }) => {
   //console.log(session._driverInstance.Store._sessionID)
   //console.log(request.header('cookie'))
   session.put('a', 'aaa')
@@ -67,9 +70,26 @@ Route.get('/c', ({ session, request, response }) => {
   console.log('c', result)
 })
 
-Route.get('/b', ({ session, request }) => {
+Route.get('/b/b', ({ session, request }) => {
   //console.log(request.header('cookie'))
   let result = session.get('a') // 'virk'
   console.log('b', result)
-  return result // 'virk'
+  if (result !== null) {
+    return result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
+Route.get('/a/b', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('a') // 'virk'
+  console.log('b', result)
+  if (result !== null) {
+    return 'same path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
 })

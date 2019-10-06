@@ -2551,10 +2551,10 @@ The Fat-Free Framework is community-driven software. It can't be what it is toda
 * Philipp Hirsch
 * Aurélien Botermans
 * Christian Treptow
-* ?�уба�?ев ?�мит�?ий (Dmitry Kubarev)
+* ?ۑĐҐё?ев ?ՐݐّÑ?ий (Dmitry Kubarev)
 * Alexandru Catalin Trandafir
 * Leigh Harrison
-* ?�мит�?иев ?�ва�? (Ivan Dmitriev)
+* ?ՐݐّÑ?иев ?ِӐѐ? (Ivan Dmitriev)
 * IT_GAP
 * Sergeev Andrey
 * Steven J Mixon
