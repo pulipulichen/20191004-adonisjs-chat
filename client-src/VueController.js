@@ -22,6 +22,7 @@ axios.defaults.credentials = 'include'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+//require('dayjs/locale/zh-tw').default // load on demand
 import 'dayjs/locale/zh-tw' // load on demand
 dayjs.extend(relativeTime)
 try {
