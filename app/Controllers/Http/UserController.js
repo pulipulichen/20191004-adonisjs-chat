@@ -149,6 +149,7 @@ class UserController {
     //console.log(oauthUser)
     
     let oauthID = oauthUser.id
+    //console.log(oauthID)
     
     let user
     user = await User.findBy({
@@ -161,7 +162,7 @@ class UserController {
       await auth.login(user)
       //return user.id
       //response.redirect(session.pull('oauthReferer'))
-      return `<script>window.close()</script>`
+      return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
     }
     
     // -------------------------
@@ -178,7 +179,7 @@ class UserController {
       await auth.login(user)
       //return user.id
       //response.redirect(session.pull('oauthReferer'))
-      return `<script>window.close()</script>`
+      return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
     }
     
     // -------------------------
@@ -190,14 +191,38 @@ class UserController {
       user.username = oauthUser.nickname
     }
     user.email = oauthUser.email
-    user.oauth_github_id = oauthUser.id
+    user.oauth_github_id = oauthID
     //user.password = oauthUser.password
 
     await user.save()
     await auth.login(user)
     //return user.id
     //response.redirect(session.pull('oauthReferer'))
-    return `<script>window.close()</script>`
+    return `<script>window.opener.postMessage(${oauthID}, '*')</script>`
+  }
+  
+  async oauthGitHubLogin({request, auth}) {
+    let {oauth_github_id} = request.get()
+    //console.log(typeof(oauth_github_id))
+    if (typeof(oauth_github_id) === 'undefined') {
+      return false
+    }
+    if (typeof(oauth_github_id) === 'string') {
+      oauth_github_id = parseInt(oauth_github_id, 10)
+    }
+    
+    let user
+    user = await User.findBy({
+      oauth_github_id: oauth_github_id
+    })
+    //console.log(user.id)
+    if (user !== null) {
+      await auth.login(user)
+      return user.username
+    }
+    else {
+      return false
+    }
   }
 }
 

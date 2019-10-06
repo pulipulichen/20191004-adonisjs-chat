@@ -114,21 +114,26 @@ module.exports = {
     },
     loginFromGitHub() {
       let win = window.open(`${this.config.baseURL}/oauth/github`, '_blank')
-      let timer = setInterval(async () => { 
-        if (win.closed) {
-          clearInterval(timer);
-          
-          let result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`, {
-            withCredentials: false
+      let callback = async (e) => {
+        win.close()
+        //let target = e.target;
+        let data = e.data
+        //console.log(data)
+        if (typeof(data) === 'number') {
+          let result = await this.lib.axios.get(`${this.config.baseURL}/oauth/github/login`, {
+            params: {
+              oauth_github_id: data
+            }
           })
-          
-          console.log(result.data)
+          //console.log(result.data)
           if (result.data !== false) {
             this.status.username = result.data
             this.$router.replace('/chat')
           }
         }
-      }, 1000);
+        window.removeEventListener('message', callback, false)
+      }
+      window.addEventListener('message', callback, false);
     },
     validateEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
