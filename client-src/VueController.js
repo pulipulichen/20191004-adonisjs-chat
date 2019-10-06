@@ -114,8 +114,16 @@ let VueController = {
       return false
     },
     checkLogin: async function () {
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      //console.log(result.data)
+      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
+      console.log(result.data)
+      /*
+      var result = await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
+      console.log(result.data)
+      
+      // 這時候不應該有登入記錄了！！！
+      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
+      console.log(result.data)
+      */
       let path = this.$router.currentRoute.fullPath
       if (result.data === false) {
         if (path !== '/') {

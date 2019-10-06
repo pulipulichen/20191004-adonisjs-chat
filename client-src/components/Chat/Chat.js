@@ -20,10 +20,14 @@ module.exports = {
     
   },
   watch: {
-    
+    'status.username': async function () {
+      if (this.username !== '') {
+        await this.initDisplayMessages()
+      }
+    }
   },
   mounted: async function () {
-    await this.initDisplayMessages()
+    //await this.initDisplayMessages()
     //this.loadUsers()
     
     //this.testSession()
@@ -45,6 +49,10 @@ module.exports = {
       }, 5000)
     },
     syncDisplayMessages: async function () {
+      if (this.status.username === '') {
+        return false
+      }
+      
       let messages = await this.lib.axios.get(`${this.config.baseURL}/message/sync-list`, {
         params: {
           lastUpdateTimestamp: this.lastUpdateTimestamp
