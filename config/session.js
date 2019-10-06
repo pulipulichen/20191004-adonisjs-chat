@@ -66,9 +66,9 @@ module.exports = {
   //secret: 'whatever',
   cookie: {
     //secure: false,
-    //httpOnly: false,
+    httpOnly: false,
     //maxAge: 3600,
-    //sameSite: false,
+    sameSite: false,
     path: '/'
   },
 

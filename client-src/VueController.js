@@ -99,16 +99,24 @@ let VueController = {
         //`${this.config.baseURL}/sub1/a`,
         //`${this.config.baseURL}/sub1/b`,
         //`${this.config.baseURL}/sub2/b`,
-        `${this.config.baseURL}/sub1.a`,
-        `${this.config.baseURL}/sub1.b`,
-        `${this.config.baseURL}/sub2.b`,
+        `${this.config.baseURL}/sub1/a`,
+        `${this.config.baseURL}/sub1/b`,
+        `${this.config.baseURL}/sub2/b`,
       ]
       let _this = this
+      /*
       urlList.map(async function(url) {
         let r
         r = await _this.lib.axios.get(url)
         console.log(url, r.data)
       })
+      */
+      for (let i = 0; i < urlList.length; i++) {
+        let url = urlList[i]
+        let r
+        r = await _this.lib.axios.get(url)
+        console.log(url, r.data)
+      }
     },
     testSession: async function () {
       let aURL = `${this.config.baseURL}/c.c`
