@@ -10,6 +10,7 @@ class UseroauthSchema extends Schema {
       table.integer('user_id').notNullable()
       table.string('driver', 254).notNullable()
       table.integer('oauth_id').notNullable()
+      table.string('origin', 254).notNullable()
       table.timestamps()
     })
   }

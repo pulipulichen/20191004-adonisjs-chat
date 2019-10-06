@@ -179,16 +179,23 @@ class UserController {
   
   async oauthAuthenticated({ally, params, request}) {
     let origin = this.filterOrigin(request)
-    
     let driver = params.driver
     //console.log(driver)
     let oauthUser = await ally.driver(driver).getUser()
+    oauthUser = oauthUser.toJSON()
+    
+    return `<script>
+      window.opener.postMessage({
+        driver: '${driver}',
+        oauthUser: ${JSON.stringify(oauthUser)}
+      }, '*')
+    </script>`
     
     // -------------------------
     // 先找找看有沒有這個id
-    oauthUser = oauthUser.toJSON()
-    //console.log(oauthUser)
     
+    //console.log(oauthUser)
+    /*
     let oauthID = oauthUser.id
     let returnScript = `
     <script>
@@ -260,36 +267,85 @@ class UserController {
     await user.oauths().save(userOauth)
     
     return returnScript
+    */
   }
   
   async oauthLogin({request, auth}) {
-    let {driver, oauthID} = request.get()
-    //console.log([field, oauthID])
-    //console.log(typeof(oauth_github_id))
-    if (typeof(oauthID) === 'undefined' || typeof(driver) === 'undefined') {
-      return false
-    }
-    if (typeof(oauthID) === 'string') {
-      oauthID = parseInt(oauthID, 10)
-    }
+    let origin = this.filterOrigin(request)
+    console.log(origin)
     
-    let userOauth = await UserOAuth.findBy({
+    let {driver, oauthUser} = request.get()
+    oauthUser = JSON.parse(oauthUser)
+    let oauthID = oauthUser.id
+    //console.log(oauthID)
+    // ----------------------------
+    
+    let user, userOauth
+    userOauth = await UserOAuth.findBy({
       driver: driver,
+      origin: origin,
       oauth_id: oauthID
     })
     
-    //console.log(user.id)
+    //console.log(user)
+    
     if (userOauth !== null) {
-      let user = await userOauth.user().fetch()
-      try {
-        await auth.login(user)
-      }
-      catch (error) {}
+      user = await userOauth.user().fetch()
+      await auth.remember(true).login(user)
       return user.username
     }
-    else {
-      return false
+    
+    // -------------------------
+    // 嘗試用email合併既有的帳號
+    
+    let email = oauthUser.email
+    if (typeof(email) === 'string') {
+      user = await User.findBy({
+        email: email,
+        origin: origin
+      })
+
+      if (user !== null) {
+        userOauth = new UserOAuth()
+        
+        userOauth.driver = driver
+        userOauth.oauth_id = oauthID
+        userOauth.origin = origin
+        
+        await user.oauths().save(userOauth)
+        await auth.remember(true).login(user)
+        return user.username
+      }
     }
+    else {
+      email = oauthID + '@' + driver + '.oauth'
+    }
+    
+    // -------------------------
+    // 在這裡建立user並且嘗試登入
+    user = new User()
+
+    user.username = oauthUser.name
+    if (typeof(oauthUser.nickname) === 'string') {
+      user.username = oauthUser.nickname
+    }
+    user.username = user.username + '@' + driver
+    user.email = email 
+    user.origin = origin
+    //user[field] = oauthID
+    //user.password = oauthUser.password
+
+    await user.save()
+    
+    userOauth = new UserOAuth()
+        
+    userOauth.driver = driver
+    userOauth.oauth_id = oauthID
+    userOauth.origin = origin
+
+    await user.oauths().save(userOauth)
+    await auth.remember(true).login(user)
+    return user.username
   }
 }
 

@@ -130,7 +130,7 @@ module.exports = {
           //console.log(result.data)
           if (result.data !== false) {
             this.status.username = result.data
-            this.$router.replace('/chat')
+            //this.$router.replace('/chat')
           }
         }
         window.removeEventListener('message', callback, false)
