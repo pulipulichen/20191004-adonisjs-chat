@@ -48,17 +48,6 @@ module.exports = (env, argv) => {
             //'postcss-loader?sourceMap',
           ]
         },
-        
-        {
-            test: /\.tpl$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'html-loader',
-              options: {
-                attrs: false
-              }
-            }
-        },
         {
           test: /\.less$/,
           use: [
@@ -91,6 +80,16 @@ module.exports = (env, argv) => {
           resourceQuery: /blockType=i18n/,
           type: 'javascript/auto',
           loader: '@kazupon/vue-i18n-loader',
+        },
+        {
+            test: /\.tpl$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'html-loader',
+              options: {
+                attrs: false
+              }
+            }
         },
       ]
     },

@@ -4,11 +4,11 @@ const Config = use('Config')
 let mapping = Config.get('origin.originMapping')
 
 let OriginFilter = function (origin) {
-  origin = origin.split('/').slice(0,3).join('/')
-
   if (typeof(origin) !== 'string') {
     return '__direct'
   }
+
+  origin = origin.split('/').slice(0,3).join('/')
 
   // ---------------------
   // 先把127.0.0.1對應成localhost

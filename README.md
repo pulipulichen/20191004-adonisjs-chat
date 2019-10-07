@@ -11,19 +11,22 @@
 4. For first run:
 	* Execute command: `npm run init` . 
 	* Waiting for packages installing finish.
-	* Open URL browser: http://127.0.0.1:3000 .
+	* Open URL of CORS test website in browser: http://127.0.0.1:3000 .
+  * Open URL of admin in browser: http://127.0.0.1:3333/admin .
 5. For following run in development:
   * Execute command: `npm run 0.development` .
-  * Open URL browser: http://127.0.0.1:3000 .
+  * Open URL of CORS test website in browser: http://127.0.0.1:3000 .
+  * Open URL of admin in browser: http://127.0.0.1:3333/admin .
 6. For following run in production: 
   * Execute command: `npm run 1.production` .
+  * Open URL of admin in browser: http://127.0.0.1:3333/admin .
   * Insert `<script src="http://127.0.0.1:3333/spa/client.js" async></script>` in the html you want to plugin.
 
 Default URL list:
 
 - CORS test website: http://127.0.0.1:3000
-- Main AdonisJS server: http://127.0.0.1:3333
-- AdonisJS https server for test: http://127.0.0.1:4444 (Run `npm run start-https` first)
+- Main AdonisJS server: http://127.0.0.1:3333/admin
+- AdonisJS https server for test: http://127.0.0.1:4444/admin (Run `npm run start-https` first)
 
 ----
 
