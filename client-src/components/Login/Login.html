@@ -36,7 +36,7 @@
            v-model="password" />
   </div>
   
-  <div class="ui field">
+  <div class="ui five buttons">
     <button type="button" 
             class="ui button"
             v-on:click="login"
@@ -52,20 +52,23 @@
     </button>
     
     <button type="button" 
-            class="ui button"
+            class="ui google button"
             v-on:click="loginFromOAuth('google')">
+      <i class="google icon"></i>
       {{ $t('Login from Google') }}
     </button>
     
     <button type="button" 
-            class="ui button"
+            class="ui github button"
             v-on:click="loginFromOAuth('github')">
+      <i class="github icon"></i>
       {{ $t('Login from GitHub') }}
     </button>
     
     <button type="button" 
-            class="ui button"
+            class="ui instagram button"
             v-on:click="loginFromOAuth('instagram')">
+      <i class="instagram icon"></i>
       {{ $t('Login from Instagram') }}
     </button>
   </div>
