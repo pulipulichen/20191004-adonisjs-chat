@@ -143,7 +143,7 @@ class UserController {
     return origin
   }
   
-  async checkLogin ({auth}) {
+  async checkLogin ({auth, origin}) {
     //let origin = this.filterOrigin(request)
     /*
     let userId = session.get('userId', false)
