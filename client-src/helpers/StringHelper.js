@@ -5,4 +5,5 @@ let StringHelper = {
   },
 }
 
-module.exports = StringHelper
+//module.exports = StringHelper
+export default StringHelper

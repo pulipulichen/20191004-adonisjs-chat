@@ -20,6 +20,10 @@ import AxiosHelper from './helpers/AxiosHelper'
 import DayJSHelper from './helpers/DayJSHelper'
 import StringHelper from './helpers/StringHelper'
 
+//const AxiosHelper = require('./helpers/AxiosHelper').default
+//const DayJSHelper = require('./helpers/DayJSHelper').default
+//const StringHelper = require('./helpers/StringHelper').default
+
 // --------------------
 
 

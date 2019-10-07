@@ -19,13 +19,9 @@ let AxiosHelper = {
     return this.baseURL + path
   },
   get: async function (path, data) {
-    let options = {}
-    if (typeof(data) === 'object') {
-      options.params = data
-    }
-    
-    let result = axios.get(this.getURL(path), options)
-    return result.data
+    path = this.getURL(path)
+    let result = await this.getOther(path, data)
+    return result
   },
   getOther: async function (path, data) {
     let options = {}
@@ -33,8 +29,14 @@ let AxiosHelper = {
       options.params = data
     }
     
-    let result = axios.get(path, options)
-    return result.data
+    try {
+      let result = await axios.get(path, options)
+      return result.data
+    }
+    catch (error) {
+      console.error(error)
+      return
+    }
   },
   post: async function (path, data) {
     let options = {}
@@ -42,9 +44,16 @@ let AxiosHelper = {
       options = data
     }
     
-    let result = axios.post(this.getURL(path), options)
-    return result.data
+    try {
+      let result = await axios.post(this.getURL(path), options)
+      return result.data
+    }
+    catch (error) {
+      console.error(error)
+      return
+    }
   }
 }
 
-module.exports = AxiosHelper
+//module.exports = AxiosHelper
+export default AxiosHelper

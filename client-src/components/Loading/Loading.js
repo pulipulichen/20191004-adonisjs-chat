@@ -1,4 +1,4 @@
-module.exports = {
+let Loading = {
   /*
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
@@ -20,3 +20,5 @@ module.exports = {
   } // methods
   */
 }
+
+export default Loading

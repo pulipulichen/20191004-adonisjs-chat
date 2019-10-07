@@ -10,6 +10,7 @@ class UserController {
     let origin = this.filterOrigin(request)
     const query = request.get()
     
+    await this.forceLogout(auth)
     return await this.attempLogin(auth, query, origin)
     
     /*
@@ -65,6 +66,7 @@ class UserController {
       return {error: 'password-wrong'}
     }
     
+    await this.forceLogout(auth)
     await auth.remember(true).login(user)
     return {}
   }
@@ -94,6 +96,7 @@ class UserController {
       //console.log(result)
       if (result === true) {
         //session.put('userId', user.id)
+        await this.forceLogout(auth)
         await auth.remember(true).login(user)
         return {}
       } else {
@@ -107,6 +110,13 @@ class UserController {
     // --------------
     // 走登入
     return await this.attempLogin(auth, query, origin)
+  }
+  
+  async forceLogout(auth) {
+    try {
+      await auth.check()
+      await auth.logout()
+    } catch (error) {}
   }
   
   async logout ({ auth }) {
@@ -174,7 +184,7 @@ class UserController {
       return {error: 'no-user'}
     }
     
-    await auth.logout()
+    await this.forceLogout(auth)
     await auth.remember(true).login(user)
     return user.username
   }
@@ -184,7 +194,7 @@ class UserController {
   }
   
   async oauthAuthenticated({ally, params, request}) {
-    let origin = this.filterOrigin(request)
+    //let origin = this.filterOrigin(request)
     let driver = params.driver
     //console.log(driver)
     let oauthUser = await ally.driver(driver).getUser()
@@ -278,7 +288,7 @@ class UserController {
   
   async oauthLogin({request, auth}) {
     let origin = this.filterOrigin(request)
-    console.log(origin)
+    //console.log(origin)
     
     let {driver, oauthUser} = request.get()
     oauthUser = JSON.parse(oauthUser)
@@ -350,6 +360,8 @@ class UserController {
     userOauth.origin = origin
 
     await user.oauths().save(userOauth)
+    
+    await this.forceLogout(auth)
     await auth.remember(true).login(user)
     return user.username
   }

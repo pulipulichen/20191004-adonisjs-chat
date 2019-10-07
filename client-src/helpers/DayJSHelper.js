@@ -28,4 +28,5 @@ let DayJSHelper = {
   }
 }
 
-module.exports = DayJSHelper
+//module.exports = DayJSHelper
+export default DayJSHelper

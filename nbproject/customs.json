@@ -6,6 +6,7 @@
   "attributes": {
     "v-bind:class": {},
     "v-if": {},
+    "ref": {},
     "v-on:click": {},
     "v-bind:href": {},
     "v-for": {},

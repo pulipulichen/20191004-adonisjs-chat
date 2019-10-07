@@ -1,7 +1,7 @@
 //const axios = require('axios')
 //axios.defaults.withCredentials=true
 
-module.exports = {
+let Auth = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {
     return {}
@@ -49,3 +49,5 @@ module.exports = {
     }
   } // methods
 }
+
+export default Auth

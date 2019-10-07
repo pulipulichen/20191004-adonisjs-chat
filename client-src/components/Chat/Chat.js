@@ -1,4 +1,4 @@
-module.exports = {
+let Chat = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
     this.$i18n.locale = this.config.locale
@@ -98,3 +98,5 @@ module.exports = {
     }
   } // methods
 }
+
+export default Chat

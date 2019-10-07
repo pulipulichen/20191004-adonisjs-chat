@@ -1,4 +1,4 @@
-module.exports = {
+let Login = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
     this.$i18n.locale = this.config.locale
@@ -81,7 +81,13 @@ module.exports = {
           password: this.password,
       })
       
+      console.log(result)
+      
       let user = result
+      if (user === undefined) {
+        this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
+        return
+      }      
       //console.log(user)
       if (typeof(user.error) === 'string') {
         if (user.error === 'no-user') { 
@@ -161,3 +167,5 @@ module.exports = {
     },
   } // methods
 }
+
+export default Login
