@@ -9,34 +9,19 @@ Vue.use(Fragment.Plugin)
 
 import i18n from './VueI18n'
 
+// -------------------------
+
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
-//import router from 'router.js'
+import routes from './routes'
 
 // ----------------------------------
-
-import axios from 'axios'
-axios.defaults.withCredentials = true
-//axios.defaults.credentials = 'include'
-//window.axios = axios
-
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-//import 'dayjs/locale/zh-tw' // load on demand
-dayjs.extend(relativeTime)
-let dayjsLocale = config.locale.toLowerCase()
-
-require(`dayjs/locale/zh-tw`).default
-try {
-  //require(`dayjs/locale/${dayjsLocale}`).default // load on demand
-  dayjs.locale(dayjsLocale)
-}
-catch (e) {
-  console.error(`dayjs locale is error: ${dayjsLocale}`)
-}
+import AxiosHelper from './helpers/AxiosHelper'
+import DayJSHelper from './helpers/DayJSHelper'
+import StringHelper from './helpers/StringHelper'
 
 // --------------------
-import routes from './routes'
+
 
 // --------------------
 // Components
@@ -94,8 +79,9 @@ let VueController = {
       display: false
     },
     lib: {
-      axios: axios,
-      dayjs: dayjs
+      AxiosHelper: AxiosHelper.setBaseURL(baseURL),
+      DayJSHelper: DayJSHelper,
+      StringHelper: StringHelper
     },
     persistAttrs: [
       
@@ -119,6 +105,9 @@ let VueController = {
       if (this.$router.currentRoute.fullPath !== path) {
         this.$router.replace(path)
       }
+    },
+    'config.locale': function () {
+      this.lib.DayJSHelper.setLocale(this.config.locale)
     }
   },
   created: function () {
@@ -146,12 +135,12 @@ let VueController = {
         //`${this.config.baseURL}/sub1/a`,
         //`${this.config.baseURL}/sub1/b`,
         //`${this.config.baseURL}/sub2/b`,
-        `${this.config.baseURL}/sub2/b`,
-        `${this.config.baseURL}/sub1/b`,
-        `${this.config.baseURL}/sub2/c`,
-        `${this.config.baseURL}/sub1/a`,
-        `${this.config.baseURL}/sub1/b`,
-        `${this.config.baseURL}/sub2/b`,
+        `/sub2/b`,
+        `/sub1/b`,
+        `/sub2/c`,
+        `/sub1/a`,
+        `/sub1/b`,
+        `/sub2/b`,
       ]
       let _this = this
       /*
@@ -164,29 +153,29 @@ let VueController = {
       for (let i = 0; i < urlList.length; i++) {
         let url = urlList[i]
         let r
-        r = await _this.lib.axios.get(url)
-        console.log(url, r.data)
+        r = await _this.lib.AxiosHelper.get(url)
+        console.log(url, r)
       }
     },
     testSession: async function () {
-      let aURL = `${this.config.baseURL}/c.c`
-      let bURL = `${this.config.baseURL}/b.b`
-      let dURL = `${this.config.baseURL}/d.d`
+      let aURL = `/c.c`
+      let bURL = `/b.b`
+      let dURL = `/d.d`
       
       let r
       //r = await this.lib.axios.get(bURL)
       //console.log('應該要沒有資料', r.data)
       
       //await axios.get(`${this.config.baseURL}/c`, {
-      await this.lib.axios.get(aURL)
-      r = await this.lib.axios.get(bURL)
-      console.log('應該要有資料', r.data)
+      await this.lib.AxiosHelper.get(aURL)
+      r = await this.lib.AxiosHelper.get(bURL)
+      console.log('應該要有資料', r)
       
       let _this = this
       //setTimeout(async function () {
-        await _this.lib.axios.get(dURL)
-        r = await _this.lib.axios.get(bURL)
-        console.log('應該要沒有資料', r.data)
+        await _this.lib.AxiosHelper.get(dURL)
+        r = await _this.lib.AxiosHelper.get(bURL)
+        console.log('應該要沒有資料', r)
       //}, 3000)
         
       

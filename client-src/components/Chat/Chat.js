@@ -1,10 +1,3 @@
-//const axios = require('axios')
-//axios.defaults.withCredentials=true
-
-let axios = require('axios').default
-axios.defaults.withCredentials = true
-axios.defaults.credentials = 'include'
-
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
@@ -29,15 +22,6 @@ module.exports = {
         list.scrollTop = list.scrollHeight
       }, 0)
     }
-    /*
-    'status.username': function () {
-      console.log(this.status.username)
-      if (this.status.username !== '') {
-        this.initDisplayMessages()
-      }
-    }
-    */
-    
   },
   mounted: function () {
     this.initDisplayMessages()
@@ -50,9 +34,9 @@ module.exports = {
   },
   methods: {
     initDisplayMessages: async function () {
-      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/list`)
+      let messages = await this.lib.AxiosHelper.get(`/message/list`)
       //console.log(messages.data)
-      this.displayMessages = messages.data
+      this.displayMessages = messages
       //console.log(this.messages)
       this.lastUpdateTimestamp = this.getTime()
       
@@ -65,13 +49,11 @@ module.exports = {
         return false
       }
       
-      let messages = await this.lib.axios.get(`${this.config.baseURL}/message/sync-list`, {
-        params: {
-          lastUpdateTimestamp: this.lastUpdateTimestamp
-        }
+      let messages = await this.lib.AxiosHelper.get(`/message/sync-list`, {
+        lastUpdateTimestamp: this.lastUpdateTimestamp
       })
       //console.log(messages.data)
-      this.displayMessages = this.displayMessages.concat(messages.data)
+      this.displayMessages = this.displayMessages.concat(messages)
       
       this.lastUpdateTimestamp = this.getTime()
       
@@ -82,34 +64,6 @@ module.exports = {
     getTime () {
       return (new Date()).getTime()
     },
-    testSession: async function () {
-      let aURL = `${this.config.baseURL}/c`
-      let bURL = `${this.config.baseURL}/b`
-      
-      let b1r = await this.lib.axios.get(bURL)
-      console.log(b1r.data)
-      
-      //await axios.get(`${this.config.baseURL}/c`, {
-      await this.lib.axios.get(aURL)
-      let r = await this.lib.axios.get(bURL)
-      console.log(r.data)
-      return false
-    },
-    
-    /*
-    addUser: async function () {
-      let unixMS = (new Date()).getTime()
-      await axios.get('http://127.0.0.1:3333/user/create', {
-        params: {
-          username: 'Pudding' + unixMS,
-          email: 'pudding' + unixMS + '@pulipuli.info',
-          password: unixMS + ''
-        }
-      })
-      console.log('addUser')
-      this.loadUsers()
-    },
-     */
     insert: async function () {
       /*
       let bURL = `${this.config.baseURL}/b/b`
@@ -117,7 +71,7 @@ module.exports = {
       console.log(b1r.data)
        */
       //return
-      let result = await this.lib.axios.post(`${this.config.baseURL}/message/insert`, {
+      let result = await this.lib.AxiosHelper.post(`/message/insert`, {
         message: this.writingMessage
       })
       //console.log(this.writingMessage)
@@ -128,19 +82,19 @@ module.exports = {
           username: this.status.username,
         },
         message: this.writingMessage,
-        timestamp: result.data
+        timestamp: result
       })
       
       this.writingMessage = ''
       
     },
     logout: async function () {
-      await this.lib.axios.get(`${this.config.baseURL}/user/logout`)
+      await this.lib.AxiosHelper.get(`/user/logout`)
       this.status.username = false
       this.$router.replace('/login')
     },
     displayAge: function (timestamp) {
-      return this.lib.dayjs(timestamp).fromNow()
+      return this.lib.DayJSHelper.fromNow(timestamp)
     }
   } // methods
 }

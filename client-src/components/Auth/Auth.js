@@ -25,20 +25,18 @@ module.exports = {
   methods: {
     loadUsernameFromURL: async function () {
       //console.log(this.config.usernameQueryURL)
-      let result = await this.lib.axios.get(this.config.usernameQueryURL)
+      let result = await this.lib.AxiosHelper.getOther(this.config.usernameQueryURL)
       //console.log(result.data)
-      if (typeof(result.data) === 'string') {
-        return result.data
+      if (typeof(result) === 'string') {
+        return result
       }
     },
     attemptLoginViaUsername: async function (username) {
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/attempt-login-via-username`, {
-        params: {
-          username: username
-        }
+      var result = await this.lib.AxiosHelper.get(`/user/attempt-login-via-username`, {
+        username: username
       })
-      if (typeof(result.data) === 'string') {
-        this.status.username = result.data
+      if (typeof(result) === 'string') {
+        this.status.username = result
         return true
       }
       else {
@@ -46,10 +44,8 @@ module.exports = {
       }
     },
     checkLogin: async function () {
-      
-      
-      var result = await this.lib.axios.get(`${this.config.baseURL}/user/check-login`)
-      this.status.username = result.data
+      var result = await this.lib.AxiosHelper.get(`/user/check-login`)
+      this.status.username = result
     }
   } // methods
 }

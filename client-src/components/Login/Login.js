@@ -1,6 +1,3 @@
-//const axios = require('axios')
-//axios.defaults.withCredentials=true
-
 module.exports = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {    
@@ -23,7 +20,7 @@ module.exports = {
       if (this.email.trim() === '') {
         return true
       }
-      return this.validateEmail(this.email)
+      return this.lib.StringHelper.validateEmail(this.email)
     },
     isLoginEnable() {
       return (this.username.trim() !== ''
@@ -51,15 +48,13 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user/register`, {
-        params: {
-          username: this.username,
-          email: this.email,
-          password: this.password
-        }
+      let result = await this.lib.AxiosHelper.get(`/user/register`, {
+        username: this.username,
+        email: this.email,
+        password: this.password
       })
       
-      let user = result.data
+      let user = result
       if (typeof(user.error) === 'string') {
         if (user.error === 'user-is-existed') { 
           this.errorMessage = this.$t(`User {0} is registed.`, [this.username])
@@ -81,14 +76,12 @@ module.exports = {
       
       //console.log([this.username, this.email, this.password])
       
-      let result = await this.lib.axios.get(`${this.config.baseURL}/user/login`, {
-        params: {
+      let result = await this.lib.AxiosHelper.get(`/user/login`, {
           username: this.username,
           password: this.password,
-        }
       })
       
-      let user = result.data
+      let user = result
       //console.log(user)
       if (typeof(user.error) === 'string') {
         if (user.error === 'no-user') { 
@@ -121,8 +114,8 @@ module.exports = {
         height = screen.availHeight
       }
       
-      var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
-      var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+      var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+      var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 
       //var screenWidth = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
       //var screenHeight = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
@@ -165,10 +158,6 @@ module.exports = {
         window.removeEventListener('message', callback, false)
       }
       window.addEventListener('message', callback, false);
-    },
-    validateEmail(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
     },
   } // methods
 }
