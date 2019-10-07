@@ -141,7 +141,7 @@ class UserController {
     return origin
   }
   
-  async checkLogin ({auth}) {
+  async checkLogin ({auth, origin}) {
     /*
     let origin = 'http://blog.pulipuli.info'
     let driver = 'github'
@@ -160,7 +160,13 @@ class UserController {
     */
     try {
       let user = await auth.getUser()
-      return user.username
+      if (user.origin === origin) {
+        return user.username
+      }
+      else {
+        await this.forceLogout(auth)
+        return false
+      }
     }
     catch (error) {
       return false

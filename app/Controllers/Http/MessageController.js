@@ -4,13 +4,13 @@ const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
 class MessageController {
-  async list ({ request, response, view }) {
+  async list ({ request, response, view, origin }) {
     // 列出最近10則訊息
-    const messages = await Message.list(10)
+    const messages = await Message.list(origin, 10)
     //await messages.user().fetch()
     return messages.toJSON().reverse()
   }
-  async syncList ({ request, response, view, auth }) {
+  async syncList ({ request, response, view, auth, origin }) {
     const query = request.get()
     let lastUpdateTimestamp = query.lastUpdateTimestamp
     //console.log(lastUpdateTimestamp)
@@ -27,6 +27,9 @@ class MessageController {
             .where('user_id', '<>', userId)
             .where('timestamp', '>', lastUpdateTimestamp)
             .with('user')
+            .whereHas('user', (builder) => {
+              builder.where('origin', origin)
+            })
             .fetch()
     
     return messages.toJSON()    

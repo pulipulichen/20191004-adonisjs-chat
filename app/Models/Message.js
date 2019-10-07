@@ -17,10 +17,13 @@ class Message extends Model {
     return this.belongsTo('App/Models/User')
   }
   
-  static async list (limit = 10) {
+  static async list (origin, limit = 10) {
     let transaction = Message
             .query()
             .with('user')
+            .whereHas('user', (builder) => {
+              builder.where('origin', origin)
+            })
     
     let messages
     if (typeof(limit) !== 'number') {
