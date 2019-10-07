@@ -1,7 +1,5 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
-//axios.defaults.credentials = 'include'
-//window.axios = axios
 
 let AxiosHelper = {
   baseURL: '',
@@ -55,5 +53,4 @@ let AxiosHelper = {
   }
 }
 
-//module.exports = AxiosHelper
 export default AxiosHelper

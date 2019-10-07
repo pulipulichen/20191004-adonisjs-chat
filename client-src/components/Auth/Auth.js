@@ -1,13 +1,9 @@
-//const axios = require('axios')
-//axios.defaults.withCredentials=true
-
 let Auth = {
   props: ['lib', 'status', 'config', 'progress'],
   data() {
     return {}
   },
   mounted: async function () {
-    //console.log(this.config)
     if (typeof(this.config.username) !== 'string' 
             && typeof(this.config.usernameQueryURL) === 'string') {
       this.config.username = await this.loadUsernameFromURL()
@@ -24,9 +20,7 @@ let Auth = {
   },
   methods: {
     loadUsernameFromURL: async function () {
-      //console.log(this.config.usernameQueryURL)
       let result = await this.lib.AxiosHelper.getOther(this.config.usernameQueryURL)
-      //console.log(result.data)
       if (typeof(result) === 'string') {
         return result
       }

@@ -3,14 +3,14 @@ let Login = {
   data() {    
     this.$i18n.locale = this.config.locale
     return {
-      /*
       username: '',
       email: '',
-      password: ''
-      */
+      password: '',
+      /*
       username: 'pudding',
       email: 'pudding@nccu.edu.tw',
       password: 'test',
+       */
       mode: 'login',
       errorMessage: '',
     }
@@ -46,8 +46,6 @@ let Login = {
         return false
       }
       
-      //console.log([this.username, this.email, this.password])
-      
       let result = await this.lib.AxiosHelper.get(`/user/register`, {
         username: this.username,
         email: this.email,
@@ -65,7 +63,6 @@ let Login = {
         return false
       }
       else {
-        //this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.replace('chat')
@@ -74,21 +71,17 @@ let Login = {
     login: async function() {
       this.mode = 'login'
       
-      //console.log([this.username, this.email, this.password])
-      
       let result = await this.lib.AxiosHelper.get(`/user/login`, {
           username: this.username,
           password: this.password,
       })
-      
-      //console.log(result)
       
       let user = result
       if (user === undefined) {
         this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
         return
       }      
-      //console.log(user)
+      
       if (typeof(user.error) === 'string') {
         if (user.error === 'no-user') { 
           this.errorMessage = this.$t(`User {0} is not existed.`, [this.username])
@@ -102,14 +95,12 @@ let Login = {
         return false
       }
       else {
-        //this.status.isLogin = true
         this.status.username = this.username
         this.errorMessage = ''
         this.$router.replace('chat')
       }
     },
     loginFromOAuth(driver) {
-      //screen.availHeight
       let width = 400
       if (width > screen.availWidth) {
         width = screen.availWidth
@@ -120,44 +111,30 @@ let Login = {
         height = screen.availHeight
       }
       
-      var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-      var dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
+      let dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screenX;
+      let dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screenY;
 
-      //var screenWidth = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-      //var screenHeight = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-      var screenWidth = screen.availWidth
-      var screenHeight = screen.availHeight
+      let screenWidth = screen.availWidth
+      let screenHeight = screen.availHeight
 
-      //var systemZoom = width / window.screen.availWidth;
-      //var systemZoom = 1
-      var left = ((screenWidth - width) / 2) + dualScreenLeft
-      var top = ((screenHeight - height) / 2) + dualScreenTop
-      
-      //width = width / systemZoom
-      //height = height / systemZoom
+      let left = ((screenWidth - width) / 2) + dualScreenLeft
+      let top = ((screenHeight - height) / 2) + dualScreenTop
       
       let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', `location=0,menubar=no,copyhistory=no,directories=0,status=0,width=${width},height=${height},top=${top},left=${left}`)
       this.loginOAuthCallback(driver, win)
-      //this.oauthURL = `${this.config.baseURL}/oauth/request/${driver}`
     },
     loginOAuthCallback: function (driver, win) {
-      let callback = async (e) => {
-        //console.log([e.origin, this.config.baseURL])
-        if (e.origin !== this.config.baseURL) {
+      let callback = async (event) => {
+        if (event.origin !== this.config.baseURL) {
           return false
         }
         win.close()
-        //this.oauthURL = false
-        //let target = e.target;
-        let data = e.data
-        //console.log(data)
+        let data = event.data
         if (typeof(data) === 'object') {
           data.driver = driver
           let result = await this.lib.AxiosHelper.get(`/oauth/login`, data)
-          //console.log(result.data)
           if (result !== false) {
             this.status.username = result
-            //this.$router.replace('/chat')
           }
         }
         window.removeEventListener('message', callback, false)

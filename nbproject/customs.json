@@ -1,7 +1,16 @@
 {
   "elements": {
-    "style": {},
-    "i18n": {}
+    "style": {
+      "attributes": {
+        "src": {},
+        "lang": {}
+      }
+    },
+    "i18n": {
+      "attributes": {
+        "src": {}
+      }
+    }
   },
   "attributes": {
     "v-bind:class": {},
@@ -9,6 +18,7 @@
     "ref": {},
     "v-on:click": {},
     "v-bind:href": {},
+    "scoped": {},
     "v-for": {},
     "v-model": {}
   }

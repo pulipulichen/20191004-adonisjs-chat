@@ -4,10 +4,11 @@ let Chat = {
     this.$i18n.locale = this.config.locale
     return {
       displayMessages: [],
-      writingMessage: 'test: ' + location.href,
+      //writingMessage: 'test: ' + location.href,
+      writingMessage: '',
       lastUpdateTimestamp: null,
       stopSync: false,
-      users: [] // for test
+      syncIntervalMS: 5000,
     }
   },
   computed: {
@@ -17,7 +18,6 @@ let Chat = {
     'displayMessages': function () {
       
       let list = this.$refs.ChatList
-      //console.log(list)
       setTimeout(() => {
         list.scrollTop = list.scrollHeight
       }, 0)
@@ -25,24 +25,22 @@ let Chat = {
   },
   mounted: function () {
     this.initDisplayMessages()
-    //this.loadUsers()
-    //this.testSession()
   },
   destroyed: function () {
     this.stopSync = true
-    //console.log('destroyed')
   },
   methods: {
     initDisplayMessages: async function () {
       let messages = await this.lib.AxiosHelper.get(`/message/list`)
-      //console.log(messages.data)
+      if (Array.isArray(messages) === false) {
+        return false
+      }
       this.displayMessages = messages
-      //console.log(this.messages)
       this.lastUpdateTimestamp = this.getTime()
       
       setTimeout(() => {
         this.syncDisplayMessages()
-      }, 5000)
+      }, this.syncIntervalMS)
     },
     syncDisplayMessages: async function () {
       if (this.stopSync === true) {
@@ -57,30 +55,20 @@ let Chat = {
         return false
       }
       
-      //console.log(messages.data)
       this.displayMessages = this.displayMessages.concat(messages)
-      
       this.lastUpdateTimestamp = this.getTime()
       
       setTimeout(() => {
         this.syncDisplayMessages()
-      }, 5000)
+      }, this.syncIntervalMS)
     },
     getTime () {
       return (new Date()).getTime()
     },
     insert: async function () {
-      /*
-      let bURL = `${this.config.baseURL}/b/b`
-      let b1r = await window.axios.get(bURL)
-      console.log(b1r.data)
-       */
-      //return
       let result = await this.lib.AxiosHelper.post(`/message/insert`, {
         message: this.writingMessage
       })
-      //console.log(this.writingMessage)
-      //console.log(result.data)
       
       this.displayMessages.push({
         user: {
@@ -91,7 +79,6 @@ let Chat = {
       })
       
       this.writingMessage = ''
-      
     },
     logout: async function () {
       await this.lib.AxiosHelper.get(`/user/logout`)

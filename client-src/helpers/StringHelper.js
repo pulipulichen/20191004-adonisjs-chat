@@ -5,5 +5,4 @@ let StringHelper = {
   },
 }
 
-//module.exports = StringHelper
 export default StringHelper
