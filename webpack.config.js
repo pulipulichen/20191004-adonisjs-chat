@@ -26,10 +26,10 @@ module.exports = (env, argv) => {
     devtool: 'source-map',
     //devtool: false,
     entry: {
-      'bundle': path.resolve(__dirname, './client-src/index.js'),
+      'app': path.resolve(__dirname, './client-src/app.js'),
     },
     output: {
-      path: path.resolve(__dirname, './public/dist'),
+      path: path.resolve(__dirname, './public/client'),
       filename: '[name].js'
     },
     resolve: {
@@ -81,7 +81,7 @@ module.exports = (env, argv) => {
               options: {
                 name: '[name].[ext]',
                 outputPath: 'asset',
-                publicPath: baseURL + '/dist/asset'
+                publicPath: baseURL + '/client/asset'
               }
             }
           ]
