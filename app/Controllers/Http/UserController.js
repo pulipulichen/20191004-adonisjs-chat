@@ -144,6 +144,7 @@ class UserController {
   }
   
   async checkLogin ({auth, origin}) {
+    console.log(origin)
     //let origin = this.filterOrigin(request)
     /*
     let userId = session.get('userId', false)

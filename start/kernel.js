@@ -17,7 +17,8 @@ const globalMiddleware = [
   'Adonis/Middleware/Session',
   'Adonis/Middleware/Shield',
   'Adonis/Middleware/AuthInit',
-  'App/Middleware/OriginFilter',
+  'App/Middleware/OriginParser',
+  'App/Middleware/RefererPathParser',
   'App/Middleware/ConvertEmptyStringsToNull',
 ]
 
