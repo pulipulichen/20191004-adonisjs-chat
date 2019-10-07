@@ -1,23 +1,23 @@
+
 # Adonis fullstack application
-
-# Document
-
-- https://adonisjs.com/docs/4.1/lucid
-- Project: https://github.com/pulipulichen/20191004-adonisjs-chat
-- Issues: https://github.com/pulipulichen/20191004-adonisjs-chat/issues
-
-- For test: https://pulipulichen.github.io/20191004-adonisjs-chat/index.html
 
 ----
 
-# How to start
+# Setup
 
 1. Download source code from https://github.com/pulipulichen/20191004-adonisjs-chat/archive/master.zip
 2. Unzip
 3. Open folder in terminal
-4. For first run, execute command: `npm run init` . After installing finished, open URL browser: http://127.0.0.1:3000 .
-5. For following run in development, execute command: `npm run 0.development` and open URL browser: http://127.0.0.1:3000 .
-6. For following run in production, execute command: `npm run 1.production` .
+4. For first run:
+	* Execute command: `npm run init` . 
+	* Waiting for packages installing finish.
+	* Open URL browser: http://127.0.0.1:3000 .
+5. For following run in development:
+  * Execute command: `npm run 0.development` .
+  * Open URL browser: http://127.0.0.1:3000 .
+6. For following run in production: 
+  * Execute command: `npm run 1.production` .
+  * Insert `<script src="http://127.0.0.1:3333/client/app.js" async></script>` in the html you want to plugin.
 
 Default URL list:
 
@@ -27,10 +27,20 @@ Default URL list:
 
 ----
 
+# Document
+
+- https://adonisjs.com/docs/4.1/lucid
+- Project: https://github.com/pulipulichen/20191004-adonisjs-chat
+- Issues: https://github.com/pulipulichen/20191004-adonisjs-chat/issues
+
+- For test: https://pulipulichen.github.io/20191004-adonisjs-chat/index.html
+
+
+----
+
 # AdonisJS Commands
 
-
-# Database Migration
+## Database Migration
 
 https://adonisjs.com/docs/4.1/migrations#_creating_migrations
 
@@ -40,7 +50,7 @@ adonis migration:run
 adonis migration:refresh
 ````
 
-# Model
+## Model
 
 https://adonisjs.com/docs/4.1/lucid
 
@@ -48,7 +58,7 @@ https://adonisjs.com/docs/4.1/lucid
 adonis make:model User
 ````
 
-# Route Controller
+## Route Controller
 
 https://adonisjs.com/docs/4.1/controllers
 
@@ -57,6 +67,8 @@ adonis make:controller User --type http
 ````
 
 ----
+
+# AdonisJS Readme
 
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
 

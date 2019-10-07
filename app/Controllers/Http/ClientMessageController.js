@@ -3,7 +3,7 @@
 const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
-class MessageController {
+class ClientMessageController {
   /**
    * 列出最近10則訊息
    */
@@ -54,4 +54,4 @@ class MessageController {
   }
 }
 
-module.exports = MessageController
+module.exports = ClientMessageController

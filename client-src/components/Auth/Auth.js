@@ -26,7 +26,7 @@ let Auth = {
       }
     },
     attemptLoginViaUsername: async function (username) {
-      var result = await this.lib.AxiosHelper.get(`/user/attempt-login-via-username`, {
+      var result = await this.lib.AxiosHelper.get(`/client/user/attempt-login-via-username`, {
         username: username
       })
       if (typeof(result) === 'string') {
@@ -38,7 +38,7 @@ let Auth = {
       }
     },
     checkLogin: async function () {
-      var result = await this.lib.AxiosHelper.get(`/user/check-login`)
+      var result = await this.lib.AxiosHelper.get(`/client/user/check-login`)
       this.status.username = result
     }
   } // methods

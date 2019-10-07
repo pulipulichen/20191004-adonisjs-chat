@@ -20,16 +20,16 @@ Route.on('/').render('welcome')
 
 // ------------------------------------------
 
-Route.get('/user/login', 'UserController.login')
-Route.get('/user/register', 'UserController.register')
-Route.get('/user/logout', 'UserController.logout')
-Route.get('/user/check-login', 'UserController.checkLogin')
-Route.get('/user/attempt-login-via-username', 'UserController.attemptLoginViaUsername')
+Route.get('/client/user/login', 'ClientUserController.login')
+Route.get('/client/user/register', 'ClientUserController.register')
+Route.get('/client/user/logout', 'ClientUserController.logout')
+Route.get('/client/user/check-login', 'ClientUserController.checkLogin')
+Route.get('/client/user/attempt-login-via-username', 'ClientUserController.attemptLoginViaUsername')
 
-Route.get('/message/list', 'MessageController.list')
-Route.get('/message/sync-list', 'MessageController.syncList')
-Route.post('/message/insert', 'MessageController.insert')
+Route.get('/client/message/list', 'ClientMessageController.list')
+Route.get('/client/message/sync-list', 'ClientMessageController.syncList')
+Route.post('/client/message/insert', 'ClientMessageController.insert')
 
-Route.get('/oauth/request/:driver', 'UserController.oauthRequest')
-Route.get('/oauth/authenticated/:driver', 'UserController.oauthAuthenticated')
-Route.get('/oauth/login', 'UserController.oauthLogin')
+Route.get('/oauth/request/:driver', 'ClientUserController.oauthRequest')
+Route.get('/oauth/authenticated/:driver', 'ClientUserController.oauthAuthenticated')
+Route.get('/oauth/login', 'ClientUserController.oauthLogin')

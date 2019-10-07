@@ -31,7 +31,7 @@ let Chat = {
   },
   methods: {
     initDisplayMessages: async function () {
-      let messages = await this.lib.AxiosHelper.get(`/message/list`)
+      let messages = await this.lib.AxiosHelper.get(`/client/message/list`)
       if (Array.isArray(messages) === false) {
         return false
       }
@@ -47,7 +47,7 @@ let Chat = {
         return false
       }
       
-      let messages = await this.lib.AxiosHelper.get(`/message/sync-list`, {
+      let messages = await this.lib.AxiosHelper.get(`/client/message/sync-list`, {
         lastUpdateTimestamp: this.lastUpdateTimestamp
       })
       if (Array.isArray(messages) === false) {
@@ -66,7 +66,7 @@ let Chat = {
       return (new Date()).getTime()
     },
     insert: async function () {
-      let result = await this.lib.AxiosHelper.post(`/message/insert`, {
+      let result = await this.lib.AxiosHelper.post(`/client/message/insert`, {
         message: this.writingMessage
       })
       
@@ -81,7 +81,7 @@ let Chat = {
       this.writingMessage = ''
     },
     logout: async function () {
-      await this.lib.AxiosHelper.get(`/user/logout`)
+      await this.lib.AxiosHelper.get(`/client/user/logout`)
       this.status.username = false
       this.$router.replace('/login')
     },

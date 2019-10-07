@@ -46,7 +46,7 @@ let Login = {
         return false
       }
       
-      let result = await this.lib.AxiosHelper.get(`/user/register`, {
+      let result = await this.lib.AxiosHelper.get(`/client/user/register`, {
         username: this.username,
         email: this.email,
         password: this.password
@@ -71,7 +71,7 @@ let Login = {
     login: async function() {
       this.mode = 'login'
       
-      let result = await this.lib.AxiosHelper.get(`/user/login`, {
+      let result = await this.lib.AxiosHelper.get(`/client/user/login`, {
           username: this.username,
           password: this.password,
       })
