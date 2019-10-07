@@ -11,9 +11,15 @@
         ref="auth"></auth>
   
   {{ message }}
+  
   <div>
     ?origin=URL: <br />
-    {{ $route.query.origin }}
+    <a v-bind:href="$route.query.origin" target="origin">
+      {{ $route.query.origin }}
+    </a>
   </div>
   
+  <div class="ui list" v-for="user in users">
+      {{ user.id }}: {{ user.username }}
+  </div>
 </div>

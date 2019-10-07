@@ -41,6 +41,7 @@ let VueController = {
   template: template,
   data: {
     message: 'Hello, world.', // for test
+    users: [],
     config: config,
     status: {
       username: '',
@@ -77,16 +78,34 @@ let VueController = {
     },
     'config.locale': function () {
       this.lib.DayJSHelper.setLocale(this.config.locale)
+    },
+    '$route.query.origin': function () {
+      console.log(this.$route.query.origin)
+      if (typeof(this.$route.query.origin) === 'string' 
+              && this.$route.query.origin !== '') {
+        this.loadUsers(this.$route.query.origin)
+      }
     }
   },
   created: function () {
-    if (this.$router.currentRoute.fullPath !== '/') {
-      this.$router.replace('/')
-    }
+    
   },
   mounted: function () {
+    if (typeof(this.$route.query.origin) === 'string' 
+            && this.$route.query.origin !== '') {
+      this.loadUsers(this.$route.query.origin)
+    }
   },
   methods: {
+    loadUsers: async function (origin) {
+      let users = await this.lib.AxiosHelper.get('/admin/user/list', {
+        origin: origin
+      })
+      
+      if (Array.isArray(users)) {
+        this.users = users
+      }
+    }
   } // methods: {
 }
 

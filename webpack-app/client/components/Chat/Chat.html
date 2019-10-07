@@ -31,7 +31,7 @@
                v-on:keyup.enter="insert"
                v-model="writingMessage" />
     </div>
-    <div class="three wide field">
+    <div class="two wide field">
       <button type="button"
               class="ui fluid button"
               v-on:click="insert"
@@ -39,7 +39,14 @@
         {{ $t('Send') }}
       </button>
     </div>
-    <div class="three wide field">
+    <div class="two wide field">
+      <button type="button"
+              class="ui fluid button"
+              v-on:click="openAdmin">
+        {{ $t('Admin') }}
+      </button>
+    </div>
+    <div class="two wide field">
       <button type="button"
               v-on:click="logout"
               class="ui fluid button">

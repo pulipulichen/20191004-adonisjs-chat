@@ -17,7 +17,6 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
-Route.on('/admin').render('admin')
 
 // ------------------------------------------
 
@@ -34,3 +33,8 @@ Route.post('/client/message/insert', 'Client/MessageController.insert')
 Route.get('/oauth/request/:driver', 'Client/UserController.oauthRequest')
 Route.get('/oauth/authenticated/:driver', 'Client/UserController.oauthAuthenticated')
 Route.get('/oauth/login', 'Client/UserController.oauthLogin')
+
+// ---------------------------
+
+Route.on('/admin').render('admin')
+Route.get('/admin/user/list', 'Admin/UserController.list')

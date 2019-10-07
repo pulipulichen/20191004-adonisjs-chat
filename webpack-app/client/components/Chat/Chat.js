@@ -87,6 +87,14 @@ let Chat = {
     },
     displayAge: function (timestamp) {
       return this.lib.DayJSHelper.fromNow(timestamp)
+    },
+    openAdmin: function () {
+      let origin = location.href
+      if (origin.indexOf('#') > 0) {
+        origin = origin.slice(0, origin.indexOf('#'))
+      }
+      let adminURL = `${this.config.baseURL}/admin#/?origin=${origin}`
+      window.open(adminURL, 'admin')
     }
   } // methods
 }
