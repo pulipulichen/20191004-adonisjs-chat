@@ -1,13 +1,11 @@
 import Vue from 'vue'
-Vue.config.devtools = false
 
-const config = require('./config.js')
-require('./styles/global.less')
+// ----------------------------------
+// plugins
 
-import Fragment from 'vue-fragment'
-Vue.use(Fragment.Plugin)
-
-import i18n from './i18n'
+import './plugins/plugins'
+import './plugins/semantic-ui'
+import i18n from './plugins/i18n'
 import router from './routes'
 
 // ----------------------------------
@@ -23,7 +21,9 @@ import Auth from './components/Auth/Auth.vue'
 
 // ----------------------
 
-let $ = require('jquery')
+import $ from 'jquery'
+import template from './index.tpl'
+import config from './config.js'
 
 // -----------------------
 // 確認 baseURL
@@ -42,20 +42,7 @@ if (baseScript.length === 1) {
 let VueController = {
   el: '#app',
   i18n: i18n,
-  template: `
-  <div class="non-invasive-web-style-framework">
-    <router-view v-bind:config="config"
-        v-bind:status="status"
-        v-bind:progress="progress"
-        v-bind:lib="lib"></router-view>
-  
-    <auth v-bind:config="config"
-        v-bind:status="status"
-        v-bind:progress="progress"
-        v-bind:lib="lib"
-        ref="auth"></auth>
-  </div>
-`,
+  template: template,
   data: {
     config: config,
     status: {
@@ -119,6 +106,8 @@ let VueController = {
 if (typeof(baseURL) === 'string') {
   $(() => {
     new Vue(VueController)
+    
+    $('body > #TestMessage').remove()
   })
 }
 

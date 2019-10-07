@@ -12,7 +12,6 @@ const routes = [
   { path: '/chat', component: Chat }
 ]
 
-//module.exports = routes
 export default new VueRouter({
     routes: routes
 })

@@ -47,6 +47,17 @@ module.exports = (env, argv) => {
             //'postcss-loader?sourceMap',
           ]
         },
+        
+        {
+            test: /\.tpl$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'html-loader',
+              options: {
+                attrs: false
+              }
+            }
+        },
         {
           test: /\.less$/,
           use: [
