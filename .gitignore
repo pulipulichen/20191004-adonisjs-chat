@@ -22,3 +22,4 @@ database/development.sqlite
 /client-src/vendors.js
 /client-src/bundle.js.map
 /client-src/bundle.js
+/.env.https

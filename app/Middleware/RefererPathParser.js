@@ -12,6 +12,12 @@ class RefererPathParser {
       referer = headers.origin
     }
     
+    if (typeof(referer) !== 'string') {
+      data.refererPath = '/'
+      await next()
+      return
+    }
+    
     let refererPath = '/' + referer.split('/').slice(3).join('/')
     
     for (let i = 0; i < directoryIndexMapping.length; i++) {

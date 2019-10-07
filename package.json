@@ -8,6 +8,7 @@
     "0.development": "concurrently --kill-others --names \"a,c,w\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
     "1.production": "concurrently --kill-others --names \"a,w\" \"npm run start\" \"npm w4.webpack-build-production\"",
     "start": "nodemon --ignore client-src --ignore database --ignore php-server --ignore public --ignore website-cors server.js",
+    "start-https": "nodemon --ignore client-src --ignore database --ignore php-server --ignore public --ignore website-cors server-https.js",
     "migration": "adonis migration:refresh",
     "test": "node ace test",
     "cors-start": "node ./website-cors/index.js",
@@ -38,6 +39,7 @@
     "lodash": "^4.17.15",
     "long": "^4.0.0",
     "node-exceptions": "^4.0.1",
+    "pem": "^1.14.3",
     "type-of-is": "^3.5.1",
     "vue-router": "^3.1.3"
   },

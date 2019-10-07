@@ -12,6 +12,12 @@ class OriginParser {
       origin = headers.referer.split('/').slice(0,3).join('/')
     }
     
+    if (typeof(origin) !== 'string') {
+      data.origin = '__direct'
+      await next()
+      return
+    }
+    
     // ---------------------
     // 先把127.0.0.1對應成localhost
     
