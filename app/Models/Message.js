@@ -34,20 +34,6 @@ class Message extends Model {
     }
     return messages
   }
-  
-  /*
-  static get computed() {
-    return ['username']
-  }
-  
-  async getUsername() {
-    let user = await this.belongsTo('App/Models/User').fetch()
-    console.log(user.username)
-    //console.log(user.toJSON())
-    //return user.username
-    return user.username
-  }
-   */
 }
 
 module.exports = Message

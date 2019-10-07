@@ -4,16 +4,17 @@ const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
 class MessageController {
+  /**
+   * 列出最近10則訊息
+   */
   async list ({ request, response, view, origin }) {
-    // 列出最近10則訊息
     const messages = await Message.list(origin, 10)
-    //await messages.user().fetch()
     return messages.toJSON().reverse()
   }
+  
   async syncList ({ request, response, view, auth, origin }) {
     const query = request.get()
     let lastUpdateTimestamp = query.lastUpdateTimestamp
-    //console.log(lastUpdateTimestamp)
     if (isNaN(lastUpdateTimestamp) === true) {
       return []
     }
@@ -36,29 +37,20 @@ class MessageController {
   }
   async insert ({ request, response, view, auth }) {
     const query = request.post()
-    //console.log(query)
     if (typeof(query.message) !== 'string') {
       return false
     }
     
     let user = await auth.getUser()
     let userId = user.id
-    //let userId = session.get('userId', false)
-    //console.log(session.get('userId'))
-    //console.log(userId)
     if (userId === false) {
-      //userId = 1
       return false
     }
     
     let message = new Message()
     message.message = query.message
     await user.messages().save(message)
-    
-    //await message.reload()
-    //console.log(message.toJSON().created)
     return message.timestamp
-    //return true
   }
 }
 

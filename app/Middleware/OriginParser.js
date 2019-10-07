@@ -40,11 +40,8 @@ class OriginParser {
       origin = parts.slice(0,-1).concat(domain).join('/')
     }
     
-    //console.log(domain)
-    
     // ------------------
     // 再從config做對應
-    //console.log(mapping)
     
     if (typeof(mapping[domain]) === 'string') {
       origin = parts.slice(0,-1).concat(mapping[domain]).join('/')

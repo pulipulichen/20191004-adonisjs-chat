@@ -9,46 +9,11 @@ class UserController {
   async login ({ request, auth, origin }) {
     const query = request.get()
     
-    await this.forceLogout(auth)
-    return await this.attempLogin(auth, query, origin)
-    
-    /*
-    try {
-      await auth.remember(true).attempt(query.username, query.password)
-      return {}
-    }
-    catch (error) {
-      return {error: 'Login error'}
-    }
-    */
-
-    /*
-    let user = await User.findBy({
-      username: query.username
-    })
-
-    if (user === null) {
-      //session.forget('userId')
-      return {error: 'no-user'}
-    }
-
-    let queryPassword = query.password
-    const isSame = await user.validatePassword(queryPassword)
-    
-    if (isSame) {
-      //console.log('login', user.id)
-      //session.put('userId', user.id)
-      return {}
-    } else {
-      session.forget('userId')
-      return {
-        error: 'password-wrong'
-      }
-    }
-    */
+    await this._forceLogout(auth)
+    return await this._attempLogin(auth, query, origin)
   }
   
-  async attempLogin(auth, query, origin) {
+  async _attempLogin(auth, query, origin) {
     let user = await User.findBy({
       username: query.username,
       origin: origin
@@ -63,22 +28,19 @@ class UserController {
       return {error: 'password-wrong'}
     }
     
-    await this.forceLogout(auth)
+    await this._forceLogout(auth)
     await auth.remember(true).login(user)
     return {}
   }
   
   async register({ request, response, view, session, auth, origin }) {
     const query = request.get()
-    //console.log(query, origin)
 
     let user = await User.findBy({
       username: query.username,
       origin: origin
     })
     
-    //console.log(user)
-
     if (user === null) {
       // 走註冊，建立使用者
       user = new User()
@@ -89,14 +51,11 @@ class UserController {
       user.origin = origin
 
       let result = await user.save()
-      //console.log(result)
       if (result === true) {
-        //session.put('userId', user.id)
-        await this.forceLogout(auth)
+        await this._forceLogout(auth)
         await auth.remember(true).login(user)
         return {}
       } else {
-        //session.forget('userId')
         return {
           error: 'add-user-failed'
         }
@@ -105,10 +64,10 @@ class UserController {
 
     // --------------
     // 走登入
-    return await this.attempLogin(auth, query, origin)
+    return await this._attempLogin(auth, query, origin)
   }
   
-  async forceLogout(auth) {
+  async _forceLogout(auth) {
     try {
       await auth.check()
       await auth.logout()
@@ -116,10 +75,6 @@ class UserController {
   }
   
   async logout ({ auth }) {
-    //session.forget('userId')
-    //console.log(session.get('userId'))
-    //return {userId: session.get('useuser_idrId')}
-    
     try {
       await auth.logout()
       return true
@@ -129,40 +84,14 @@ class UserController {
     }
   }
   
-  filterOrigin (request) {
-    let headers = request.headers()
-    let origin = headers.origin
-    if (typeof(origin) !== 'string' 
-            && typeof(headers.referer) === 'string') {
-      origin = headers.referer.split('/').slice(0,3).join('/')
-    }
-    return origin
-  }
-  
   async checkLogin ({auth, origin}) {
-    /*
-    let origin = 'http://blog.pulipuli.info'
-    let driver = 'github'
-    let oauthID = 2345913
-    
-    const userOauth = await UserOAuth
-      .query()
-      .where('driver', driver)
-      .where('oauth_id', oauthID)
-      .whereHas('user', (builder) => {
-        builder.where('origin', origin)
-      })
-      .fetch()
-    
-    console.log(userOauth.toJSON())
-    */
     try {
       let user = await auth.getUser()
       if (user.origin === origin) {
         return user.username
       }
       else {
-        await this.forceLogout(auth)
+        await this._forceLogout(auth)
         return false
       }
     }
@@ -183,7 +112,7 @@ class UserController {
       return {error: 'no-user'}
     }
     
-    await this.forceLogout(auth)
+    await this._forceLogout(auth)
     await auth.remember(true).login(user)
     return user.username
   }
@@ -192,10 +121,8 @@ class UserController {
     await ally.driver(params.driver).stateless().redirect()
   }
   
-  async oauthAuthenticated({ally, params, request}) {
-    //let origin = this.filterOrigin(request)
+  async oauthAuthenticated({ally, params}) {
     let driver = params.driver
-    //console.log(driver)
     let oauthUser = await ally.driver(driver).getUser()
     oauthUser = oauthUser.toJSON()
     
@@ -207,12 +134,11 @@ class UserController {
   }
   
   async oauthLogin({request, auth, origin}) {
-    //console.log(origin)
     
     let {driver, oauthUser} = request.get()
     oauthUser = JSON.parse(oauthUser)
     let oauthID = oauthUser.id
-    //console.log(oauthID)
+    
     // ----------------------------
     
     let user, userOauth
@@ -225,10 +151,7 @@ class UserController {
       })
       .fetch()
     
-    //console.log(userOauth.size())
-    
     if (userOauth.size() > 0) {
-      //console.log(userOauth.user_id)
       user = await User.find(userOauth.first().user_id)
       await auth.remember(true).login(user)
       return user.username
@@ -249,7 +172,6 @@ class UserController {
         
         userOauth.driver = driver
         userOauth.oauth_id = oauthID
-        //userOauth.origin = origin
         
         await user.oauths().save(userOauth)
         await auth.remember(true).login(user)
@@ -271,8 +193,6 @@ class UserController {
     user.username = user.username + '@' + driver
     user.email = email 
     user.origin = origin
-    //user[field] = oauthID
-    //user.password = oauthUser.password
 
     await user.save()
     
@@ -280,11 +200,10 @@ class UserController {
         
     userOauth.driver = driver
     userOauth.oauth_id = oauthID
-    //userOauth.origin = origin
 
     await user.oauths().save(userOauth)
     
-    await this.forceLogout(auth)
+    await this._forceLogout(auth)
     await auth.remember(true).login(user)
     return user.username
   }
