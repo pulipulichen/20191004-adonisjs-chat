@@ -17,7 +17,7 @@
   * Open URL browser: http://127.0.0.1:3000 .
 6. For following run in production: 
   * Execute command: `npm run 1.production` .
-  * Insert `<script src="http://127.0.0.1:3333/client/app.js" async></script>` in the html you want to plugin.
+  * Insert `<script src="http://127.0.0.1:3333/spa/client.js" async></script>` in the html you want to plugin.
 
 Default URL list:
 

@@ -6,7 +6,7 @@ import Vue from 'vue'
 import './plugins/plugins'
 import './plugins/semantic-ui'
 import i18n from './plugins/i18n'
-import router from './client-routes'
+import router from './client/routes'
 
 // ----------------------------------
 // Helpers
@@ -22,7 +22,7 @@ import Auth from './client/components/Auth/Auth.vue'
 // ----------------------
 
 import $ from 'jquery'
-import template from './client.tpl'
+import template from './client/client.tpl'
 import config from './config.js'
 
 // -----------------------
