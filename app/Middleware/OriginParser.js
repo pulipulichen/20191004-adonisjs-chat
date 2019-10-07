@@ -1,8 +1,5 @@
 'use strict'
 
-const Config = use('Config')
-let mapping = Config.get('origin.originMapping')
-
 const OriginFilter = use('App/Helpers/OriginFilter')
 
 class OriginParser {
