@@ -81,7 +81,7 @@ let Login = {
           password: this.password,
       })
       
-      console.log(result)
+      //console.log(result)
       
       let user = result
       if (user === undefined) {
