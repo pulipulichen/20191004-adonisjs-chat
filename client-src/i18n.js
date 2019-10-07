@@ -6,9 +6,9 @@ import i18nGlobal from './i18n/i18n-global.conf.js'
 //console.log(i18nGlobal)
 
 const i18n = new VueI18n({
-  locale: 'zh-TW', // set locale
+  locale: 'zh-TW', // set default locale
   messages: i18nGlobal,
-  silentTranslationWarn: true,
+  silentTranslationWarn: true
 })
 
 export default i18n

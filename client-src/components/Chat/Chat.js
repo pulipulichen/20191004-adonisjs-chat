@@ -52,7 +52,7 @@ let Chat = {
       let messages = await this.lib.AxiosHelper.get(`/message/sync-list`, {
         lastUpdateTimestamp: this.lastUpdateTimestamp
       })
-      if (messages === false) {
+      if (Array.isArray(messages) === false) {
         console.error('Sync messages fail.')
         return false
       }
