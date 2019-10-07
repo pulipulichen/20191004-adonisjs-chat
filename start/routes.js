@@ -20,16 +20,16 @@ Route.on('/').render('welcome')
 
 // ------------------------------------------
 
-Route.get('/client/user/login', 'ClientUserController.login')
-Route.get('/client/user/register', 'ClientUserController.register')
-Route.get('/client/user/logout', 'ClientUserController.logout')
-Route.get('/client/user/check-login', 'ClientUserController.checkLogin')
-Route.get('/client/user/attempt-login-via-username', 'ClientUserController.attemptLoginViaUsername')
+Route.get('/client/user/login', 'Client/UserController.login')
+Route.get('/client/user/register', 'Client/UserController.register')
+Route.get('/client/user/logout', 'Client/UserController.logout')
+Route.get('/client/user/check-login', 'Client/UserController.checkLogin')
+Route.get('/client/user/attempt-login-via-username', 'Client/UserController.attemptLoginViaUsername')
 
-Route.get('/client/message/list', 'ClientMessageController.list')
-Route.get('/client/message/sync-list', 'ClientMessageController.syncList')
-Route.post('/client/message/insert', 'ClientMessageController.insert')
+Route.get('/client/message/list', 'Client/MessageController.list')
+Route.get('/client/message/sync-list', 'Client/MessageController.syncList')
+Route.post('/client/message/insert', 'Client/MessageController.insert')
 
-Route.get('/oauth/request/:driver', 'ClientUserController.oauthRequest')
-Route.get('/oauth/authenticated/:driver', 'ClientUserController.oauthAuthenticated')
-Route.get('/oauth/login', 'ClientUserController.oauthLogin')
+Route.get('/oauth/request/:driver', 'Client/UserController.oauthRequest')
+Route.get('/oauth/authenticated/:driver', 'Client/UserController.oauthAuthenticated')
+Route.get('/oauth/login', 'Client/UserController.oauthLogin')

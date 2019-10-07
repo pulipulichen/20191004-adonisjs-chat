@@ -3,16 +3,16 @@
 const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
-class ClientMessageController {
+class MessageController {
   /**
    * 列出最近10則訊息
    */
-  async list ({ request, response, view, origin }) {
+  async list ({ origin }) {
     const messages = await Message.list(origin, 10)
     return messages.toJSON().reverse()
   }
   
-  async syncList ({ request, response, view, auth, origin }) {
+  async syncList ({ request, auth, origin }) {
     const query = request.get()
     let lastUpdateTimestamp = query.lastUpdateTimestamp
     if (isNaN(lastUpdateTimestamp) === true) {
@@ -35,7 +35,7 @@ class ClientMessageController {
     
     return messages.toJSON()    
   }
-  async insert ({ request, response, view, auth }) {
+  async insert ({ request, auth }) {
     const query = request.post()
     if (typeof(query.message) !== 'string') {
       return false
@@ -54,4 +54,4 @@ class ClientMessageController {
   }
 }
 
-module.exports = ClientMessageController
+module.exports = MessageController

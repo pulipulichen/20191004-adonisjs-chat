@@ -5,7 +5,7 @@ const UserOAuth = use('App/Models/UserOAuth')
 
 const Hash = use('Hash')
 
-class ClientUserController {
+class UserController {
   async login ({ request, auth, origin }) {
     const query = request.get()
     
@@ -209,4 +209,4 @@ class ClientUserController {
   }
 }
 
-module.exports = ClientUserController
+module.exports = UserController
