@@ -3,5 +3,5 @@ module.exports = {
   },
   
   locale: 'zh-TW',
-  appName: 'ChatAPP'
+  localConfigName: 'CONFIG'
 }

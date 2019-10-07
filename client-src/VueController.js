@@ -51,7 +51,7 @@ let $ = require('jquery')
 // 確認 baseURL
 
 let baseURL
-let baseScript = $(`script#${config.appName}:first`)
+let baseScript = $(document.currentScript)
 if (baseScript.length === 1) {
   baseURL = baseScript.attr('src').split('/').slice(0, 3).join('/')
   //console.log(baseURL)
@@ -131,7 +131,7 @@ let VueController = {
   },
   methods: {
     loadLocalConfig: function () {
-      let localConfig = window[`${this.config.appName}_CONFIG`]
+      let localConfig = window[this.config.localConfigName]
       
       if (typeof(localConfig) === 'object') {
         for (let key in localConfig) {
