@@ -15,9 +15,15 @@
 1. Download source code from https://github.com/pulipulichen/20191004-adonisjs-chat/archive/master.zip
 2. Unzip
 3. Open folder in terminal
-4. For first run, execute command: `npm run init` .
-5. For following run in development, execute command: `npm run 0.development` .
+4. For first run, execute command: `npm run init` . After installing finished, open URL browser: http://127.0.0.1:3000 .
+5. For following run in development, execute command: `npm run 0.development` and open URL browser: http://127.0.0.1:3000 .
 6. For following run in production, execute command: `npm run 1.production` .
+
+Default URL list:
+
+- CORS test website: http://127.0.0.1:3000
+- Main AdonisJS server: http://127.0.0.1:3333
+- AdonisJS https server for test: http://127.0.0.1:4444 (Run `npm run start-https` first)
 
 ----
 
