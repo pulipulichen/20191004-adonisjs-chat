@@ -1,32 +1,18 @@
 'use strict';
 
-// 要能夠讀取到baseURL才行...
-//const baseURL = 'http://127.0.0.1:3333/'
-
 const dotenv = require('dotenv');
 dotenv.config();
 const baseURL = process.env.PROTOCOL + '//' + process.env.HOST + ':' + process.env.PORT
-//console.log(baseURL)
 
 const path = require('path')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
-//const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-//const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-
-//const ExtractTextPlugin = require("extract-text-webpack-plugin")
-//const WebpackShellPlugin = require('webpack-shell-plugin')
-//const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 let compileCount = 0
 
 module.exports = (env, argv) => {
-  //console.log(argv.mode)
-  //console.log(argv.watch)
-  
+
   if (argv.mode === undefined) {
     argv.mode = 'development'
   }
@@ -40,7 +26,6 @@ module.exports = (env, argv) => {
     devtool: 'source-map',
     //devtool: false,
     entry: {
-      //'test': './[tmp/test.js',
       'bundle': path.resolve(__dirname, './client-src/index.js'),
     },
     output: {
@@ -95,35 +80,8 @@ module.exports = (env, argv) => {
           type: 'javascript/auto',
           loader: '@kazupon/vue-i18n-loader',
         },
-        /*
-        {
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread']
-            }
-          }
-        }
-        */
       ]
     },
-    // 這邊會決定是否要產生vendor.js檔案，
-    /*
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
-    },
-     */
     plugins: [
       new VueLoaderPlugin(),
       {
@@ -149,10 +107,16 @@ module.exports = (env, argv) => {
     ],  // plugins: [
   } // let webpackConfig = {
 
-  //console.log(argv.mode)
+  // -------------------------------------------------------------------
 
   if (argv.mode === 'production') {
     webpackConfig.devtool = false
+
+    for (let name in webpackConfig.entry) {
+      let entry = webpackConfig.entry[name]
+      webpackConfig.entry[name] = ["@babel/polyfill", entry]
+      break
+    }
 
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
