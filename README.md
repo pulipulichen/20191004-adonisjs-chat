@@ -10,6 +10,17 @@
 
 ----
 
+# How to start
+
+1. Download source code from https://github.com/pulipulichen/20191004-adonisjs-chat/archive/master.zip
+2. Unzip
+3. Open folder in terminal
+4. For first run, execute command: `npm run init` .
+5. For following run in development, execute command: `npm run 0.development` .
+6. For following run in production, execute command: `npm run 1.production` .
+
+----
+
 # AdonisJS Commands
 
 

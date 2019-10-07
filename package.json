@@ -5,7 +5,7 @@
   "description": "The fullstack application boilerplate for Adonisjs",
   "main": "index.js",
   "scripts": {
-    "init": "npm i && node init.js && npm run migration",
+    "init": "npm i && node init.js && npm run migration && npm run 0.development",
     "0.development": "concurrently --kill-others --names \"a,c,w\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
     "1.production": "concurrently --kill-others --names \"a,w\" \"npm run start\" \"npm w4.webpack-build-production\"",
     "start": "nodemon --ignore client-src --ignore database --ignore php-server --ignore public --ignore website-cors server.js",
