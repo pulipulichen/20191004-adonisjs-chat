@@ -129,7 +129,7 @@ let Login = {
       var screenHeight = screen.availHeight
 
       //var systemZoom = width / window.screen.availWidth;
-      var systemZoom = 1
+      //var systemZoom = 1
       var left = ((screenWidth - width) / 2) + dualScreenLeft
       var top = ((screenHeight - height) / 2) + dualScreenTop
       
@@ -137,10 +137,10 @@ let Login = {
       //height = height / systemZoom
       
       let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', `location=0,menubar=no,copyhistory=no,directories=0,status=0,width=${width},height=${height},top=${top},left=${left}`)
-      this.loginOAuthCallback(win)
+      this.loginOAuthCallback(driver, win)
       //this.oauthURL = `${this.config.baseURL}/oauth/request/${driver}`
     },
-    loginOAuthCallback: function (win) {
+    loginOAuthCallback: function (driver, win) {
       let callback = async (e) => {
         //console.log([e.origin, this.config.baseURL])
         if (e.origin !== this.config.baseURL) {
@@ -152,12 +152,11 @@ let Login = {
         let data = e.data
         //console.log(data)
         if (typeof(data) === 'object') {
-          let result = await this.lib.axios.get(`${this.config.baseURL}/oauth/login`, {
-            params: data
-          })
+          data.driver = driver
+          let result = await this.lib.AxiosHelper.get(`/oauth/login`, data)
           //console.log(result.data)
-          if (result.data !== false) {
-            this.status.username = result.data
+          if (result !== false) {
+            this.status.username = result
             //this.$router.replace('/chat')
           }
         }

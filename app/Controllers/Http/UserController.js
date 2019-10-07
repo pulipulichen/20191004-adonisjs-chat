@@ -6,8 +6,7 @@ const UserOAuth = use('App/Models/UserOAuth')
 const Hash = use('Hash')
 
 class UserController {
-  async login ({ request, auth }) {
-    let origin = this.filterOrigin(request)
+  async login ({ request, auth, origin }) {
     const query = request.get()
     
     await this.forceLogout(auth)
@@ -71,8 +70,7 @@ class UserController {
     return {}
   }
   
-  async register({ request, response, view, session, auth }) {
-    let origin = this.filterOrigin(request)
+  async register({ request, response, view, session, auth, origin }) {
     const query = request.get()
     //console.log(query, origin)
 
@@ -143,13 +141,23 @@ class UserController {
     return origin
   }
   
-  async checkLogin ({auth, origin}) {
-    console.log(origin)
-    //let origin = this.filterOrigin(request)
+  async checkLogin ({auth}) {
     /*
-    let userId = session.get('userId', false)
-    console.log('check-login',session.get('userId'))
-     */
+    let origin = 'http://blog.pulipuli.info'
+    let driver = 'github'
+    let oauthID = 2345913
+    
+    const userOauth = await UserOAuth
+      .query()
+      .where('driver', driver)
+      .where('oauth_id', oauthID)
+      .whereHas('user', (builder) => {
+        builder.where('origin', origin)
+      })
+      .fetch()
+    
+    console.log(userOauth.toJSON())
+    */
     try {
       let user = await auth.getUser()
       return user.username
@@ -157,23 +165,9 @@ class UserController {
     catch (error) {
       return false
     }
-    /*
-    if (userId === false) {
-      return false
-    }
-    
-    let user = await User.find(userId)
-    if (user === null) {
-      return false
-    }
-    else {
-      return user.username
-    }
-     */
   }
   
-  async attemptLoginViaUsername ({auth, request}) {
-    let origin = this.filterOrigin(request)
+  async attemptLoginViaUsername ({auth, request, origin}) {
     const query = request.get()
     
     let user = await User.findBy({
@@ -203,92 +197,12 @@ class UserController {
     
     return `<script>
       window.opener.postMessage({
-        driver: '${driver}',
         oauthUser: ${JSON.stringify(oauthUser)}
       }, '*')
     </script>`
-    
-    // -------------------------
-    // 先找找看有沒有這個id
-    
-    //console.log(oauthUser)
-    /*
-    let oauthID = oauthUser.id
-    let returnScript = `
-    <script>
-      window.opener.postMessage({
-        driver: '${driver}',
-        oauthID: ${oauthID}
-      }, '*')
-    </script>`
-    //console.log(oauthID)
-    
-    let user, userOauth
-    userOauth = await UserOAuth.findBy({
-      driver: driver,
-      origin: origin,
-      oauth_id: oauthID
-    })
-    
-    //console.log(user)
-    
-    if (userOauth !== null) {
-      return returnScript
-    }
-    
-    // -------------------------
-    // 嘗試用email合併既有的帳號
-    
-    let email = oauthUser.email
-    if (typeof(email) === 'string') {
-      user = await User.findBy({
-        email: email,
-        origin: origin
-      })
-
-      if (user !== null) {
-        userOauth = new UserOAuth()
-        
-        userOauth.driver = driver
-        userOauth.oauth_id = oauthID
-        
-        await user.oauths().save(userOauth)
-        return returnScript
-      }
-    }
-    else {
-      email = oauthID + '@' + driver + '.oauth'
-    }
-    
-    // -------------------------
-    // 在這裡建立user並且嘗試登入
-    user = new User()
-
-    user.username = oauthUser.name
-    if (typeof(oauthUser.nickname) === 'string') {
-      user.username = oauthUser.nickname
-    }
-    user.username = user.username + '@' + driver
-    user.email = email 
-    user.origin = origin
-    //user[field] = oauthID
-    //user.password = oauthUser.password
-
-    await user.save()
-    
-    userOauth = new UserOAuth()
-        
-    userOauth.driver = driver
-    userOauth.oauth_id = oauthID
-
-    await user.oauths().save(userOauth)
-    
-    return returnScript
-    */
   }
   
-  async oauthLogin({request, auth}) {
-    let origin = this.filterOrigin(request)
+  async oauthLogin({request, auth, origin}) {
     //console.log(origin)
     
     let {driver, oauthUser} = request.get()
@@ -298,16 +212,20 @@ class UserController {
     // ----------------------------
     
     let user, userOauth
-    userOauth = await UserOAuth.findBy({
-      driver: driver,
-      origin: origin,
-      oauth_id: oauthID
-    })
+    userOauth = await UserOAuth
+      .query()
+      .where('driver', driver)
+      .where('oauth_id', oauthID)
+      .whereHas('user', (builder) => {
+        builder.where('origin', origin)
+      })
+      .fetch()
     
-    //console.log(user)
+    //console.log(userOauth.size())
     
-    if (userOauth !== null) {
-      user = await userOauth.user().fetch()
+    if (userOauth.size() > 0) {
+      //console.log(userOauth.user_id)
+      user = await User.find(userOauth.first().user_id)
       await auth.remember(true).login(user)
       return user.username
     }
@@ -327,7 +245,7 @@ class UserController {
         
         userOauth.driver = driver
         userOauth.oauth_id = oauthID
-        userOauth.origin = origin
+        //userOauth.origin = origin
         
         await user.oauths().save(userOauth)
         await auth.remember(true).login(user)
@@ -358,7 +276,7 @@ class UserController {
         
     userOauth.driver = driver
     userOauth.oauth_id = oauthID
-    userOauth.origin = origin
+    //userOauth.origin = origin
 
     await user.oauths().save(userOauth)
     
