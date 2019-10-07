@@ -1,5 +1,12 @@
 'use strict';
-const baseURL = 'http://127.0.0.1:3333/'
+
+// 要能夠讀取到baseURL才行...
+//const baseURL = 'http://127.0.0.1:3333/'
+
+const dotenv = require('dotenv');
+dotenv.config();
+const baseURL = process.env.PROTOCOL + '//' + process.env.HOST + ':' + process.env.PORT
+//console.log(baseURL)
 
 const path = require('path')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
