@@ -223,9 +223,10 @@ Route.get('/sub2.b', ({ session, request }) => {
 
 Route.get('/20191007a/set', ({ session, request }) => {
   let origin = request.headers().origin
+  console.log(origin)
   //console.log(request.header('cookie'))
-  session.put('name20191007', origin) // 'virk'
-  let result = session.get('name20191007') // 'virk'
+  session.put('name20191007', origin)
+  let result = session.get('name20191007')
   console.log('name20191007', result)
   if (result !== null) {
     return result // 'virk'

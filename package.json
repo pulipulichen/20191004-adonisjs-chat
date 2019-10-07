@@ -5,16 +5,16 @@
   "description": "The fullstack application boilerplate for Adonisjs",
   "main": "index.js",
   "scripts": {
-    "0.development": "concurrently --kill-others --names \"adonis,cors,webpack\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
-    "1.production": "concurrently --kill-others --names \"adonis,webpack\" \"npm run start\" \"npm w4.webpack-build-production\"",
+    "0.development": "concurrently --kill-others --names \"a,c,w\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
+    "1.production": "concurrently --kill-others --names \"a,w\" \"npm run start\" \"npm w4.webpack-build-production\"",
     "start": "nodemon --ignore client-src --ignore database --ignore php-server --ignore public --ignore website-cors server.js",
     "migration": "adonis migration:refresh",
     "test": "node ace test",
     "cors-start": "node ./website-cors/index.js",
-    "w1.webpack-build-development": "webpack --mode development",
-    "w2.webpack-watch-development": "webpack --watch --mode development --display errors-only",
-    "w3.webpack-watch-build-production": "webpack --watch --mode production --display errors-only",
-    "w4.webpack-build-production": "webpack --mode production"
+    "w1.webpack-build-development": "webpack --color --mode development",
+    "w2.webpack-watch-development": "webpack --color --watch --mode development --display errors-only",
+    "w3.webpack-watch-build-production": "webpack --color --watch --mode production --display errors-only",
+    "w4.webpack-build-production": "webpack --color --mode production"
   },
   "keywords": [
     "adonisjs",
@@ -30,6 +30,7 @@
     "@adonisjs/generic-exceptions": "^3.0.1",
     "axios": "^0.19.0",
     "bson": "^4.0.2",
+    "concurrently": "^5.0.0",
     "dayjs": "^1.8.16",
     "fs-extra": "^8.1.0",
     "graceful-fs": "^4.2.2",
@@ -56,7 +57,6 @@
     "@kazupon/vue-i18n-loader": "^0.4.1",
     "@vue/component-compiler-utils": "^3.0.0",
     "babel-loader": "^8.0.6",
-    "concurrently": "^4.1.2",
     "connect": "^3.7.0",
     "css-loader": "^3.2.0",
     "cssnano": "^4.1.10",
