@@ -21,9 +21,9 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+    
   }
   
-  /*
   async validatePassword (queryPassword) {
     console.log(queryPassword)
     if (typeof(queryPassword) !== 'string') {
@@ -36,9 +36,6 @@ class User extends Model {
     console.log(isSame)
     return isSame
   }
-  */
-  
-  
 
   /**
    * A relationship on tokens is required for auth to

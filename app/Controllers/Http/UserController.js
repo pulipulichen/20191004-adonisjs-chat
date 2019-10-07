@@ -57,10 +57,12 @@ class UserController {
     if (user === null) {
       return {error: 'no-user'}
     }
-    //console.log(query.password)
     
-    const match = await Hash.verify(query.password, user.password)
-    //let match = await user.validatePassword(query.passoword)
+    //const match = await Hash.verify(query.password, user.password)
+    let p = query.passoword
+    await user.ok(111)
+    console.log('outside', query.password)
+    let match = await user.p(query.password)
     if (match === false) {
       return {error: 'password-wrong'}
     }

@@ -52,6 +52,11 @@ let Chat = {
       let messages = await this.lib.AxiosHelper.get(`/message/sync-list`, {
         lastUpdateTimestamp: this.lastUpdateTimestamp
       })
+      if (messages === false) {
+        console.error('Sync messages fail.')
+        return false
+      }
+      
       //console.log(messages.data)
       this.displayMessages = this.displayMessages.concat(messages)
       
