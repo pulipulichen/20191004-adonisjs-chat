@@ -124,7 +124,12 @@ class UserController {
   }
   
   filterOrigin (request) {
-    let origin = request.headers().origin
+    let headers = request.headers()
+    let origin = headers.origin
+    if (typeof(origin) !== 'string' 
+            && typeof(headers.referer) === 'string') {
+      origin = headers.referer.split('/').slice(0,3).join('/')
+    }
     return origin
   }
   
