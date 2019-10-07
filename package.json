@@ -5,7 +5,8 @@
   "description": "The fullstack application boilerplate for Adonisjs",
   "main": "index.js",
   "scripts": {
-    "0.concurrently": "concurrently --kill-others --names \"adonis,cors,webpack\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
+    "0.development": "concurrently --kill-others --names \"adonis,cors,webpack\" \"npm run start\" \"npm run cors-start\" \"npm run w2.webpack-watch-development\"",
+    "1.production": "concurrently --kill-others --names \"adonis,webpack\" \"npm run start\" \"npm w4.webpack-build-production\"",
     "start": "nodemon --ignore client-src --ignore database --ignore php-server --ignore public --ignore website-cors server.js",
     "migration": "adonis migration:refresh",
     "test": "node ace test",
@@ -17,7 +18,9 @@
   },
   "keywords": [
     "adonisjs",
-    "adonis-app"
+    "adonis-app",
+    "vue",
+    "cors"
   ],
   "author": "",
   "license": "MIT",

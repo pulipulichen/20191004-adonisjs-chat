@@ -220,3 +220,29 @@ Route.get('/sub2.b', ({ session, request }) => {
     return 'no result'
   }
 })
+
+Route.get('/20191007a/set', ({ session, request }) => {
+  let origin = request.headers().origin
+  //console.log(request.header('cookie'))
+  session.put('name20191007', origin) // 'virk'
+  let result = session.get('name20191007') // 'virk'
+  console.log('name20191007', result)
+  if (result !== null) {
+    return result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
+
+Route.get('/20191007b/get', ({ session, request }) => {
+  //console.log(request.header('cookie'))
+  let result = session.get('name20191007') // 'virk'
+  console.log('name20191007', result)
+  if (result !== null) {
+    return 'diff path: ' + result // 'virk'
+  }
+  else {
+    return 'no result'
+  }
+})
