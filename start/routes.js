@@ -17,6 +17,7 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.on('/admin').render('admin')
 
 // ------------------------------------------
 

@@ -26,16 +26,17 @@ module.exports = (env, argv) => {
     devtool: 'source-map',
     //devtool: false,
     entry: {
-      'app': path.resolve(__dirname, './client-src/app.js'),
+      'client': path.resolve(__dirname, './webpack-app/client.js'),
+      'admin': path.resolve(__dirname, './webpack-app/admin.js'),
     },
     output: {
-      path: path.resolve(__dirname, './public/client'),
+      path: path.resolve(__dirname, './public/spa'),
       filename: '[name].js'
     },
     resolve: {
       alias: {
         vue: 'vue/dist/vue.esm.js'
-      },
+      }
     },
     module: {
       rules: [
@@ -43,7 +44,7 @@ module.exports = (env, argv) => {
           test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
           use: [
             'vue-style-loader', // 這個會後執行 (順序很重要)
-            'css-loader?sourceMap', // 這個會先執行
+            'css-loader?sourceMap' // 這個會先執行
             //'postcss-loader?sourceMap',
           ]
         },
@@ -71,7 +72,7 @@ module.exports = (env, argv) => {
           test: /\.vue$/,
           use: [
             'vue-loader'
-          ],
+          ]
         },
         {
           test: /\.(eot|woff|woff2|svg|png|ttf)([\?]?.*)$/,
@@ -81,7 +82,7 @@ module.exports = (env, argv) => {
               options: {
                 name: '[name].[ext]',
                 outputPath: 'asset',
-                publicPath: baseURL + '/client/asset'
+                publicPath: baseURL + '/spa/asset'
               }
             }
           ]
@@ -126,7 +127,6 @@ module.exports = (env, argv) => {
     for (let name in webpackConfig.entry) {
       let entry = webpackConfig.entry[name]
       webpackConfig.entry[name] = ["@babel/polyfill", entry]
-      break
     }
 
     webpackConfig.module.rules[0] = {
@@ -134,7 +134,7 @@ module.exports = (env, argv) => {
       use: [
         'style-loader', // 這個會後執行 (順序很重要)
         'css-loader', // 這個會先執行
-        'postcss-loader',
+        'postcss-loader'
       ]
     }
     webpackConfig.module.rules[1] = {
