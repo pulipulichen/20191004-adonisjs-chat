@@ -940,8 +940,6 @@ window.jQuery = window.$ = $
 //require('./../vendors/semantic-ui/semantic.min.js')
 
 // Use Semantic UI NIWSF version
-//require('./../vendors/semantic-ui-niwsf/semantic-ui-niwsf-webpack.js')
-
 let SemanticUINIWSF = () => __webpack_require__.e(/*! import() | vendors/semantic-ui-niwsf */ "vendors/semantic-ui-niwsf").then(__webpack_require__.t.bind(null, /*! ./../vendors/semantic-ui-niwsf/semantic-ui-niwsf-webpack.js */ "./webpack-app/vendors/semantic-ui-niwsf/semantic-ui-niwsf-webpack.js", 7))
 SemanticUINIWSF()
 

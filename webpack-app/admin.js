@@ -6,7 +6,12 @@ import Vue from 'vue'
 import './plugins/plugins'
 import './plugins/semantic-ui'
 import i18n from './plugins/i18n'
-import router from './admin/routes'
+
+// --------------------
+// Components or routes
+
+import routes from './admin/routes'
+import components from './client/components'
 
 // ----------------------------------
 // Helpers
@@ -36,9 +41,6 @@ baseScript.before(`<div id="app"></div>`)
 // -----------------------
 
 let VueController = {
-  el: '#app',
-  i18n: i18n,
-  template: template,
   data: {
     message: 'Hello, world.', // for test
     users: [],
@@ -56,13 +58,11 @@ let VueController = {
       DayJSHelper: DayJSHelper,
       StringHelper: StringHelper
     },
+    //view: 'Loading',
+    view: null,
     persistAttrs: [
     ]
   },
-  components: { 
-    auth: Auth
-  },
-  router: router,
   watch: {
     'status.username': function () {
       /*
@@ -106,7 +106,16 @@ let VueController = {
         this.users = users
       }
     }
-  } // methods: {
+  }, // methods: {
+  
+  // --------------------------
+  // Basic configuration
+  el: '#app',
+  i18n: i18n,
+  
+  template: template,
+  router: routes,
+  components: components,
 }
 
 if (typeof(baseURL) === 'string') {
