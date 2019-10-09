@@ -23,11 +23,8 @@ import config from './config.js'
 // Components or routes
 
 let bindAttrs = ['config', 'status', 'progress', 'lib']
-//import RoutesHelper from './client/routes'
-//let templateWithRoutes = RoutesHelper.appendTemplate(template, bindAttrs)
-
+//import RouteHelper from './client/routes'
 import ComponentHelper from './client/components'
-let templateWithComponents = ComponentHelper.appendTemplate(template, bindAttrs)
 
 // -----------------------
 // 確認 baseURL
@@ -44,10 +41,13 @@ if (baseScript.length === 1) {
 // -----------------------
 
 let VueController = {
-  el: '#app',
-  i18n: i18n,
-  //template: templateWithRoutes,
-  template: templateWithComponents,
+  //template: RouteHelper.appendTemplate(template, bindAttrs)
+  //router: RouteHelper.getRoutes(),
+  //components: {auth: Auth},
+  
+  template: ComponentHelper.appendTemplate(template, bindAttrs),
+  components: ComponentHelper.getComponents(),
+  
   data: {
     config: config,
     status: {
@@ -67,8 +67,6 @@ let VueController = {
     persistAttrs: [
     ]
   },
-  components: ComponentHelper.getComponents(),
-  //router: RoutesHelper.getRoutes,
   watch: {
     'status.username': function () {
       /*
@@ -114,7 +112,13 @@ let VueController = {
       
       //console.log(this.config)
     },
-  } // methods: {
+  }, // methods: {
+  
+  
+  // --------------------------
+  // Basic configuration
+  el: '#app',
+  i18n: i18n,
 }
 
 if (typeof(baseURL) === 'string') {

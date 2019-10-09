@@ -63,10 +63,8 @@ let Login = {
     }
   },
   watch: {
-    
   },
   mounted() {
-    console.log('mounted')
   },
   methods: {
     register: async function() {
