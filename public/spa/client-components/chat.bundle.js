@@ -139,6 +139,28 @@ let Chat = {
       }
       let adminURL = `${this.config.baseURL}/admin#/?origin=${origin}`
       window.open(adminURL, 'admin')
+    },
+    uploadTrigger: function () {
+      this.$refs.UploadInput.click()
+    },
+    upload: async function () {
+      let result = await this.lib.AxiosHelper.upload('/client/message/upload', {
+        message_picture: this.$refs.UploadInput
+      })
+      
+      let name = result.name
+      let imageURL = `${this.config.baseURL}/uploads/${name}`
+      let message = `<a href="${imageURL}" target="_blank"><img src="${imageURL}" /></a>`
+      
+      this.displayMessages.push({
+        user: {
+          username: this.status.username,
+        },
+        message: message,
+        timestamp: result.timestamp
+      })
+      
+      this.$refs.UploadInput.value = ''
     }
   } // methods
 }
@@ -232,7 +254,7 @@ component.options.__file = "webpack-app/client/components/Chat/Chat.vue"
 
 module.exports = function (Component) {
   Component.options.__i18n = Component.options.__i18n || []
-  Component.options.__i18n.push('{"en":{},"zh-TW":{"Send":"送出","Logout":"登出","Admin":"管理"}}')
+  Component.options.__i18n.push('{"en":{},"zh-TW":{"Upload Image":"上傳圖片","Send":"送出","Logout":"登出","Admin":"管理"}}')
   delete Component.options._Ctor
 }
 
@@ -248,7 +270,7 @@ module.exports = function (Component) {
 
 exports = module.exports = __webpack_require__(/*! C:/Users/pudding/AppData/Roaming/npm/node_modules/css-loader/dist/runtime/api.js */ "C:\\Users\\pudding\\AppData\\Roaming\\npm\\node_modules\\css-loader\\dist\\runtime\\api.js")(true);
 // Module
-exports.push([module.i, ".chat-list[data-v-60defd64] {\n  max-height: 11rem;\n  overflow-y: auto;\n  border: 1px solid #ccc;\n  border-radius: 0.5rem;\n}\n", "",{"version":3,"sources":["D:/xampp/htdocs/projects-nodejs/20191004-adonisjs-chat/webpack-app/client/components/Chat/Chat.less?vue&type=style&index=0&id=60defd64&lang=less&scoped=true&","Chat.less"],"names":[],"mappings":"AAAA;EACE,iBAAA;EACA,gBAAA;EACA,sBAAA;EACA,qBAAA;ACCF","file":"Chat.less?vue&type=style&index=0&id=60defd64&lang=less&scoped=true&","sourcesContent":[".chat-list {\n  max-height: 11rem;\n  overflow-y: auto;\n  border:1px solid #ccc;\n  border-radius: 0.5rem;\n}",".chat-list {\n  max-height: 11rem;\n  overflow-y: auto;\n  border: 1px solid #ccc;\n  border-radius: 0.5rem;\n}\n"]}]);
+exports.push([module.i, ".chat-list[data-v-60defd64] {\n  max-height: 11rem;\n  overflow-y: auto;\n  border: 1px solid #ccc;\n  border-radius: 0.5rem;\n}\ninput[type=\"file\"][data-v-60defd64] {\n  display: none !important;\n}\n.extra.text[data-v-60defd64]  a > img {\n  border: 1px solid #ccc;\n  max-height: 250px !important;\n  max-width: 250px !important;\n  width: auto !important;\n  height: auto !important;\n}\n", "",{"version":3,"sources":["D:/xampp/htdocs/projects-nodejs/20191004-adonisjs-chat/webpack-app/client/components/Chat/Chat.less?vue&type=style&index=0&id=60defd64&lang=less&scoped=true&","Chat.less"],"names":[],"mappings":"AAAA;EACE,iBAAA;EACA,gBAAA;EACA,sBAAA;EACA,qBAAA;ACCF;ADEA;EACE,wBAAA;ACAF;ADGA;EACE,sBAAA;EACA,4BAAA;EACA,2BAAA;EACA,sBAAA;EACA,uBAAA;ACDF","file":"Chat.less?vue&type=style&index=0&id=60defd64&lang=less&scoped=true&","sourcesContent":[".chat-list {\n  max-height: 11rem;\n  overflow-y: auto;\n  border:1px solid #ccc;\n  border-radius: 0.5rem;\n}\n\ninput[type=\"file\"] {\n  display: none !important;\n}\n\n.extra.text ::v-deep a > img {\n  border: 1px solid #ccc;\n  max-height: 250px !important;\n  max-width: 250px !important;\n  width: auto !important;\n  height: auto !important;\n}",".chat-list {\n  max-height: 11rem;\n  overflow-y: auto;\n  border: 1px solid #ccc;\n  border-radius: 0.5rem;\n}\ninput[type=\"file\"] {\n  display: none !important;\n}\n.extra.text ::v-deep a > img {\n  border: 1px solid #ccc;\n  max-height: 250px !important;\n  max-width: 250px !important;\n  width: auto !important;\n  height: auto !important;\n}\n"]}]);
 
 
 /***/ }),
@@ -269,14 +291,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "ui form segment" }, [
-    _vm._m(0),
-    _vm._v(" "),
     _c(
       "div",
       { ref: "ChatList", staticClass: "ui large feed chat-list" },
       _vm._l(_vm.displayMessages, function(message) {
         return _c("div", { staticClass: "event" }, [
-          _vm._m(1, true),
+          _vm._m(0, true),
           _vm._v(" "),
           _c("div", { staticClass: "content" }, [
             _c("div", { staticClass: "summary" }, [
@@ -294,11 +314,10 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "extra text" }, [
-              _vm._v(
-                "\r\n          " + _vm._s(message.message) + "\r\n        "
-              )
-            ])
+            _c("div", {
+              staticClass: "extra text",
+              domProps: { innerHTML: _vm._s(message.message) }
+            })
           ])
         ])
       }),
@@ -306,7 +325,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", { staticClass: "unstackable inline fields" }, [
-      _c("div", { staticClass: "ten wide field" }, [
+      _c("div", { staticClass: "eight wide field" }, [
         _c("label", { attrs: { for: "WritingMessage" } }, [
           _vm._v(
             "\r\n          " + _vm._s(_vm.status.username) + "\r\n        "
@@ -342,6 +361,28 @@ var render = function() {
             }
           }
         })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "two wide field" }, [
+        _c("input", {
+          ref: "UploadInput",
+          attrs: { type: "file", name: "picture" },
+          on: { change: _vm.upload }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "ui fluid button",
+            attrs: { type: "button" },
+            on: { click: _vm.uploadTrigger }
+          },
+          [
+            _vm._v(
+              "\r\n        " + _vm._s(_vm.$t("Upload Image")) + "\r\n      "
+            )
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "two wide field" }, [
@@ -387,26 +428,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "form",
-      {
-        attrs: {
-          method: "POST",
-          action: "http://127.0.0.1:3333/client/upload",
-          enctype: "multipart/form-data"
-        }
-      },
-      [
-        _c("input", { attrs: { type: "file", name: "profile_pic" } }),
-        _vm._v(" "),
-        _c("button", { attrs: { type: "submit" } }, [_vm._v(" Submit ")])
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

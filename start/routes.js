@@ -29,6 +29,7 @@ Route.get('/client/user/attempt-login-via-username', 'Client/UserController.atte
 Route.get('/client/message/list', 'Client/MessageController.list')
 Route.get('/client/message/sync-list', 'Client/MessageController.syncList')
 Route.post('/client/message/insert', 'Client/MessageController.insert')
+Route.post('/client/message/upload', 'Client/MessageController.upload')
 
 Route.get('/client/oauth/request/:driver', 'Client/UserController.oauthRequest')
 Route.get('/client/oauth/authenticated/:driver', 'Client/UserController.oauthAuthenticated')
@@ -40,23 +41,3 @@ Route.on('/admin').render('admin')
 Route.get('/admin/user/list', 'Admin/UserController.list')
 
 // ---------------------------
-
-const Helpers = use('Helpers')
-
-Route.post('/client/upload', async ({ request }) => {
-  const profilePic = request.file('profile_pic', {
-    types: ['image'],
-    size: '2mb'
-  })
-
-  var name = `${new Date().getTime()}.${profilePic.subtype}`
-  await profilePic.move(Helpers.publicPath('uploads'), {
-    name: name,
-    overwrite: true,
-  },)
-
-  if (!profilePic.moved()) {
-    return profilePic.error()
-  }
-  return name
-})

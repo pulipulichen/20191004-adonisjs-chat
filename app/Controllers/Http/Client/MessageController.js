@@ -1,5 +1,8 @@
 'use strict'
 
+const Helpers = use('Helpers')
+const Env = use('Env')
+
 const User = use('App/Models/User')
 const Message = use('App/Models/Message')
 
@@ -51,6 +54,46 @@ class MessageController {
     message.message = query.message
     await user.messages().save(message)
     return message.timestamp
+  }
+  
+  async upload ({ request, auth }) {
+    const profilePic = request.file('message_picture', {
+      types: ['image'],
+      size: '2mb'
+    })
+
+    if (profilePic === null) {
+      return 'no-pic'
+    }
+
+    var name = `${new Date().getTime()}.${profilePic.subtype}`
+    await profilePic.move(Helpers.publicPath('uploads'), {
+      name: name,
+      overwrite: true,
+    },)
+
+    if (!profilePic.moved()) {
+      return profilePic.error()
+    }
+    
+    // -------------------------
+    
+    let user = await auth.getUser()
+    let userId = user.id
+    if (userId === false) {
+      return false
+    }
+    
+    // const appSecret = Env.get('APP_SECRET')
+    let imageURL = `${Env.get('APP_URL')}/uploads/${name}`
+    
+    let message = new Message()
+    message.message = `<a href="${imageURL}" target="_blank"><img src="${imageURL}" /></a>`
+    await user.messages().save(message)
+    return {
+      name: name,
+      timestamp: message.timestamp
+    }
   }
 }
 

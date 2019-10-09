@@ -50,6 +50,38 @@ let AxiosHelper = {
       console.error(error)
       return
     }
+  },
+  upload: async function (path, data) {
+    if (typeof(data) !== 'object') {
+      console.error('no data')
+      return ''
+    }
+    
+    //console.log(data)
+    
+    let formData = new FormData()
+    for (let name in data) {
+      let value = data[name]
+      if (typeof(value.files) === 'object') {
+        value = value.files[0]
+      }
+      formData.append(name, value)
+    }
+    
+    //console.log(formData)
+    
+    try {
+      let result = await axios.post(this.getURL(path), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      return result.data
+    }
+    catch (error) {
+      console.error(error)
+      return
+    }
   }
 }
 

@@ -1,9 +1,4 @@
 <div class="ui form segment">
-  <form method="POST" action="http://127.0.0.1:3333/client/upload" enctype="multipart/form-data">
-    <input type="file" name="profile_pic" />
-    <button type="submit"> Submit </button>
-  </form>
-  
   <div class="ui large feed chat-list" ref="ChatList">
     <div class="event"
          v-for="message in displayMessages">
@@ -17,9 +12,7 @@
             {{ displayAge(message.timestamp) }}
           </div>
         </div>
-        <div class="extra text">
-          {{ message.message }}
-        </div>
+        <div class="extra text" v-html="message.message"></div>
       </div>
     </div>
   </div>
@@ -27,7 +20,7 @@
   <!-- ==================================== -->
   
   <div class="unstackable inline fields">
-    <div class="ten wide field">
+    <div class="eight wide field">
         <label for="WritingMessage">
           {{ status.username }}
         </label>
@@ -37,6 +30,20 @@
                v-model="writingMessage" />
     </div>
     <div class="two wide field">
+      
+      <input type="file" 
+             name="picture"
+             ref="UploadInput"
+             v-on:change="upload"/>
+      
+      <button type="button"
+              class="ui fluid button"
+              v-on:click="uploadTrigger">
+        {{ $t('Upload Image') }}
+      </button>
+    </div>
+    <div class="two wide field">
+      
       <button type="button"
               class="ui fluid button"
               v-on:click="insert"

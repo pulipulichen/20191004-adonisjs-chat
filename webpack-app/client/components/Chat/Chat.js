@@ -96,6 +96,28 @@ let Chat = {
       }
       let adminURL = `${this.config.baseURL}/admin#/?origin=${origin}`
       window.open(adminURL, 'admin')
+    },
+    uploadTrigger: function () {
+      this.$refs.UploadInput.click()
+    },
+    upload: async function () {
+      let result = await this.lib.AxiosHelper.upload('/client/message/upload', {
+        message_picture: this.$refs.UploadInput
+      })
+      
+      let name = result.name
+      let imageURL = `${this.config.baseURL}/uploads/${name}`
+      let message = `<a href="${imageURL}" target="_blank"><img src="${imageURL}" /></a>`
+      
+      this.displayMessages.push({
+        user: {
+          username: this.status.username,
+        },
+        message: message,
+        timestamp: result.timestamp
+      })
+      
+      this.$refs.UploadInput.value = ''
     }
   } // methods
 }
