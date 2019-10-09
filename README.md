@@ -11,6 +11,7 @@
 4. For first run:
 	* Execute command: `npm run init` . 
 	* Waiting for packages installing finish.
+  * Setup your configuration at `.env` .
 	* Open URL of CORS test website in browser: http://127.0.0.1:3000 .
   * Open URL of admin in browser: http://127.0.0.1:3333/admin .
 5. For following run in development:

@@ -2,9 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-import Loading from './components/Loading/Loading.vue'
-import Login from './components/Login/Login.vue'
-import Chat from './components/Chat/Chat.vue'
+//console.log(__webpack_public_path__)
+
+const Loading = () => import(/* webpackChunkName: "client-components/loading" */ './components/Loading/Loading.vue')
+const Login = () => import(/* webpackChunkName: "client-components/login" */ './components/Login/Login.vue')
+const Chat = () => import(/* webpackChunkName: "client-components/chat" */ './components/Chat/Chat.vue')
 
 const routes = [
   { path: '/', component: Loading },

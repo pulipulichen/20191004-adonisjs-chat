@@ -31,7 +31,9 @@ module.exports = (env, argv) => {
     },
     output: {
       path: path.resolve(__dirname, './public/spa'),
-      filename: '[name].js'
+      chunkFilename: '[name].bundle.js',
+      filename: '[name].js',
+      publicPath: baseURL + '/spa/'
     },
     resolve: {
       alias: {
@@ -114,7 +116,7 @@ module.exports = (env, argv) => {
             }, 100)
           });
         } // apply: (compiler) => {
-      }
+      },
     ],  // plugins: [
   } // let webpackConfig = {
 
