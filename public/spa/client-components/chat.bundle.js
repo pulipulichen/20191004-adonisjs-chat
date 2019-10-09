@@ -148,8 +148,7 @@ let Chat = {
         message_picture: this.$refs.UploadInput
       })
       
-      let name = result.name
-      let imageURL = `${this.config.baseURL}/uploads/${name}`
+      let imageURL = result.url
       let message = `<a href="${imageURL}" target="_blank"><img src="${imageURL}" /></a>`
       
       this.displayMessages.push({

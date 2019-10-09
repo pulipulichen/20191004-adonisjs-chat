@@ -39,12 +39,13 @@ class MessageController {
     return messages.toJSON()    
   }
   async insert ({ request, auth }) {
+    let user = await auth.getUser()
+    
     const query = request.post()
     if (typeof(query.message) !== 'string') {
       return false
     }
     
-    let user = await auth.getUser()
     let userId = user.id
     if (userId === false) {
       return false
@@ -57,6 +58,9 @@ class MessageController {
   }
   
   async upload ({ request, auth }) {
+    let user = await auth.getUser()
+    let userId = user.id
+    
     const profilePic = request.file('message_picture', {
       types: ['image'],
       size: '2mb'
@@ -67,7 +71,7 @@ class MessageController {
     }
 
     var name = `${new Date().getTime()}.${profilePic.subtype}`
-    await profilePic.move(Helpers.publicPath('uploads'), {
+    await profilePic.move(Helpers.publicPath(`uploads/${userId}`), {
       name: name,
       overwrite: true,
     },)
@@ -78,20 +82,18 @@ class MessageController {
     
     // -------------------------
     
-    let user = await auth.getUser()
-    let userId = user.id
     if (userId === false) {
       return false
     }
     
     // const appSecret = Env.get('APP_SECRET')
-    let imageURL = `${Env.get('APP_URL')}/uploads/${name}`
+    let imageURL = `${Env.get('APP_URL')}/uploads/${userId}/${name}`
     
     let message = new Message()
     message.message = `<a href="${imageURL}" target="_blank"><img src="${imageURL}" /></a>`
     await user.messages().save(message)
     return {
-      name: name,
+      url: imageURL,
       timestamp: message.timestamp
     }
   }
