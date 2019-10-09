@@ -30,9 +30,9 @@ Route.get('/client/message/list', 'Client/MessageController.list')
 Route.get('/client/message/sync-list', 'Client/MessageController.syncList')
 Route.post('/client/message/insert', 'Client/MessageController.insert')
 
-Route.get('/oauth/request/:driver', 'Client/UserController.oauthRequest')
-Route.get('/oauth/authenticated/:driver', 'Client/UserController.oauthAuthenticated')
-Route.get('/oauth/login', 'Client/UserController.oauthLogin')
+Route.get('/client/oauth/request/:driver', 'Client/UserController.oauthRequest')
+Route.get('/client/oauth/authenticated/:driver', 'Client/UserController.oauthAuthenticated')
+Route.get('/client/oauth/login', 'Client/UserController.oauthLogin')
 
 // ---------------------------
 

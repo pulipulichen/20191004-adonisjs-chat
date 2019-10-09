@@ -29,7 +29,7 @@ module.exports = {
     facebook: {
       clientId: Env.get('FB_CLIENT_ID'),
       clientSecret: Env.get('FB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/facebook`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/facebook`
     },
 
     /*
@@ -46,7 +46,7 @@ module.exports = {
     google: {
       clientId: Env.get('GOOGLE_CLIENT_ID'),
       clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/google`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/google`
     },
 
     /*
@@ -61,7 +61,7 @@ module.exports = {
     github: {
       clientId: Env.get('GITHUB_CLIENT_ID'),
       clientSecret: Env.get('GITHUB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/github`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/github`
     },
 
     /*
@@ -71,13 +71,11 @@ module.exports = {
      |
      | You can access your application credentials from the instagram developers
      | console. https://www.instagram.com/developer/
-     | 1. Register Your Application
-     | 2. 
      */
     instagram: {
       clientId: Env.get('INSTAGRAM_CLIENT_ID'),
       clientSecret: Env.get('INSTAGRAM_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/instagram`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/instagram`
     },
 
     /*
@@ -92,7 +90,7 @@ module.exports = {
     foursquare: {
       clientId: Env.get('FOURSQUARE_ID'),
       clientSecret: Env.get('FOURSQUARE_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/foursquare`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/foursquare`
     },
     
     /*
@@ -108,7 +106,7 @@ module.exports = {
     linkedin: {
       clientId: Env.get('LINKEDIN_ID'),
       clientSecret: Env.get('LINKEDIN_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/linkedin`
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/linkedin`
     },
     
     /*
@@ -125,24 +123,7 @@ module.exports = {
     twitter: {
       clientId: Env.get('TWITTER_ID'),
       clientSecret: Env.get('TWITTER_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/twitter`
-    },
-    
-    /*
-     |--------------------------------------------------------------------------
-     | Plurk Configuration
-     |--------------------------------------------------------------------------
-     |
-     | You can access your application credentials from the Plurk developers
-     | console. https://www.plurk.com/PlurkApp/register
-     | 看來Ally沒有支援
-     */
-    /*
-    plurk: {
-      clientId: Env.get('PLURK_ID'),
-      clientSecret: Env.get('PLURK_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/oauth/authenticated/plurk`
-    },
-     */
+      redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/twitter`
+    }
   }
 }

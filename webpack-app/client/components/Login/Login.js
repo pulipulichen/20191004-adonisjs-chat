@@ -120,7 +120,7 @@ let Login = {
       let left = ((screenWidth - width) / 2) + dualScreenLeft
       let top = ((screenHeight - height) / 2) + dualScreenTop
       
-      let win = window.open(`${this.config.baseURL}/oauth/request/${driver}`, '_blank', `location=0,menubar=no,copyhistory=no,directories=0,status=0,width=${width},height=${height},top=${top},left=${left}`)
+      let win = window.open(`${this.config.baseURL}/client/oauth/request/${driver}`, '_blank', `location=0,menubar=no,copyhistory=no,directories=0,status=0,width=${width},height=${height},top=${top},left=${left}`)
       this.loginOAuthCallback(driver, win)
     },
     loginOAuthCallback: function (driver, win) {
@@ -132,7 +132,7 @@ let Login = {
         let data = event.data
         if (typeof(data) === 'object') {
           data.driver = driver
-          let result = await this.lib.AxiosHelper.get(`/oauth/login`, data)
+          let result = await this.lib.AxiosHelper.get(`/client/oauth/login`, data)
           if (result !== false) {
             this.status.username = result
           }
