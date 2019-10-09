@@ -10,7 +10,7 @@
     "2.production": "concurrently --kill-others --names \"a,w\" \"npm run start\" \"npm w4.webpack-build-production\"",
     "start": "nodemon --ignore webpack-app --ignore database --ignore public --ignore website-cors server.js",
     "start-https": "nodemon --ignore webpack-app --ignore database --ignore public --ignore website-cors server-https.js",
-    "migration": "adonis migration:refresh",
+    "setup-database": "adonis migration:refresh",
     "test": "node ace test",
     "cors-start": "node ./website-cors/index.js",
     "w1.webpack-build-development": "webpack --mode development",

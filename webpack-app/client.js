@@ -1,3 +1,5 @@
+/* global __webpack_public_path__ */
+
 import Vue from 'vue'
 
 // ----------------------------------
@@ -22,32 +24,24 @@ import config from './config.js'
 // --------------------
 // Components or routes
 
-let bindAttrs = ['config', 'status', 'progress', 'lib']
-//import RouteHelper from './client/routes'
-import ComponentHelper from './client/components'
+import routes from './client/routes'
+import components from './client/components'
 
 // -----------------------
 // 確認 baseURL
 
-let baseURL
+let baseURL = __webpack_public_path__
+baseURL = baseURL.split('/').slice(0, 3).join('/')
+config.baseURL = baseURL
+
 let baseScript = $(document.currentScript)
 if (baseScript.length === 1) {
-  baseURL = baseScript.attr('src').split('/').slice(0, 3).join('/')
-  //console.log(baseURL)
-  config.baseURL = baseURL
   baseScript.before(`<div id="app"></div>`)
 }
 
 // -----------------------
 
 let VueController = {
-  //template: RouteHelper.appendTemplate(template, bindAttrs)
-  //router: RouteHelper.getRoutes(),
-  //components: {auth: Auth},
-  
-  template: ComponentHelper.appendTemplate(template, bindAttrs),
-  components: ComponentHelper.getComponents(),
-  
   data: {
     config: config,
     status: {
@@ -119,6 +113,10 @@ let VueController = {
   // Basic configuration
   el: '#app',
   i18n: i18n,
+  
+  template: template,
+  router: routes,
+  components: components,
 }
 
 if (typeof(baseURL) === 'string') {
