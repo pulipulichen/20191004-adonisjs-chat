@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["client-components/login"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["client-components/Login"],{
 
 /***/ "./webpack-app/client/components/Login/Login.html?vue&type=template&id=7f785ee2&scoped=true&":
 /*!***************************************************************************************************!*\
@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 let Login = {
-  props: ['lib', 'status', 'config', 'progress'],
+  props: ['lib', 'status', 'config', 'progress', 'view'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {
@@ -66,7 +66,7 @@ let Login = {
     
   },
   mounted() {
-    
+    console.log('mounted')
   },
   methods: {
     register: async function() {
@@ -94,7 +94,8 @@ let Login = {
       else {
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.replace('chat')
+        //this.$router.replace('chat')
+        this.view = 'Chat'
       }
     },
     login: async function() {
@@ -126,7 +127,8 @@ let Login = {
       else {
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.replace('chat')
+        //this.$router.replace('chat')
+        this.view = 'Chat'
       }
     },
     loginFromOAuth(driver) {
@@ -515,4 +517,4 @@ if(false) {}
 /***/ })
 
 }]);
-//# sourceMappingURL=login.bundle.js.map
+//# sourceMappingURL=Login.bundle.js.map

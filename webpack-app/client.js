@@ -6,7 +6,6 @@ import Vue from 'vue'
 import './plugins/plugins'
 import './plugins/semantic-ui'
 import i18n from './plugins/i18n'
-import router from './client/routes'
 
 // ----------------------------------
 // Helpers
@@ -14,16 +13,21 @@ import AxiosHelper from './helpers/AxiosHelper'
 import DayJSHelper from './helpers/DayJSHelper'
 import StringHelper from './helpers/StringHelper'
 
-// --------------------
-// Components
-
-import Auth from './client/components/Auth/Auth.vue'
-
 // ----------------------
 
 import $ from 'jquery'
 import template from './client/client.tpl'
 import config from './config.js'
+
+// --------------------
+// Components or routes
+
+let bindAttrs = ['config', 'status', 'progress', 'lib']
+//import RoutesHelper from './client/routes'
+//let templateWithRoutes = RoutesHelper.appendTemplate(template, bindAttrs)
+
+import ComponentHelper from './client/components'
+let templateWithComponents = ComponentHelper.appendTemplate(template, bindAttrs)
 
 // -----------------------
 // 確認 baseURL
@@ -42,7 +46,8 @@ if (baseScript.length === 1) {
 let VueController = {
   el: '#app',
   i18n: i18n,
-  template: template,
+  //template: templateWithRoutes,
+  template: templateWithComponents,
   data: {
     config: config,
     status: {
@@ -58,15 +63,15 @@ let VueController = {
       DayJSHelper: DayJSHelper,
       StringHelper: StringHelper
     },
+    view: 'Loading',
     persistAttrs: [
     ]
   },
-  components: { 
-    auth: Auth
-  },
-  router: router,
+  components: ComponentHelper.getComponents(),
+  //router: RoutesHelper.getRoutes,
   watch: {
     'status.username': function () {
+      /*
       let path = '/login'
       if (typeof(this.status.username) === 'string') {
         path = '/chat'
@@ -75,15 +80,24 @@ let VueController = {
       if (this.$router.currentRoute.fullPath !== path) {
         this.$router.replace(path)
       }
+      */
+      let view = 'Login'
+      if (typeof(this.status.username) === 'string') {
+        view = 'Chat'
+      }
+      //console.log(view)
+      this.view = view
     },
     'config.locale': function () {
       this.lib.DayJSHelper.setLocale(this.config.locale)
     }
   },
   created: function () {
+    /*
     if (this.$router.currentRoute.fullPath !== '/') {
       this.$router.replace('/')
     }
+     */
     this.loadClientConfig()
   },
   mounted: function () {

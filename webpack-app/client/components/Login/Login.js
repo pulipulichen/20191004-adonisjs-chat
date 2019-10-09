@@ -1,5 +1,5 @@
 let Login = {
-  props: ['lib', 'status', 'config', 'progress'],
+  props: ['lib', 'status', 'config', 'progress', 'view'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {
@@ -37,7 +37,7 @@ let Login = {
     
   },
   mounted() {
-    
+    console.log('mounted')
   },
   methods: {
     register: async function() {
@@ -65,7 +65,8 @@ let Login = {
       else {
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.replace('chat')
+        //this.$router.replace('chat')
+        this.view = 'Chat'
       }
     },
     login: async function() {
@@ -97,7 +98,8 @@ let Login = {
       else {
         this.status.username = this.username
         this.errorMessage = ''
-        this.$router.replace('chat')
+        //this.$router.replace('chat')
+        this.view = 'Chat'
       }
     },
     loginFromOAuth(driver) {

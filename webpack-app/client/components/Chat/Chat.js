@@ -1,5 +1,5 @@
 let Chat = {
-  props: ['lib', 'status', 'config', 'progress'],
+  props: ['lib', 'status', 'config', 'progress', 'view'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {
@@ -83,7 +83,8 @@ let Chat = {
     logout: async function () {
       await this.lib.AxiosHelper.get(`/client/user/logout`)
       this.status.username = false
-      this.$router.replace('/login')
+      //this.$router.replace('/login')
+      this.view = 'Login'
     },
     displayAge: function (timestamp) {
       return this.lib.DayJSHelper.fromNow(timestamp)
