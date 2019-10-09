@@ -269,12 +269,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "ui form segment" }, [
+    _vm._m(0),
+    _vm._v(" "),
     _c(
       "div",
       { ref: "ChatList", staticClass: "ui large feed chat-list" },
       _vm._l(_vm.displayMessages, function(message) {
         return _c("div", { staticClass: "event" }, [
-          _vm._m(0, true),
+          _vm._m(1, true),
           _vm._v(" "),
           _c("div", { staticClass: "content" }, [
             _c("div", { staticClass: "summary" }, [
@@ -385,6 +387,26 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "form",
+      {
+        attrs: {
+          method: "POST",
+          action: "http://127.0.0.1:3333/client/upload",
+          enctype: "multipart/form-data"
+        }
+      },
+      [
+        _c("input", { attrs: { type: "file", name: "profile_pic" } }),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "submit" } }, [_vm._v(" Submit ")])
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

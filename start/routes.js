@@ -38,3 +38,25 @@ Route.get('/client/oauth/login', 'Client/UserController.oauthLogin')
 
 Route.on('/admin').render('admin')
 Route.get('/admin/user/list', 'Admin/UserController.list')
+
+// ---------------------------
+
+const Helpers = use('Helpers')
+
+Route.post('/client/upload', async ({ request }) => {
+  const profilePic = request.file('profile_pic', {
+    types: ['image'],
+    size: '2mb'
+  })
+
+  var name = `${new Date().getTime()}.${profilePic.subtype}`
+  await profilePic.move(Helpers.publicPath('uploads'), {
+    name: name,
+    overwrite: true,
+  },)
+
+  if (!profilePic.moved()) {
+    return profilePic.error()
+  }
+  return name
+})

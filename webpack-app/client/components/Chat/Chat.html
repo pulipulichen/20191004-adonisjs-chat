@@ -1,4 +1,9 @@
 <div class="ui form segment">
+  <form method="POST" action="http://127.0.0.1:3333/client/upload" enctype="multipart/form-data">
+    <input type="file" name="profile_pic" />
+    <button type="submit"> Submit </button>
+  </form>
+  
   <div class="ui large feed chat-list" ref="ChatList">
     <div class="event"
          v-for="message in displayMessages">
