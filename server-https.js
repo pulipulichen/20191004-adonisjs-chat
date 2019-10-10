@@ -25,22 +25,33 @@ const { Ignitor } = require('@adonisjs/ignitor')
 require('dotenv').config({ path: '.env.https' })
 
 const https = require('https')
-const pem = require('pem')
 
-pem.createCertificate({ days: 1, selfSigned: true }, (error, keys) => {
-  if (error) {
-    return console.log(error)
+const fs = require('fs')
+const path = require('path')
+
+// https://www.reddit.com/r/javascript/comments/9uju8v/is_there_a_way_to_wrap_an_asynchronous_function/e9lujib/
+;(async () => {
+  let options = {}
+  if (fs.existsSync(path.resolve(__dirname, './config/cert/private.key')) === true) {
+    options = {
+      key: fs.readFileSync(path.join(__dirname, 'config/cert/private.key')),
+      cert: fs.readFileSync(path.join(__dirname, './config/cert/certificate.crt'))
+    }
   }
-
-  const options = {
-    key: keys.serviceKey,
-    cert: keys.certificate
+  else {
+    const pem = require('pem')
+    let keys = await pem.createCertificate({ days: 1, selfSigned: true })
+    
+    options = {
+      key: keys.serviceKey,
+      cert: keys.certificate
+    }
   }
-
+  
   new Ignitor(require('@adonisjs/fold'))
-    .appRoot(__dirname)
-    .fireHttpServer((handler) => {
-      return https.createServer(options, handler)
-    })
-    .catch(console.error)
-})
+      .appRoot(__dirname)
+      .fireHttpServer((handler) => {
+        return https.createServer(options, handler)
+      })
+      .catch(console.error)
+})()
