@@ -3,12 +3,22 @@ axios.defaults.withCredentials = true
 
 let AxiosHelper = {
   baseURL: '',
+  errorHandler: null,
   setBaseURL: function (baseURL) {
     if (baseURL.endsWith('/') === true) {
       baseURL = baseURL.slice(0, -1)
     }
     this.baseURL = baseURL
     return this
+  },
+  setErrorHandler: function (handler) {
+    this.errorHandler = handler
+  },
+  handleError: function (error) {
+    console.error(error)
+    if (typeof(this.errorHandler) === 'function') {
+      this.errorHandler(error)
+    }
   },
   getURL: function (path) {
     if (path.startsWith('/') === false) {
@@ -32,7 +42,7 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      console.error(error)
+      this.handleError(error)
       return
     }
   },
@@ -47,13 +57,13 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      console.error(error)
+      this.handleError(error)
       return
     }
   },
   upload: async function (path, data) {
     if (typeof(data) !== 'object') {
-      console.error('no data')
+      this.handleError('no data')
       return ''
     }
     
@@ -79,7 +89,7 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      console.error(error)
+      this.handleError(error)
       return
     }
   }

@@ -1,5 +1,5 @@
 let Auth = {
-  props: ['lib', 'status', 'config', 'progress'],
+  props: ['lib', 'status', 'config', 'progress', 'error'],
   data() {
     return {}
   },

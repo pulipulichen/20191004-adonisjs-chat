@@ -1,5 +1,5 @@
 let Chat = {
-  props: ['lib', 'status', 'config', 'progress', 'view'],
+  props: ['lib', 'status', 'config', 'progress', 'error', 'view'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {

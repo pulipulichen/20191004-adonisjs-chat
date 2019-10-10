@@ -1,5 +1,5 @@
 let Login = {
-  props: ['lib', 'status', 'config', 'progress', 'view'],
+  props: ['lib', 'status', 'config', 'progress', 'error', 'view'],
   data() {    
     this.$i18n.locale = this.config.locale
     return {
@@ -69,7 +69,7 @@ let Login = {
     },
     login: async function() {
       this.mode = 'login'
-      
+      console.log(AAA)
       let result = await this.lib.AxiosHelper.get(`/client/user/login`, {
           username: this.username,
           password: this.password,

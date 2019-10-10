@@ -60,6 +60,7 @@ let VueController = {
     },
     //view: 'Loading',
     view: null,
+    error: '',
     persistAttrs: [
     ]
   },
