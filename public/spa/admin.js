@@ -1222,7 +1222,6 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"])
 
 
-//console.log(i18nGlobal)
 
 const i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_0__["default"]({
   locale: 'zh-TW', // set default locale
