@@ -326,16 +326,7 @@ let VueController = {
       this.error = error
     })
   },
-  errorCaptured(err, vm, info) {
-    console.log(err)
-    console.log(vm)
-    console.log(info)
-    // err: error trace
-    // vm: component in which error occured
-    // info: Vue specific error information such as lifecycle hooks, events etc.
-    // TODO: Perform any custom logic or log to server
-    // return false to stop the propagation of errors further to parent or global error handler
-  },
+  
   methods: {
     loadClientConfig: function () {
       let config = window[this.config.clientConfigName]
@@ -359,6 +350,15 @@ let VueController = {
   template: _client_client_tpl__WEBPACK_IMPORTED_MODULE_8___default.a,
   router: _client_routes__WEBPACK_IMPORTED_MODULE_10__["default"],
   components: _client_components__WEBPACK_IMPORTED_MODULE_11__["default"],
+  errorCaptured(err, vm, info) {
+    // https://medium.com/js-dojo/error-exception-handling-in-vue-js-application-6c26eeb6b3e4
+    this.error = err.stack
+    // err: error trace
+    // vm: component in which error occured
+    // info: Vue specific error information such as lifecycle hooks, events etc.
+    // TODO: Perform any custom logic or log to server
+    // return false to stop the propagation of errors further to parent or global error handler
+  },
 }
 
 if (typeof(baseURL) === 'string') {
@@ -915,12 +915,12 @@ let AxiosHelper = {
     }
     return this.baseURL + path
   },
-  get: async function (path, data) {
+  get: async function (path, data, errorHandler) {
     path = this.getURL(path)
-    let result = await this.getOther(path, data)
+    let result = await this.getOther(path, data, errorHandler)
     return result
   },
-  getOther: async function (path, data) {
+  getOther: async function (path, data, errorHandler) {
     let options = {}
     if (typeof(data) === 'object') {
       options.params = data
@@ -931,11 +931,16 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   },
-  post: async function (path, data) {
+  post: async function (path, data, errorHandler) {
     let options = {}
     if (typeof(data) === 'object') {
       options = data
@@ -946,11 +951,16 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   },
-  upload: async function (path, data) {
+  upload: async function (path, data, errorHandler) {
     if (typeof(data) !== 'object') {
       this.handleError('no data')
       return ''
@@ -978,7 +988,12 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   }
@@ -15765,7 +15780,7 @@ var render = function() {
           attrs: { title: _vm.$t("Click to close") },
           on: { click: _vm.close }
         },
-        [_vm._v("\r\n  " + _vm._s(_vm.error) + "\r\n")]
+        [_c("pre", [_vm._v(_vm._s(_vm.error))])]
       )
     : _vm._e()
 }

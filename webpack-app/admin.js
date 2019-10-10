@@ -64,6 +64,7 @@ let VueController = {
     persistAttrs: [
     ]
   },
+  
   watch: {
     'status.username': function () {
       /*
@@ -96,6 +97,10 @@ let VueController = {
             && this.$route.query.origin !== '') {
       this.loadUsers(this.$route.query.origin)
     }
+    
+    this.lib.AxiosHelper.setErrorHandler((error) => {
+      this.error = error
+    })
   },
   methods: {
     loadUsers: async function (origin) {
@@ -117,6 +122,15 @@ let VueController = {
   template: template,
   router: routes,
   components: components,
+  errorCaptured(err, vm, info) {
+    // https://medium.com/js-dojo/error-exception-handling-in-vue-js-application-6c26eeb6b3e4
+    this.error = err.stack
+    // err: error trace
+    // vm: component in which error occured
+    // info: Vue specific error information such as lifecycle hooks, events etc.
+    // TODO: Perform any custom logic or log to server
+    // return false to stop the propagation of errors further to parent or global error handler
+  },
 }
 
 if (typeof(baseURL) === 'string') {

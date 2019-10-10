@@ -92,9 +92,12 @@ let Chat = {
       
       let messages = await this.lib.AxiosHelper.get(`/client/message/sync-list`, {
         lastUpdateTimestamp: this.lastUpdateTimestamp
-      })
-      if (Array.isArray(messages) === false) {
+      }, (error) => {
         console.error('Sync messages fail.')
+      })
+      
+      if (Array.isArray(messages) === false) {
+        //console.error('Sync messages fail.')
         return false
       }
       
@@ -253,7 +256,7 @@ component.options.__file = "webpack-app/client/components/Chat/Chat.vue"
 
 module.exports = function (Component) {
   Component.options.__i18n = Component.options.__i18n || []
-  Component.options.__i18n.push('{"en":{},"zh-TW":{"Upload Image":"上傳圖片","Send":"送出","Logout":"登出","Admin":"管理"}}')
+  Component.options.__i18n.push('{"en":{},"zh-TW":{"Upload Image":"送出圖片","Send":"送出","Logout":"登出","Admin":"管理"}}')
   delete Component.options._Ctor
 }
 

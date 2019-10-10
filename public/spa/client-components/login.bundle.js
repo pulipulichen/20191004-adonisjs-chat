@@ -98,7 +98,6 @@ let Login = {
     },
     login: async function() {
       this.mode = 'login'
-      console.log(AAA)
       let result = await this.lib.AxiosHelper.get(`/client/user/login`, {
           username: this.username,
           password: this.password,

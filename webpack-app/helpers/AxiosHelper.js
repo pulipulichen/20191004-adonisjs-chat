@@ -26,12 +26,12 @@ let AxiosHelper = {
     }
     return this.baseURL + path
   },
-  get: async function (path, data) {
+  get: async function (path, data, errorHandler) {
     path = this.getURL(path)
-    let result = await this.getOther(path, data)
+    let result = await this.getOther(path, data, errorHandler)
     return result
   },
-  getOther: async function (path, data) {
+  getOther: async function (path, data, errorHandler) {
     let options = {}
     if (typeof(data) === 'object') {
       options.params = data
@@ -42,11 +42,16 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   },
-  post: async function (path, data) {
+  post: async function (path, data, errorHandler) {
     let options = {}
     if (typeof(data) === 'object') {
       options = data
@@ -57,11 +62,16 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   },
-  upload: async function (path, data) {
+  upload: async function (path, data, errorHandler) {
     if (typeof(data) !== 'object') {
       this.handleError('no data')
       return ''
@@ -89,7 +99,12 @@ let AxiosHelper = {
       return result.data
     }
     catch (error) {
-      this.handleError(error)
+      if (typeof(errorHandler) !== 'function') {
+        this.handleError(error)
+      }
+      else {
+        errorHandler(error)
+      }
       return
     }
   }
