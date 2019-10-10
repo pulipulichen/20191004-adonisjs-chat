@@ -1079,7 +1079,7 @@ let StringHelper = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-let i18nConfig = {
+let i18nGlobal = {
   "en": {
     "Title": "Example Title"
   },
@@ -1089,7 +1089,7 @@ let i18nConfig = {
   }
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (i18nConfig);
+/* harmony default export */ __webpack_exports__["default"] = (i18nGlobal);
 
 /***/ }),
 

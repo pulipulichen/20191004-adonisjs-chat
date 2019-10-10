@@ -1,4 +1,4 @@
-let i18nConfig = {
+let i18nGlobal = {
   "en": {
     "Title": "Example Title"
   },
@@ -8,4 +8,4 @@ let i18nConfig = {
   }
 }
 
-export default i18nConfig
+export default i18nGlobal
