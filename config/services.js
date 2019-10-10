@@ -88,8 +88,8 @@ module.exports = {
      |
      */
     foursquare: {
-      clientId: Env.get('FOURSQUARE_ID'),
-      clientSecret: Env.get('FOURSQUARE_SECRET'),
+      clientId: Env.get('FOURSQUARE_CLIENT_ID'),
+      clientSecret: Env.get('FOURSQUARE_CLIENT_SECRET'),
       redirectUri: `${Env.get('APP_URL')}/client/oauth/authenticated/foursquare`
     },
     

@@ -36,7 +36,7 @@
            v-model="password" />
   </div>
   
-  <div class="ui five buttons">
+  <div class="ui six buttons">
     <button type="button" 
             class="ui button"
             v-on:click="login"
@@ -70,6 +70,13 @@
             v-on:click="loginFromOAuth('instagram')">
       <i class="instagram icon"></i>
       {{ $t('Login from Instagram') }}
+    </button>
+    
+    <button type="button" 
+            class="ui foursquare button"
+            v-on:click="loginFromOAuth('foursquare')">
+      <i class="instagram icon"></i>
+      {{ $t('Login from Foursquare') }}
     </button>
   </div>
   

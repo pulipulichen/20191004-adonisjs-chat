@@ -65,6 +65,7 @@ let Login = {
         this.errorMessage = ''
         //this.$router.replace('chat')
         this.view = 'Chat'
+        this.reset()
       }
     },
     login: async function() {
@@ -97,6 +98,7 @@ let Login = {
         this.errorMessage = ''
         //this.$router.replace('chat')
         this.view = 'Chat'
+        this.reset()
       }
     },
     loginFromOAuth(driver) {
@@ -140,6 +142,13 @@ let Login = {
       }
       window.addEventListener('message', callback, false);
     },
+    reset: function () {
+      this.username = ''
+      this.email = ''
+      this.password = ''
+      this.errorMessage = ''
+      this.mode = 'login'
+    }
   } // methods
 }
 

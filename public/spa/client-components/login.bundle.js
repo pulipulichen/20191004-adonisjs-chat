@@ -94,6 +94,7 @@ let Login = {
         this.errorMessage = ''
         //this.$router.replace('chat')
         this.view = 'Chat'
+        this.reset()
       }
     },
     login: async function() {
@@ -126,6 +127,7 @@ let Login = {
         this.errorMessage = ''
         //this.$router.replace('chat')
         this.view = 'Chat'
+        this.reset()
       }
     },
     loginFromOAuth(driver) {
@@ -169,6 +171,13 @@ let Login = {
       }
       window.addEventListener('message', callback, false);
     },
+    reset: function () {
+      this.username = ''
+      this.email = ''
+      this.password = ''
+      this.errorMessage = ''
+      this.mode = 'login'
+    }
   } // methods
 }
 
@@ -403,7 +412,7 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "ui five buttons" }, [
+    _c("div", { staticClass: "ui six buttons" }, [
       _c(
         "button",
         {
@@ -479,6 +488,25 @@ var render = function() {
           _c("i", { staticClass: "instagram icon" }),
           _vm._v(
             "\r\n      " + _vm._s(_vm.$t("Login from Instagram")) + "\r\n    "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "ui foursquare button",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.loginFromOAuth("foursquare")
+            }
+          }
+        },
+        [
+          _c("i", { staticClass: "instagram icon" }),
+          _vm._v(
+            "\r\n      " + _vm._s(_vm.$t("Login from Foursquare")) + "\r\n    "
           )
         ]
       )

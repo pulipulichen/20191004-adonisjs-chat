@@ -39,5 +39,3 @@ Route.get('/client/oauth/login', 'Client/UserController.oauthLogin')
 
 Route.on('/admin').render('admin')
 Route.get('/admin/user/list', 'Admin/UserController.list')
-
-// ---------------------------
