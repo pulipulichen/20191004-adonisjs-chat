@@ -32,7 +32,8 @@ const path = require('path')
 // https://www.reddit.com/r/javascript/comments/9uju8v/is_there_a_way_to_wrap_an_asynchronous_function/e9lujib/
 ;(async () => {
   let options = {}
-  if (fs.existsSync(path.resolve(__dirname, './config/cert/private.key')) === true) {
+  if (fs.existsSync(path.resolve(__dirname, './config/cert/private.key')) === true 
+          && fs.existsSync(path.resolve(__dirname, './config/cert/certificate.crt')) === true ) {
     options = {
       key: fs.readFileSync(path.join(__dirname, 'config/cert/private.key')),
       cert: fs.readFileSync(path.join(__dirname, './config/cert/certificate.crt'))
