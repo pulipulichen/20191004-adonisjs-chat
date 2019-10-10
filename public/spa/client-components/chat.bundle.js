@@ -47,6 +47,7 @@ let Chat = {
     this.$i18n.locale = this.config.locale
     return {
       displayMessages: [],
+      lastDisplayMessagesLength: 0,
       //writingMessage: 'test: ' + location.href,
       writingMessage: '',
       lastUpdateTimestamp: null,
@@ -59,11 +60,13 @@ let Chat = {
   },
   watch: {
     'displayMessages': function () {
-      
-      let list = this.$refs.ChatList
-      setTimeout(() => {
-        list.scrollTop = list.scrollHeight
-      }, 0)
+      if (this.displayMessages.length > this.lastDisplayMessagesLength) {
+        this.lastDisplayMessagesLength = this.displayMessages.length
+        let list = this.$refs.ChatList
+        setTimeout(() => {
+          list.scrollTop = list.scrollHeight
+        }, 0)
+      }
     }
   },
   mounted: function () {
