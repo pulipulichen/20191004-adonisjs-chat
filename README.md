@@ -21,7 +21,7 @@
 6. For following run in production: 
   * Execute command: `npm run 1.production` .
   * Open URL of admin in browser: http://127.0.0.1:3333/admin .
-  * Insert `<script src="http://127.0.0.1:3333/spa/client.js" async></script>` in the html you want to plugin.
+  * Insert `<script src="http://127.0.0.1:3333/spa/client-loader.js" async></script>` in the html you want to plugin.
 
 Default URL list:
 
