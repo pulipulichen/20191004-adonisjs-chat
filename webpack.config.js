@@ -115,6 +115,31 @@ module.exports = (env, argv) => {
         } // apply: (compiler) => {
       },
     ],  // plugins: [
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          /*
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all'
+          }
+          */
+          // Split vendor code to its own chunk(s)
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: "all"
+          },
+          // Split code common to all chunks to its own chunk
+          commons: {
+            name: "commons",    // The name of the chunk containing all common code
+            chunks: "initial",  // TODO: Document
+            minChunks: 2        // This is the number of modules
+          }
+        }
+      }
+    },
   } // let webpackConfig = {
 
   // -------------------------------------------------------------------

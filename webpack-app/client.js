@@ -1,5 +1,4 @@
 /* global __webpack_public_path__ */
-
 import Vue from 'vue'
 
 // ----------------------------------

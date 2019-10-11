@@ -22,7 +22,7 @@ let Chat = {
         let list = this.$refs.ChatList
         setTimeout(() => {
           list.scrollTop = list.scrollHeight
-        }, 0)
+        }, 100)
       }
     }
   },
