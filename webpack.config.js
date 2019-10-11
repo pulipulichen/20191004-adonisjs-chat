@@ -89,7 +89,7 @@ module.exports = (env, argv) => {
                 attrs: false
               }
             }
-        },
+        }
       ]
     },
     plugins: [
@@ -118,13 +118,6 @@ module.exports = (env, argv) => {
     optimization: {
       splitChunks: {
         cacheGroups: {
-          /*
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-          */
           // Split vendor code to its own chunk(s)
           vendors: {
             test: /[\\/]node_modules[\\/]/,
