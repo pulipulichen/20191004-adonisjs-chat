@@ -125,11 +125,6 @@ module.exports = (env, argv) => {
   if (argv.mode === 'production') {
     webpackConfig.devtool = false
 
-    for (let name in webpackConfig.entry) {
-      let entry = webpackConfig.entry[name]
-      webpackConfig.entry[name] = ["@babel/polyfill", entry]
-    }
-
     webpackConfig.module.rules[0] = {
       test: /\.css$/, // 針對所有.css 的檔案作預處理，這邊是用 regular express 的格式
       use: [
@@ -154,7 +149,7 @@ module.exports = (env, argv) => {
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-proposal-object-rest-spread']
+          plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/plugin-transform-runtime']
         }
       }
     })
