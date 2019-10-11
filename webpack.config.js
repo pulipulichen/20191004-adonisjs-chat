@@ -31,7 +31,6 @@ module.exports = (env, argv) => {
     },
     output: {
       path: path.resolve(__dirname, './public/spa'),
-      chunkFilename: '[name].bundle.js',
       filename: '[name].js',
       publicPath: baseURL + '/spa/'
     },
@@ -47,7 +46,6 @@ module.exports = (env, argv) => {
           use: [
             'vue-style-loader', // 這個會後執行 (順序很重要)
             'css-loader?sourceMap' // 這個會先執行
-            //'postcss-loader?sourceMap',
           ]
         },
         {
@@ -55,7 +53,6 @@ module.exports = (env, argv) => {
           use: [
             'vue-style-loader', // Step 3
             'css-loader?sourceMap', // Step 2再執行這個
-            //'postcss-loader?sourceMap',
             'less-loader?sourceMap' // Step 1 要先執行這個
           ]
         },
