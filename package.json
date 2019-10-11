@@ -78,6 +78,7 @@
     "node-exceptions": "^4.0.1",
     "nodemon": "^1.19.3",
     "pem": "^1.14.3",
+    "pg": "^7.12.1",
     "postcss-loader": "^3.0.0",
     "serve-static": "^1.14.1",
     "sqlite3": "^4.1.0",
